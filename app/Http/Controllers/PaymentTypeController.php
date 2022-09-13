@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\MDiscount;
-use App\MPackage;
-use App\PackageBenefit;
+use App\MPaymentType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-class PackageController extends Controller
+class PaymentTypeController extends Controller
 {
     public function __construct()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_package_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'm_payment_type_manage')) {
             return redirect('/');
         }
     }
@@ -25,11 +22,11 @@ class PackageController extends Controller
      */
     public function index()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_package_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'm_payment_type_manage')) {
             return redirect('/');
         }
 
-        return view('package.index');
+        return view('payment_type.index');
     }
 
     /**
@@ -39,12 +36,12 @@ class PackageController extends Controller
      */
     public function create()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_package_create')) {
+        if (!check_user_access(Session::get('user_access'), 'm_payment_type_create')) {
             return redirect('/');
         }
 
         $data['actions'] = 'store';
-        return view('package.package', compact('data'));
+        return view('payment_type.payment_type', compact('data'));
     }
 
     /**
@@ -55,35 +52,21 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_package_create')) {
+        if (!check_user_access(Session::get('user_access'), 'm_payment_type_create')) {
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
 
-        $package = new MPackage();
-        $package->name = $summary->name;
-        $package->description = $summary->description;
-        $package->price = $summary->price;
-        $package->status = $summary->status;
-        $package->created_id = Auth::id();
-        $package->updated_id = Auth::id();
-        $package->save();
+        $payment_type = new MPaymentType();
+        $payment_type->name = $summary->name;
+        $payment_type->description = $summary->description;
+        $payment_type->status = $summary->status;
+        $payment_type->created_id = Auth::id();
+        $payment_type->updated_id = Auth::id();
+        $payment_type->save();
 
-        if(count($summary->benefits) > 0){
-            foreach ($summary->benefits as $benefit) {
-                $package_benefit = new PackageBenefit();
-                $package_benefit->name = $benefit->name;
-                $package_benefit->description = $benefit->description;
-                $package_benefit->status = 1;
-                $package_benefit->created_id = Auth::id();
-                $package_benefit->updated_id = Auth::id();
-                $package_benefit->id_m_package = $package->id;
-                $package_benefit->save();
-            }
-        }
-
-        return redirect()->route('packages.index');
+        return redirect()->route('payment_types.index');
     }
 
     /**
@@ -94,13 +77,13 @@ class PackageController extends Controller
      */
     public function show($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_package_read')) {
+        if (!check_user_access(Session::get('user_access'), 'm_payment_type_read')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['package'] = MPackage::find($id);
-        return view('package.show', compact('data'));
+        $data['payment_type'] = MPaymentType::find($id);
+        return view('payment_type.show', compact('data'));
     }
 
     /**
@@ -111,14 +94,14 @@ class PackageController extends Controller
      */
     public function edit($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_package_update')) {
+        if (!check_user_access(Session::get('user_access'), 'm_payment_type_update')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
         $data['actions'] = 'update';
-        $data['package'] = MPackage::find($id);
-        return view('package.package', compact('data'));
+        $data['payment_type'] = MPaymentType::find($id);
+        return view('payment_type.payment_type', compact('data'));
     }
 
     /**
@@ -130,7 +113,7 @@ class PackageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_package_update')) {
+        if (!check_user_access(Session::get('user_access'), 'm_payment_type_update')) {
             return redirect('/');
         }
 
@@ -138,30 +121,14 @@ class PackageController extends Controller
 
         $id = base64_decode($id);
 
-        $package = MPackage::find($id);
-        $package->name = $summary->name;
-        $package->description = $summary->description;
-        $package->price = $summary->price;
-        $package->status = $summary->status;
-        $package->updated_at = Auth::id();
-        $package->save();
+        $payment_type = MPaymentType::find($id);
+        $payment_type->name = $summary->name;
+        $payment_type->description = $summary->description;
+        $payment_type->status = $summary->status;
+        $payment_type->updated_at = Auth::id();
+        $payment_type->save();
 
-        $delete_old_benefits = PackageBenefit::where('id_package', $id)->delete();
-
-        if (count($summary->benefits) > 0) {
-            foreach ($summary->benefits as $benefit) {
-                $package_benefit = new PackageBenefit();
-                $package_benefit->name = $benefit->name;
-                $package_benefit->description = $benefit->description;
-                $package_benefit->status = 1;
-                $package_benefit->created_id = Auth::id();
-                $package_benefit->updated_id = Auth::id();
-                $package_benefit->id_m_package = $id;
-                $package_benefit->save();
-            }
-        }
-
-        return redirect()->route('packages.index');
+        return redirect()->route('payment_types.index');
     }
 
     /**
@@ -215,10 +182,10 @@ class PackageController extends Controller
 
         $order_ascdesc = $_GET['order'][0]['dir'];
 
-        $package = new MPackage();
+        $payment_type = new MPaymentType();
 
-        $sql_total = $package->count();
-        $sql_filter = $package->filter(
+        $sql_total = $payment_type->count();
+        $sql_filter = $payment_type->filter(
             $order_field,
             $order_ascdesc,
             $search,
@@ -234,11 +201,11 @@ class PackageController extends Controller
             $row = array();
 
             $action = '';
-            if (check_user_access(Session::get('user_access'), 'm_package_update')) {
-                $action .= "<a class='btn btn-info btn-xl' href='" . route('packages.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
+            if (check_user_access(Session::get('user_access'), 'm_payment_type_update')) {
+                $action .= "<a class='btn btn-info btn-xl' href='" . route('payment_types.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'm_package_read')) {
-                $action .= "<a class='btn btn-success btn-xl' href='" . route('packages.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
+            if (check_user_access(Session::get('user_access'), 'm_payment_type_read')) {
+                $action .= "<a class='btn btn-success btn-xl' href='" . route('payment_types.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
 
             $row[] = $action;
@@ -266,50 +233,5 @@ class PackageController extends Controller
         );
         header('Content-Type: application/json');
         return $callback;
-    }
-
-    public function getById(Request $request)
-    {
-        $id_m_package = base64_decode($request->id_m_package);
-        $id_m_course = base64_decode($request->id_m_course);
-
-        $package = MPackage::with('benefits')->find($id_m_package);
-
-        if ($id_m_course != "") {
-            $course_discount = DB::table('course_discount')
-                ->where('id_m_course', $id_m_course)
-                ->where('id_m_package', $id_m_package)
-                ->pluck('id_m_discount');
-            
-            if(count($course_discount) > 0)
-            {
-                $now = date('now');
-                $discount = MDiscount::whereIn('id', $course_discount)
-                    ->where('is_auto_apply', 1)
-                    ->where('status', 1)
-                    ->orderBy('id', 'desc')
-                    ->first();
-                if($discount != NULL)
-                {
-                    if($discount->discount_type == 'PERCENTAGE')
-                    {
-                        $package->price = $package->price - ($package->price * ($discount->discount / 100));
-                    }else{
-                        $package->price = $package->price - $discount->discount;
-                    }
-                }
-            }
-        }
-
-        return $package;
-    }
-
-    function filter($keyword)
-    {
-        $package = MPackage::select('id as value', 'name as label')
-            ->where('name', 'LIKE', '%' . $keyword . '%')
-            ->where('status', 1)
-            ->get()->toArray();
-        return json_encode($package);
     }
 }

@@ -265,10 +265,18 @@ class MemberController extends Controller
 
     function filter($keyword)
     {
-        $member = Member::select('id as value', 'nama as label')
-            ->where('nama', 'LIKE', '%' . $keyword . '%')
+        $member = Member::select('id as value', 'name as label')
+            ->where('name', 'LIKE', '%' . $keyword . '%')
             ->where('status', 1)
             ->get()->toArray();
         return json_encode($member);    
+    }
+
+    public function getById(Request $request)
+    {
+        $id_member = base64_decode($request->id_member);
+
+        $member = Member::find($id_member);
+        return $member;
     }
 }

@@ -269,4 +269,21 @@ class CourseController extends Controller
         header('Content-Type: application/json');
         return $callback;
     }
+
+    public function getById(Request $request)
+    {
+        $id_m_course = base64_decode($request->id_m_course);
+
+        $course = MCourse::find($id_m_course);
+        return $course;
+    }
+
+    function filter($keyword)
+    {
+        $course = MCourse::select('id as value', 'name as label')
+            ->where('name', 'LIKE', '%' . $keyword . '%')
+            ->where('status', 1)
+            ->get()->toArray();
+        return json_encode($course);
+    }
 }

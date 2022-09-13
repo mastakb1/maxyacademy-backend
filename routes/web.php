@@ -18,6 +18,7 @@ Route::get('auth/logout', 'AuthController@logout');
 Route::middleware(['auth'])->group(function () {
 	Route::get('/', 'DashboardController@index');
 	Route::get('dashboard', 'DashboardController@index');
+	Route::get('getReport', 'DashboardController@getReport')->name('dashboards.getReport');
 
 	Route::get('users/datatable', 'UserController@datatable')->name('users.datatable');
 	Route::get('users/changePassword', 'UserController@changePassword')->name('users.changePassword');
@@ -42,9 +43,12 @@ Route::middleware(['auth'])->group(function () {
 	Route::put('courses/{id}/batches/{id_batch}', 'CourseBatchController@update')->name('course_batches.update');
 	Route::get('courses/{id}/batches/{id_batch}', 'CourseBatchController@show')->name('course_batches.show');
 	
+	Route::post('courses/getById', 'CourseController@getById')->name('courses.getById');
 	Route::get('courses/datatable', 'CourseController@datatable')->name('courses.datatable');
+	Route::get('courses/filter/{keyword}', 'CourseController@filter')->name('courses.filter');
 	Route::resource('courses', CourseController::class);
 
+	Route::post('discounts/getById', 'DiscountController@getById')->name('discounts.getById');
 	Route::get('discounts/datatable', 'DiscountController@datatable')->name('discounts.datatable');
 	Route::resource('discounts', DiscountController::class);
 
@@ -68,13 +72,17 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('moduls/datatable', 'ModulController@datatable')->name('moduls.datatable');
 	Route::resource('moduls', ModulController::class);
 
+	Route::post('packages/getById', 'PackageController@getById')->name('packages.getById');
 	Route::get('packages/datatable', 'PackageController@datatable')->name('packages.datatable');
+	Route::get('packages/filter/{keyword}', 'PackageController@filter')->name('packages.filter');
 	Route::resource('packages', PackageController::class);
 
 	Route::get('tutors/datatable', 'TutorController@datatable')->name('tutors.datatable');
 	Route::resource('tutors', TutorController::class);
 
+	Route::post('members/getById', 'MemberController@getById')->name('members.getById');
 	Route::get('members/datatable', 'MemberController@datatable')->name('members.datatable');
+	Route::get('members/filter/{keyword}', 'MemberController@filter')->name('members.filter');
 	Route::resource('members', MemberController::class);
 
 	Route::resource('generals', GeneralController::class);
@@ -84,6 +92,31 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('user_logs/datatable', 'UserLogController@datatable')->name('user_logs.datatable');
 	Route::resource('user_logs', UserLogController::class);
+
+	Route::get('order_courses/datatable', 'OrderCourseController@datatable')->name('order_courses.datatable');
+	Route::post('order_courses/forced', 'OrderCourseController@forced')->name('order_courses.forced');
+	Route::post('order_courses/getById', 'OrderCourseController@getById')->name('order_courses.getById');
+	Route::post('order_courses/getByCourseId', 'OrderCourseController@getByCourseId')->name('order_courses.getByCourseId');
+	Route::resource('order_courses', OrderCourseController::class);
+
+	Route::get('banks/datatable', 'BankController@datatable')->name('banks.datatable');
+	Route::resource('banks', BankController::class);
+
+	Route::get('bank_accounts/datatable', 'BankAccountController@datatable')->name('bank_accounts.datatable');
+	Route::resource('bank_accounts', BankAccountController::class);
+
+	Route::get('order_confirms/datatable', 'OrderConfirmController@datatable')->name('order_confirms.datatable');
+	Route::post('order_confirms/verified', 'OrderConfirmController@verified')->name('order_confirms.verified');
+	Route::resource('order_confirms', OrderConfirmController::class);
+
+	Route::get('payment_types/datatable', 'PaymentTypeController@datatable')->name('payment_types.datatable');
+	Route::resource('payment_types', PaymentTypeController::class);
+
+	Route::get('reports/order_report', 'ReportController@order_report')->name('reports.orderReport');
+	Route::post('reports/generate_order_report', 'ReportController@generate_order_report')->name('reports.generateOrderReport');
+
+	Route::get('reports/confirm_order_report', 'ReportController@confirm_order_report')->name('reports.confirmOrderReport');
+	Route::post('reports/generate_confirm_order_report', 'ReportController@generate_confirm_order_report')->name('reports.generateConfirmOrderReport');
 });
 
 Auth::routes();

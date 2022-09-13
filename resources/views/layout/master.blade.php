@@ -97,10 +97,19 @@ use Illuminate\Support\Facades\URL;
                                     <a href="{{ url('dashboard') }}"><i class="fa fa-home"></i> Dashboard</span></a>
                                 </li>
                             </ul>
-                            @if(strpos(Session::get('user_access'), 'm_company_manage') !== false ||strpos(Session::get('user_access'), 'm_course_manage') !== false || strpos(Session::get('user_access'), 'm_discount_manage') !== false || strpos(Session::get('user_access'), 'm_duration_manage') !== false || strpos(Session::get('user_access'), 'm_level_manage') !== false || strpos(Session::get('user_access'), 'm_major_manage') !== false || strpos(Session::get('user_access'), 'm_modul_manage') !== false || strpos(Session::get('user_access'), 'm_package_manage') !== false || strpos(Session::get('user_access'), 'm_tutor_manage') !== false || strpos(Session::get('user_access'), 'member_manage') !== false)
+                            @if(strpos(Session::get('user_access'), 'm_payment_type_manage') !== false || strpos(Session::get('user_access'), 'm_bank_manage') !== false ||strpos(Session::get('user_access'), 'm_bank_account_manage') !== false || strpos(Session::get('user_access'), 'm_company_manage') !== false ||strpos(Session::get('user_access'), 'm_course_manage') !== false || strpos(Session::get('user_access'), 'm_discount_manage') !== false || strpos(Session::get('user_access'), 'm_duration_manage') !== false || strpos(Session::get('user_access'), 'm_level_manage') !== false || strpos(Session::get('user_access'), 'm_major_manage') !== false || strpos(Session::get('user_access'), 'm_modul_manage') !== false || strpos(Session::get('user_access'), 'm_package_manage') !== false || strpos(Session::get('user_access'), 'm_tutor_manage') !== false || strpos(Session::get('user_access'), 'member_manage') !== false)
                             <ul class="nav side-menu">
                                 <li><a><i class="fa fa-gear"></i> Master <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+                                        @can('access', 'm_bank_manage')
+                                        <li class="s-nav"><a href="{{ route('banks.index') }}">Bank</a></li>
+                                        @endcan
+                                        @can('access', 'm_bank_account_manage')
+                                        <li class="s-nav"><a href="{{ route('bank_accounts.index') }}">Bank Account</a></li>
+                                        @endcan
+                                        @can('access', 'm_payment_type_manage')
+                                        <li class="s-nav"><a href="{{ route('payment_types.index') }}">Payment Type</a></li>
+                                        @endcan
                                         @can('access', 'm_company_manage')
                                         <li class="s-nav"><a href="{{ route('companies.index') }}">Company</a></li>
                                         @endcan
@@ -135,12 +144,29 @@ use Illuminate\Support\Facades\URL;
                                 </li>
                             </ul>
                             @endif
-                            @if(strpos(Session::get('user_access'), 'order_course_manage') !== false)
+                            @if(strpos(Session::get('user_access'), 'order_course_manage') !== false || strpos(Session::get('user_access'), 'order_confirm_manage') !== false)
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-gear"></i> Setting <span class="fa fa-chevron-down"></span></a>
+                                <li><a><i class="fa fa-gear"></i> Transaction <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         @can('access', 'order_course_manage')
-                                        <li class="s-nav"><a href="{{ route('generals.index') }}"> General</a></li>
+                                        <li class="s-nav"><a href="{{ route('order_courses.index') }}"> Order Course</a></li>
+                                        @endcan
+                                        @can('access', 'order_confirm_manage')
+                                        <li class="s-nav"><a href="{{ route('order_confirms.index') }}"> Order Confirm</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            </ul>
+                            @endif
+                            @if(strpos(Session::get('user_access'), 'report_order_manage') !== false || strpos(Session::get('user_access'), 'report_confirm_order_manage') !== false)
+                            <ul class="nav side-menu">
+                                <li><a><i class="fa fa-gear"></i> Report <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        @can('access', 'report_order_manage')
+                                        <li class="s-nav"><a href="{{ route('reports.orderReport') }}"> Order</a></li>
+                                        @endcan
+                                        @can('access', 'report_confirm_order_manage')
+                                        <li class="s-nav"><a href="{{ route('reports.confirmOrderReport') }}"> Confirm Order</a></li>
                                         @endcan
                                     </ul>
                                 </li>
@@ -320,4 +346,26 @@ use Illuminate\Support\Facades\URL;
     <!-- Custom Theme Scripts -->
     <script src="{{ asset ('build/js/custom.js') }}"></script>
 
-    <script type="text/javascript">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.s-nav').each(function() {
+                var link = $(this).find('a');
+                var current = window.location.href;
+                var href = link.attr('href');
+                if (current == href) {
+                    if ($(this).parent().hasClass('child_menu')) {
+                        $(this).parent().css('display', 'block');
+                        $(this).parent().parent().addClass('active');
+                        $(this).addClass('active');
+                    } else {
+                        $(this).addClass('active');
+                    }
+                }
+            });
+        });
+    </script>
+
+    @yield('script')
+</body>
+
+</html>

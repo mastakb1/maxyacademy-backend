@@ -269,4 +269,12 @@ class DiscountController extends Controller
         header('Content-Type: application/json');
         return $callback;
     }
+
+    public function getById(Request $request)
+    {
+        $id_m_discount = base64_decode($request->id_m_discount);
+
+        $discount = MDiscount::find($id_m_discount);
+        return $discount;
+    }
 }
