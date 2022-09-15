@@ -97,7 +97,7 @@ use Illuminate\Support\Facades\URL;
                                     <a href="{{ url('dashboard') }}"><i class="fa fa-home"></i> Dashboard</span></a>
                                 </li>
                             </ul>
-                            @if(strpos(Session::get('user_access'), 'm_payment_type_manage') !== false || strpos(Session::get('user_access'), 'm_bank_manage') !== false ||strpos(Session::get('user_access'), 'm_bank_account_manage') !== false || strpos(Session::get('user_access'), 'm_company_manage') !== false ||strpos(Session::get('user_access'), 'm_course_manage') !== false || strpos(Session::get('user_access'), 'm_discount_manage') !== false || strpos(Session::get('user_access'), 'm_duration_manage') !== false || strpos(Session::get('user_access'), 'm_level_manage') !== false || strpos(Session::get('user_access'), 'm_major_manage') !== false || strpos(Session::get('user_access'), 'm_modul_manage') !== false || strpos(Session::get('user_access'), 'm_package_manage') !== false || strpos(Session::get('user_access'), 'm_tutor_manage') !== false || strpos(Session::get('user_access'), 'member_manage') !== false)
+                            @if(strpos(Session::get('user_access'), 'm_payment_type_manage') !== false || strpos(Session::get('user_access'), 'm_bank_manage') !== false ||strpos(Session::get('user_access'), 'm_bank_account_manage') !== false || strpos(Session::get('user_access'), 'm_company_manage') !== false ||strpos(Session::get('user_access'), 'm_course_manage') !== false || strpos(Session::get('user_access'), 'm_discount_manage') !== false || strpos(Session::get('user_access'), 'm_duration_manage') !== false || strpos(Session::get('user_access'), 'm_level_manage') !== false || strpos(Session::get('user_access'), 'm_major_manage') !== false || strpos(Session::get('user_access'), 'm_modul_manage') !== false || strpos(Session::get('user_access'), 'm_package_manage') !== false || strpos(Session::get('user_access'), 'm_tutor_manage') !== false || strpos(Session::get('user_access'), 'member_manage') !== false || strpos(Session::get('user_access'), 'message_manage') !== false)
                             <ul class="nav side-menu">
                                 <li><a><i class="fa fa-gear"></i> Master <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -139,6 +139,9 @@ use Illuminate\Support\Facades\URL;
                                         @endcan
                                         @can('access', 'member_manage')
                                         <li class="s-nav"><a href="{{ route('members.index') }}">Member</a></li>
+                                        @endcan
+                                        @can('access', 'message_manage')
+                                        <li class="s-nav"><a href="{{ route('messages.index') }}">Message</a></li>
                                         @endcan
                                     </ul>
                                 </li>

@@ -76,6 +76,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group row" id="price_detail">
+                                        <label class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <div class="ui visible message red">
+                                                <p id="price_message">Total : 0</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label for="submit" class="col-sm-2 col-form-label"></label>
                                         <div class="col-sm-10">
@@ -295,6 +303,7 @@
                     $('#package_detail').show();
                     $('#id_m_package').val(data.id);
                     $('#total_price').val(data.price);
+                    $('#price_message').html(`Total : ${data.price.toLocaleString()}`);
                     var benefits = '';
                     if (data.benefits.length > 0) {
                         benefits += '<b>Benefits: </b><br><ul>';
@@ -317,6 +326,23 @@
                 }, function(data) {
                     $('#discount_detail').show();
                     $('#id_m_discount').val(data.id);
+                    var discount = 0;
+                    var total_price = $('#total_price').val();
+                    if (data.discount_type == 'PERCENTAGE') {
+                        discount = total_price * (data.discount / 100);
+                    } else {
+                        discount = data.discount;
+                    }
+
+                    if (discount > data.max_discount) {
+                        discount = data.max_discount;
+                    }
+
+                    var final_price = total_price - discount;
+
+                    $('#price_message').html(`Total : ${final_price.toLocaleString()}`);
+                    $('#total_price').val(final_price);
+
                     $('#discount_message').html(`<b>Name :</b> ${data.name} <br> <b>Code :</b> ${data.code} <br> <b>Discount Type :</b> ${data.discount_type} <br> <b>Discount :</b> ${data.discount}`);
                 });
             }

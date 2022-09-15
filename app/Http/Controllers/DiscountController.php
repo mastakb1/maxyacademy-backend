@@ -71,6 +71,7 @@ class DiscountController extends Controller
         $discount->end_date = date('Y-m-d H:i:s', strtotime(explode(' - ', $summary->date)[1]));
         $discount->discount_type = $summary->discount_type;
         $discount->discount = $summary->discount;
+        $discount->max_discount = $summary->max_discount == '' ? NULL : $summary->max_discount;
         $discount->is_auto_apply = $summary->is_auto_apply;
         $discount->status = $summary->status;
         $discount->created_id = Auth::id();
@@ -150,6 +151,7 @@ class DiscountController extends Controller
         $discount->end_date = date('Y-m-d H:i:s', strtotime(explode(' - ', $summary->date)[1]));
         $discount->discount_type = $summary->discount_type;
         $discount->discount = $summary->discount;
+        $discount->max_discount = $summary->max_discount == '' ? NULL : $summary->max_discount;
         $discount->is_auto_apply = $summary->is_auto_apply;
         $discount->status = $summary->status;
         $discount->updated_at = Auth::id();

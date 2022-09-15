@@ -56,6 +56,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="max_discount" class="col-sm-2 col-form-label">Max Discount</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" class="form-control" id="max_discount" name="max_discount" placeholder="Enter max discount" data-bind="value: max_discount">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="course" class="col-sm-2 col-form-label">Course</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" id="course" name="course" required data-bind="selectedOptions: id_m_course,valueAllowUnset: true, options: $root.availableCourse, 
@@ -273,6 +279,7 @@
         self.description = ko.observable('<?php if (isset($data['discount'])) echo $data['discount']->description ?>');
         self.discount_type = ko.observable('<?php if (isset($data['discount'])) echo $data['discount']->discount_type ?>');
         self.discount = ko.observable('<?php if (isset($data['discount'])) echo $data['discount']->discount ?>');
+        self.max_discount = ko.observable('<?php if (isset($data['discount'])) echo $data['discount']->max_discount ?>');
         self.id_m_course = ko.observableArray(<?php if (isset($data['course_discount'])) echo $data['course_discount'] ?>);
         self.id_m_package = ko.observableArray(<?php if (isset($data['package_discount'])) echo $data['package_discount'] ?>);
         self.date = ko.observable('');

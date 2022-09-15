@@ -36,6 +36,10 @@ class GeneralController extends Controller
         $data['alamat3'] = General::where('name', 'alamat3')->first();
         $data['nama_contact'] = General::where('name', 'nama_contact')->first();
         $data['telepon'] = General::where('name', 'telepon')->first();
+        $data['footer_text'] = General::where('name', 'footer_text')->first();
+        $data['facebook'] = General::where('name', 'facebook')->first();
+        $data['instagram'] = General::where('name', 'instagram')->first();
+        $data['twitter'] = General::where('name', 'twitter')->first();
 
         return view('general.index', compact('data'));
     }

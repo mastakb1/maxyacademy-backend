@@ -52,9 +52,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('discounts/datatable', 'DiscountController@datatable')->name('discounts.datatable');
 	Route::resource('discounts', DiscountController::class);
 
-	Route::get('durations/datatable', 'DurationController@datatable')->name('durations.datatable');
-	Route::resource('durations', DurationController::class);
-
 	Route::get('levels/datatable', 'LevelController@datatable')->name('levels.datatable');
 	Route::resource('levels', LevelController::class);
 
@@ -117,6 +114,9 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('reports/confirm_order_report', 'ReportController@confirm_order_report')->name('reports.confirmOrderReport');
 	Route::post('reports/generate_confirm_order_report', 'ReportController@generate_confirm_order_report')->name('reports.generateConfirmOrderReport');
+
+	Route::get('messages/datatable', 'MessageController@datatable')->name('messages.datatable');
+	Route::resource('messages', MessageController::class);
 });
 
 Auth::routes();

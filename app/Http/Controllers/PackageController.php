@@ -291,12 +291,20 @@ class PackageController extends Controller
                     ->first();
                 if($discount != NULL)
                 {
+                    $total_discount = 0;
                     if($discount->discount_type == 'PERCENTAGE')
                     {
-                        $package->price = $package->price - ($package->price * ($discount->discount / 100));
+                        $total_discount = $package->price * ($discount->discount / 100);
                     }else{
-                        $package->price = $package->price - $discount->discount;
+                        $total_discount = $discount->discount;
                     }
+
+                    if($total_discount > $discount->max_discount)
+                    {
+                        $total_discount = $discount->max_discount;
+                    }
+
+                    $package->price = $package->price - $total_discount;
                 }
             }
         }
