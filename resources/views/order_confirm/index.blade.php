@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Session;
                                     <div>{{Session::get('alert')}}</div>
                                 </div>
                                 @endif
-                                @can('access','order_confirm_create')
+                                @can('access','trans_order_confirm_create')
                                 <a class="btn btn-info" href="{{ route('order_confirms.create') }}">Tambah Order Confirm</a>
                                 @endcan
                                 <div id="btnbar" style="float: right; margin-bottom: 10px"></div>

@@ -19,7 +19,13 @@
                                     <div class="form-group row">
                                         <label for="name" class="col-sm-2 col-form-label">Nama</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" data-bind="value: name" required>
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" data-bind="value: name, valueUpdate:'afterkeydown', event: {keyup:changeName}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="slug" class="col-sm-2 col-form-label">Slug</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="slug" name="slug" placeholder="Enter slug" data-bind="value: slug" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -29,28 +35,19 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="major" class="col-sm-2 col-form-label">Major</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" id="major" name="major" required data-bind="value: id_m_major,valueAllowUnset: true, options: $root.availableMajor, 
-                                            optionsText: 'name', optionsValue: 'id', select2: { placeholder: 'Choose Major', 
-                                                allowClear: true, theme: 'bootstrap' }">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
                                         <label for="course_type" class="col-sm-2 col-form-label">Course Type</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="course_type" name="course_type" required data-bind="value: type,valueAllowUnset: true, options: $root.availableCourseType, 
-                                            optionsText: $data, optionsValue: $data, select2: { placeholder: 'Choose Course Type', 
+                                            <select class="form-control" id="course_type" name="course_type" required data-bind="value: id_m_course_type,valueAllowUnset: true, options: $root.availableCourseType, 
+                                            optionsText: 'name', optionsValue: 'id', select2: { placeholder: 'Choose Course Type', 
                                                 allowClear: true, theme: 'bootstrap' }">
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="course_level" class="col-sm-2 col-form-label">Course Level</label>
+                                        <label for="course_difficulty" class="col-sm-2 col-form-label">Course Level</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="course_level" name="course_level" required data-bind="value: id_m_level,valueAllowUnset: true, options: $root.availableLevel, 
-                                            optionsText: 'name', optionsValue: 'id', select2: { placeholder: 'Choose Course Level', 
+                                            <select class="form-control" id="course_difficulty" name="course_difficulty" required data-bind="value: id_m_difficulty_type,valueAllowUnset: true, options: $root.availableDifficulty, 
+                                            optionsText: 'name', optionsValue: 'id', select2: { placeholder: 'Choose Course Difficulty', 
                                                 allowClear: true, theme: 'bootstrap' }">
                                             </select>
                                         </div>
@@ -235,18 +232,26 @@
     function CourseViewModel() {
         var self = this;
 
-        self.availableMajor = ko.observableArray(<?php if (isset($data['major'])) echo $data['major'] ?>);
-        self.availableLevel = ko.observableArray(<?php if (isset($data['level'])) echo $data['level'] ?>);
+        self.availableCourseType = ko.observableArray(<?php if (isset($data['course_type'])) echo $data['course_type'] ?>);
+        self.availableDifficulty = ko.observableArray(<?php if (isset($data['difficulty'])) echo $data['difficulty'] ?>);
         self.availableTutor = ko.observableArray(<?php if (isset($data['tutor'])) echo $data['tutor'] ?>);
-        self.availableCourseType = ko.observableArray(['SHORT COURSE', 'CAREER BOOTCAMP']);
 
         self.name = ko.observable('<?php if (isset($data['course'])) echo $data['course']->name ?>');
+        self.slug = ko.observable('<?php if (isset($data['course'])) echo $data['course']->slug ?>');
         self.description = ko.observable('<?php if (isset($data['course'])) echo $data['course']->description ?>');
         self.type = ko.observable('<?php if (isset($data['course'])) echo $data['course']->type ?>');
-        self.id_m_major = ko.observable('<?php if (isset($data['course'])) echo $data['course']->id_m_major ?>');
-        self.id_m_level = ko.observable('<?php if (isset($data['course'])) echo $data['course']->id_m_level ?>');
-        self.tutors = ko.observableArray(<?php if (isset($data['course'])) echo $data['course']->tutors->pluck('id') ?>);
+        self.id_m_course_type = ko.observable('<?php if (isset($data['course'])) echo $data['course']->id_m_course_type ?>');
+        self.id_m_difficulty_type = ko.observable('<?php if (isset($data['course'])) echo $data['course']->id_m_difficulty_type ?>');
         self.status = ko.observable(<?= (isset($data['course'])) ? (($data['course']->status == 1) ? 'true' : 'false') : 'true' ?>);
+        self.tutors = ko.observableArray(<?php if (isset($data['course'])) echo $data['course']->tutors->pluck('id') ?>);
+
+        self.changeName = function() {
+            var result = self.name();
+            result = result.replace(/[^a-zA-Z ]/g, "");
+            result = result.replace(/\s+/g, "-").toLowerCase();
+            result = result.substring(0, 200);
+            self.slug(result);
+        };
     }
 
     ko.applyBindings(new CourseViewModel());

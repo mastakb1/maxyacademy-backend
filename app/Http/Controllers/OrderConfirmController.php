@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\MBank;
 use App\MBankAccount;
-use App\MCourse;
 use App\MPaymentType;
-use App\OrderConfirm;
-use App\OrderCourse;
+use App\TransOrder;
+use App\TransOrderConfirm;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ class OrderConfirmController extends Controller
 {
     public function __construct()
     {
-        if (!check_user_access(Session::get('user_access'), 'order_confirm_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'trans_order_confirm_manage')) {
             return redirect('/');
         }
     }
@@ -31,7 +31,7 @@ class OrderConfirmController extends Controller
      */
     public function index()
     {
-        if (!check_user_access(Session::get('user_access'), 'order_confirm_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'trans_order_confirm_manage')) {
             return redirect('/');
         }
 
@@ -45,7 +45,7 @@ class OrderConfirmController extends Controller
      */
     public function create()
     {
-        if (!check_user_access(Session::get('user_access'), 'order_confirm_create')) {
+        if (!check_user_access(Session::get('user_access'), 'trans_order_confirm_create')) {
             return redirect('/');
         }
 
@@ -53,7 +53,6 @@ class OrderConfirmController extends Controller
         $data['payment_type'] = MPaymentType::all();
         $data['bank'] = MBank::all();
         $data['bank_account'] = MBankAccount::with('bank')->get();
-        $data['course'] = MCourse::select('id', 'name as label')->get();
         return view('order_confirm.order_confirm', compact('data'));
     }
 
@@ -65,14 +64,14 @@ class OrderConfirmController extends Controller
      */
     public function store(Request $request)
     {
-        if (!check_user_access(Session::get('user_access'), 'order_confirm_create')) {
+        if (!check_user_access(Session::get('user_access'), 'trans_order_confirm_create')) {
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
         $date = new DateTime($summary->date);
 
-        $order_confirm = new OrderConfirm();
+        $order_confirm = new TransOrderConfirm();
         $order_confirm->order_confirm_number = $this->generateNo('CONFIRM');
         $order_confirm->date = date_format(Carbon::createFromDate($date->format('Y-m-d H:i:s'), 'UTC')->tz('Asia/Jakarta'), 'Y-m-d H:i:s');
         $order_confirm->id_m_payment_type = $summary->id_m_payment_type;
@@ -81,8 +80,9 @@ class OrderConfirmController extends Controller
         $order_confirm->sender_account_name = $summary->sender_account_name;
         $order_confirm->sender_account_number = $summary->sender_account_number;
         $order_confirm->amount = $summary->amount;
-        $order_confirm->id_order_course = $request->id_order_course;
-        $order_confirm->id_m_course = $request->id_m_course;
+        $order_confirm->id_trans_order = $request->id_trans_order;
+        $order_confirm->id_course = $request->id_course;
+        $order_confirm->id_course_class = $request->id_course_class;
         $order_confirm->status = 0;
         $order_confirm->created_id = Auth::id();
         $order_confirm->updated_id = Auth::id();
@@ -99,12 +99,12 @@ class OrderConfirmController extends Controller
      */
     public function show($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'order_confirm_read')) {
+        if (!check_user_access(Session::get('user_access'), 'trans_order_confirm_read')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['order_confirm'] = OrderConfirm::find($id);
+        $data['order_confirm'] = TransOrderConfirm::find($id);
         return view('order_confirm.show', compact('data'));
     }
 
@@ -116,7 +116,7 @@ class OrderConfirmController extends Controller
      */
     public function edit($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'order_confirm_create')) {
+        if (!check_user_access(Session::get('user_access'), 'trans_order_confirm_create')) {
             return redirect('/');
         }
 
@@ -126,10 +126,9 @@ class OrderConfirmController extends Controller
         $data['payment_type'] = MPaymentType::all();
         $data['bank'] = MBank::all();
         $data['bank_account'] = MBankAccount::with('bank')->get();
-        $data['course'] = MCourse::select('id', 'name as label')->get();
-        $data['order_confirm'] = OrderConfirm::find($id);
-        $data['selected_course'] = MCourse::find($data['order_confirm']->id_m_course);
-        $data['selected_order'] = OrderCourse::find($data['order_confirm']->id_order_course);
+        $data['order_confirm'] = TransOrderConfirm::find($id);
+        $data['selected_course'] = Course::find($data['order_confirm']->id_course);
+        $data['selected_order'] = TransOrder::find($data['order_confirm']->id_trans_order);
         return view('order_confirm.order_confirm', compact('data'));
     }
 
@@ -142,7 +141,7 @@ class OrderConfirmController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!check_user_access(Session::get('user_access'), 'order_confirm_update')) {
+        if (!check_user_access(Session::get('user_access'), 'trans_order_confirm_update')) {
             return redirect('/');
         }
 
@@ -150,7 +149,7 @@ class OrderConfirmController extends Controller
         $date = new DateTime($summary->date);
         $id = base64_decode($id);
 
-        $order_confirm = OrderConfirm::find($id);
+        $order_confirm = TransOrderConfirm::find($id);
         $order_confirm->date = date_format(Carbon::createFromDate($date->format('Y-m-d H:i:s'), 'UTC')->tz('Asia/Jakarta'), 'Y-m-d H:i:s');
         $order_confirm->id_m_payment_type = $summary->id_m_payment_type;
         $order_confirm->id_m_bank_account = $summary->bank;
@@ -158,8 +157,9 @@ class OrderConfirmController extends Controller
         $order_confirm->sender_account_name = $summary->sender_account_name;
         $order_confirm->sender_account_number = $summary->sender_account_number;
         $order_confirm->amount = $summary->amount;
-        $order_confirm->id_order_course = $request->id_order_course;
-        $order_confirm->id_m_course = $request->id_m_course;
+        $order_confirm->id_trans_order = $request->id_trans_order;
+        $order_confirm->id_course = $request->id_course;
+        $order_confirm->id_course_class = $request->id_course_class;
         $order_confirm->updated_id = Auth::id();
         $order_confirm->save();
 
@@ -250,7 +250,7 @@ class OrderConfirmController extends Controller
 
         $order_ascdesc = $_GET['order'][0]['dir'];
 
-        $order_confirm = new OrderConfirm();
+        $order_confirm = new TransOrderConfirm();
 
         $sql_total = $order_confirm->count();
         $sql_filter = $order_confirm->filter(
@@ -269,10 +269,10 @@ class OrderConfirmController extends Controller
             $row = array();
 
             $action = '';
-            if (check_user_access(Session::get('user_access'), 'order_confirm_update') && $value->status != 1 && $value->status != 4) {
+            if (check_user_access(Session::get('user_access'), 'trans_order_confirm_update') && $value->status != 1 && $value->status != 4) {
                 $action .= "<a class='btn btn-info btn-xl' href='" . route('order_confirms.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'order_confirm_read')) {
+            if (check_user_access(Session::get('user_access'), 'trans_order_confirm_read')) {
                 $action .= "<a class='btn btn-success btn-xl' href='" . route('order_confirms.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
 
@@ -362,7 +362,7 @@ class OrderConfirmController extends Controller
         $comment = $request->verified_comment;
 
         if (Hash::check($request->password, Auth::user()->password)) {
-            $order_confirm = OrderConfirm::find($id);
+            $order_confirm = TransOrderConfirm::find($id);
             $order_confirm->status = $action == 'COMPLETE' ? 1 : 4;
             $order_confirm->verified_at = date('Y-m-d H:i:s', strtotime('now'));
             $order_confirm->verified_id = Auth::id();
@@ -371,9 +371,9 @@ class OrderConfirmController extends Controller
 
             if($action == 'COMPLETE')
             {
-                $order_course = OrderCourse::find($order_confirm->id_order_course);
-                $order_course->status = 1;
-                $order_course->save();
+                $order = TransOrder::find($order_confirm->id_trans_order);
+                $order->status = 1;
+                $order->save();
             }
 
             return redirect()->route('order_confirms.index');

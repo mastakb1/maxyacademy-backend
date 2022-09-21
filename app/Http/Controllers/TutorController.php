@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\MCompany;
+use App\Company;
 use App\MTutor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +43,7 @@ class TutorController extends Controller
         }
 
         $data['actions'] = 'store';
-        $data['company'] = MCompany::all();
+        $data['company'] = Company::all();
         return view('tutor.tutor', compact('data'));
     }
 
@@ -115,7 +115,7 @@ class TutorController extends Controller
         $id = base64_decode($id);
         $data['actions'] = 'update';
         $data['tutor'] = MTutor::find($id);
-        $data['company'] = MCompany::all();
+        $data['company'] = Company::all();
         return view('tutor.tutor', compact('data'));
     }
 
@@ -243,7 +243,7 @@ class TutorController extends Controller
             $row[] = $value->id;
             $row[] = $value->name;
             $row[] = $value->description;
-            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 13px;'>Tidak Aktif</a>";
+            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
             $row[] = $value->user_create_name;
             $row[] = date('d-m-Y H:i:s', strtotime($value->updated_at));

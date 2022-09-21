@@ -81,6 +81,51 @@ use Carbon\Carbon;
                                         </div>
                                     </div>
                                 </div>
+                                <div class="ui card" style="width: 100%;">
+                                    <div class="content">
+                                        <div class="header">Statistics</div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="description">
+                                            <div class="ui one statistics">
+                                                <div class="statistic">
+                                                    <div class="value">
+                                                        {{ $data['member']->classes->count() }}
+                                                    </div>
+                                                    <div class="label">
+                                                        Total Course
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui card" style="width: 100%;">
+                                    <div class="content">
+                                        <div class="header">Member Courses</div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="description">
+                                            <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
+                                            <table id="toro-data" class=" table table-hover table-bordered convert-data-table display" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Actions</th>
+                                                        <th>ID</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Actions</th>
+                                                        <th>ID</th>
+                                                        <th>Name</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -178,7 +223,16 @@ use Carbon\Carbon;
     }
 
     $(document).ready(function() {
-        
+        datatable('#btnbar', '#toro-data', '#toro-data tfoot th', <?= $data['courses'] ?>, [{
+            data: {id_course: 'id_course', id_class: 'id_class'},
+            render: function(value) {
+                return "<a class='btn btn-success btn-xl' href='<?= url('courses') . '/' ?>" + btoa(value.id_course) + "/classes/" + btoa(value.id_class)  + "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
+            }
+        }, {
+            data: 'id_class'
+        }, {
+            data: 'name'
+        }]);
     });
 </script>
 @endsection

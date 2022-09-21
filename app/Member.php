@@ -8,6 +8,11 @@ class Member extends Model
 {
     protected $table = 'member';
 
+    public function classes()
+    {
+        return $this->hasMany('App\CourseClassMember', 'id_member', 'id');
+    }
+
     public function filter($order_field, $order_ascdesc, $search, $search_column, $limit, $startLimit)
     {
         $sql = Member::select('member.*')->orderBy($order_field, $order_ascdesc);

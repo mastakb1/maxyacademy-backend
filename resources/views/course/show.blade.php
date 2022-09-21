@@ -40,26 +40,18 @@ use Carbon\Carbon;
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
                                                 <div class="col-sm-2">
-                                                    <b>Major : </b>
-                                                </div>
-                                                <div class="col-sm-10">
-                                                    {{ $data['course']->major->name }}
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
                                                     <b>Course Type : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['course']->type }}
+                                                    {{ $data['course']->type->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
                                                 <div class="col-sm-2">
-                                                    <b>Course Level : </b>
+                                                    <b>Course Difficulty : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['course']->level->name }}
+                                                    {{ $data['course']->difficulty->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">

@@ -27,7 +27,7 @@ use Carbon\Carbon;
                                                     <b>Order Number : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['order_confirm']->order_course->order_number }}
+                                                    {{ $data['order_confirm']->order->order_number }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
@@ -51,15 +51,15 @@ use Carbon\Carbon;
                                                     <b>Course : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['order_confirm']->order_course->course->name }}
+                                                    {{ $data['order_confirm']->order->course->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
                                                 <div class="col-sm-2">
-                                                    <b>Package : </b>
+                                                    <b>Course Price : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['order_confirm']->order_course->package->name }}
+                                                    {{ $data['order_confirm']->order->course_price->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
@@ -67,7 +67,7 @@ use Carbon\Carbon;
                                                     <b>Total Price : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['order_confirm']->order_course->total_price }}
+                                                    {{ $data['order_confirm']->order->total_after_discount }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
@@ -175,6 +175,7 @@ use Carbon\Carbon;
                                                     <b>Created By : </b>
                                                 </div>
                                                 <div class="col-sm-10">
+                                                    {{ $data['order_confirm']->user_create->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">

@@ -4,35 +4,31 @@ namespace App\Http\Controllers;
 
 use App\AccessGroup;
 use App\AccessMaster;
-use App\MCompany;
-use App\MCourse;
+use App\Company;
+use App\Course;
+use App\CourseModule;
+use App\CoursePrice;
+use App\MDifficultyType;
 use App\Member;
-use App\MLevel;
-use App\MMajor;
-use App\MModul;
-use App\MPackage;
 use App\MTutor;
-use App\OrderCourse;
+use App\TransOrder;
 use DateInterval;
 use DatePeriod;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $data['company'] = MCompany::where('status', 1)->count();
-        $data['course'] = MCourse::where('status', 1)->count();
-        $data['level'] = MLevel::where('status', 1)->count();
-        $data['major'] = MMajor::where('status', 1)->count();
-        $data['modul'] = MModul::where('status', 1)->count();
-        $data['package'] =  MPackage::where('status', 1)->count();
+        $data['company'] = Company::where('status', 1)->count();
+        $data['course'] = Course::where('status', 1)->count();
+        $data['difficulty'] = MDifficultyType::where('status', 1)->count();
+        $data['course_module'] = CourseModule::where('status', 1)->whereNull('id_course_module_parent')->count();
+        $data['course_price'] =  CoursePrice::where('status', 1)->count();
         $data['tutor'] = MTutor::where('status', 1)->count();
         $data['member'] = Member::where('status', 1)->count();
-        $data['transaction'] = OrderCourse::sum('total_price');
+        $data['transaction'] = TransOrder::sum('total_after_discount');
         return view('content.dashboard', compact('data'));
     }
 
@@ -70,7 +66,9 @@ class DashboardController extends Controller
         }
         if ($filter == 'Monthly') {
             $year = date('Y');
-            $output[date('F', mktime(0, 0, 0, $i, 10))] = $model->whereMonth('created_at', '0' . $i)->whereYear('created_at', $year)->count();
+            for ($i = 1; $i <= 12; $i++) {
+                $output[date('F', mktime(0, 0, 0, $i, 10))] = $model->whereMonth('created_at', '0' . $i)->whereYear('created_at', $year)->count();
+            }
         }
         if ($filter == 'Yearly') {
             $this_year = (int)date('Y');

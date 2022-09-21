@@ -55,11 +55,11 @@ use Illuminate\Support\Facades\Session;
                             <i class="fa fa-level-up"></i>
                         </div>
                         <div class="header">
-                            <div class="ui header" style="color: #73879C;">{{$data['level']}}
+                            <div class="ui header" style="color: #73879C;">{{$data['difficulty']}}
                             </div>
                         </div>
                         <div class="meta">
-                            Level
+                            Difficulty
                         </div>
                     </div>
                 </div>
@@ -71,27 +71,11 @@ use Illuminate\Support\Facades\Session;
                             <i class="fa fa-book"></i>
                         </div>
                         <div class="header">
-                            <div class="ui header" style="color: #73879C;">{{$data['major']}}
+                            <div class="ui header" style="color: #73879C;">{{$data['course_module']}}
                             </div>
                         </div>
                         <div class="meta">
-                            Major
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="four wide column">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="ui right floated header" style="color: #73879C;">
-                            <i class="fa fa-book"></i>
-                        </div>
-                        <div class="header">
-                            <div class="ui header" style="color: #73879C;">{{$data['modul']}}
-                            </div>
-                        </div>
-                        <div class="meta">
-                            Modul
+                            Course Module
                         </div>
                     </div>
                 </div>
@@ -103,11 +87,11 @@ use Illuminate\Support\Facades\Session;
                             <i class="fa fa-archive"></i>
                         </div>
                         <div class="header">
-                            <div class="ui header" style="color: #73879C;">{{$data['package']}}
+                            <div class="ui header" style="color: #73879C;">{{$data['course_price']}}
                             </div>
                         </div>
                         <div class="meta">
-                            Package
+                            Course Price
                         </div>
                     </div>
                 </div>

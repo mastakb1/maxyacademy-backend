@@ -26,7 +26,8 @@
                                         <label for="course" class="col-sm-2 col-form-label">Course</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="course" name="course" placeholder="Enter course">
-                                            <input type="hidden" class="form-control" id="id_m_course" name="id_m_course" value='<?= (isset($data['order_confirm'])) ? $data['order_confirm']->id_m_course : null ?>'>
+                                            <input type="hidden" class="form-control" id="id_course" name="id_course" value='<?= (isset($data['order_confirm'])) ? $data['order_confirm']->id_course : null ?>'>
+                                            <input type="hidden" class="form-control" id="id_course_class" name="id_course_class" value='<?= (isset($data['order_confirm'])) ? $data['order_confirm']->id_course_class : null ?>'>
                                         </div>
                                     </div>
                                     <div class="form-group row" id="course_detail">
@@ -41,7 +42,7 @@
                                         <label for="order_number" class="col-sm-2 col-form-label">Order Number</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="order_number" name="order_number" placeholder="Enter order number">
-                                            <input type="hidden" class="form-control" id="id_order_course" name="id_order_course" value='<?= (isset($data['order_confirm'])) ? $data['order_confirm']->id_order_course : null ?>'>
+                                            <input type="hidden" class="form-control" id="id_trans_order" name="id_trans_order" value='<?= (isset($data['order_confirm'])) ? $data['order_confirm']->id_trans_order : null ?>'>
                                         </div>
                                     </div>
                                     <div class="form-group row" id="order_detail">
@@ -438,27 +439,40 @@
         self.sender_account_number = ko.observable('<?php if (isset($data['order_confirm'])) echo $data['order_confirm']->sender_account_number ?>');
 
         $("#course").autocomplete({
-            source: <?= $data['course'] ?>,
+            source: function(request, response) {
+                var searchText = $('#course').val();
+                if (searchText != '') {
+                    $.ajax({
+                        url: "<?= url('courses/filter') ?>" + "/" + searchText,
+                        type: 'get',
+                        dataType: "json",
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                }
+            },
             select: function(event, ui) {
                 $.post("{{ route('courses.getById') }}", {
                     '_token': '<?= csrf_token() ?>',
-                    'id_m_course': btoa(ui.item.id),
+                    'id_course': btoa(ui.item.id),
                 }, function(data) {
                     $('#course_detail').show();
-                    $('#id_m_course').val(data.id);
-                    $('#course_message').html(`<b>Name :</b> ${data.name} <br> <b>Description :</b> ${data.description} `);
+                    $('#id_course').val(data.id);
+                    $('#id_course_class').val(data.class.id);
+                    $('#course_message').html(`<b>Name :</b> ${data.name} Bootcamp Batch ${data.class.batch} <br> <b>Description :</b> ${data.description} `);
                 });
             }
         });
 
         $('#order_number').autocomplete({
             source: function(req, res) {
-                var id_m_course = $('#id_m_course').val();
+                var id_course = $('#id_course').val();
                 var search = $('#order_number').val();
-                if (id_m_course != null && id_m_course != '') {
-                    $.post("{{ route('order_courses.getByCourseId') }}", {
+                if (id_course != null && id_course != '') {
+                    $.post("{{ route('orders.getByCourseId') }}", {
                         '_token': '<?= csrf_token() ?>',
-                        'id_m_course': btoa(id_m_course),
+                        'id_course': btoa(id_course),
                         'search': search,
                     }, function(data) {
                         res(data);
@@ -466,15 +480,15 @@
                 }
             },
             select: function(event, ui) {
-                $.post("{{ route('order_courses.getById') }}", {
+                $.post("{{ route('orders.getById') }}", {
                     '_token': '<?= csrf_token() ?>',
-                    'id_order_course': btoa(ui.item.id),
+                    'id_trans_order': btoa(ui.item.id),
                 }, function(data) {
                     $('#order_detail').show();
                     $('#amount').show();
                     $('#payment_type').show();
-                    $('#id_order_course').val(data.id);
-                    $('#order_message').html(`<b>Order Number :</b> ${data.order_number} <br> <b>Date :</b> ${ moment(data.date).format('DD MMMM YYYY')} <br> <b>Member :</b> ${data.member} <br> <b>Course :</b> ${data.course} <br> <b>Package :</b> ${data.package} <br> <b>Total Price :</b> ${data.total_price.toLocaleString()} `);
+                    $('#id_trans_order').val(data.id);
+                    $('#order_message').html(`<b>Order Number :</b> ${data.order_number} <br> <b>Date :</b> ${ moment(data.date).format('DD MMMM YYYY')} <br> <b>Member :</b> ${data.member} <br> <b>Course :</b> ${data.course} <br> <b>Course Price :</b> ${data.course_price} <br> <b>Total Price :</b> ${data.total_after_discount.toLocaleString()} `);
                 });
             }
         })
@@ -488,7 +502,7 @@
             $('#course').val('<?= $data['selected_course']->name ?>');
             $('#order_number').val('<?= $data['selected_order']->order_number ?>');
             $('#course_message').html("<b>Name :</b> <?= $data['selected_course']->name ?> <br> <b>Description :</b> <?= $data['selected_course']->description ?>");
-            $('#order_message').html("<b>Order Number :</b> <?= $data['selected_order']->order_number ?> <br> <b>Date :</b> <?= date('d F Y', strtotime($data['selected_order']->order_number)) ?> <br> <b>Member :</b> <?= $data['selected_order']->member->name ?> <br> <b>Course :</b> <?= $data['selected_order']->course->name ?> <br> <b>Package :</b> <?= $data['selected_order']->package->name ?> <br><b>Total Price :</b> <?= $data['selected_order']->total_price ?> ");
+            $('#order_message').html("<b>Order Number :</b> <?= $data['selected_order']->order_number ?> <br> <b>Date :</b> <?= date('d F Y', strtotime($data['selected_order']->order_number)) ?> <br> <b>Member :</b> <?= $data['selected_order']->member->name ?> <br> <b>Course :</b> <?= $data['selected_order']->course->name ?> <br> <b>Package :</b> <?= $data['selected_order']->course_price->name ?> <br><b>Total Price :</b> <?= $data['selected_order']->total_after_discount ?> ");
             $('#course_detail').show();
             $('#order_detail').show();
             $('#payment_type').show();

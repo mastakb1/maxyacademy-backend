@@ -77,12 +77,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="footer_text" class="col-sm-2 col-form-label">Footer Text</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="textarea form-control" rows="8" name="footer_text" data-bind="wysiwyg: footer_text"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
                                         <label for="facebook" class="col-sm-2 col-form-label">Facebook</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="facebook" name="facebook" placeholder="Enter facebook" data-bind="value: facebook" required>
@@ -294,7 +288,6 @@
         self.alamat3 = ko.observable('<?php if (isset($data['alamat3'])) echo $data['alamat3']->value ?>');
         self.nama_contact = ko.observable('<?php if (isset($data['nama_contact'])) echo $data['nama_contact']->value ?>');
         self.telepon = ko.observable('<?php if (isset($data['telepon'])) echo $data['telepon']->value ?>');
-        self.footer_text = ko.observable('<?php if (isset($data['footer_text'])) echo $data['footer_text']->value ?>');
         self.facebook = ko.observable('<?php if (isset($data['facebook'])) echo $data['facebook']->value ?>');
         self.instagram = ko.observable('<?php if (isset($data['instagram'])) echo $data['instagram']->value ?>');
         self.twitter = ko.observable('<?php if (isset($data['twitter'])) echo $data['twitter']->value ?>');

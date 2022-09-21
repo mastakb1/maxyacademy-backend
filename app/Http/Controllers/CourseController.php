@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
+use App\CourseClass;
 use App\MCourse;
-use App\MLevel;
-use App\MMajor;
+use App\MCourseType;
+use App\MDifficultyType;
 use App\MTutor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class CourseController extends Controller
 {
     public function __construct()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_course_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'course_manage')) {
             return redirect('/');
         }
     }
@@ -26,7 +27,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_course_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'course_manage')) {
             return redirect('/');
         }
 
@@ -40,14 +41,14 @@ class CourseController extends Controller
      */
     public function create()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_course_create')) {
+        if (!check_user_access(Session::get('user_access'), 'course_create')) {
             return redirect('/');
         }
 
         $data['actions'] = 'store';
-        $data['major'] = MMajor::all();
-        $data['level'] = MLevel::all();
+        $data['difficulty'] = MDifficultyType::all();
         $data['tutor'] = MTutor::all();
+        $data['course_type'] = MCourseType::all();
         return view('course.course', compact('data'));
     }
 
@@ -59,19 +60,19 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_course_create')) {
+        if (!check_user_access(Session::get('user_access'), 'course_create')) {
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
 
-        $course = new MCourse();
+        $course = new Course();
         $course->name = $summary->name;
+        $course->slug = $summary->slug;
         $course->description = $summary->description;
-        $course->type = $summary->type;
-        $course->id_m_major = $summary->id_m_major;
-        $course->id_m_level = $summary->id_m_level;
         $course->status = $summary->status;
+        $course->id_m_course_type = $summary->id_m_course_type;
+        $course->id_m_difficulty_type = $summary->id_m_difficulty_type;
         $course->created_id = Auth::id();
         $course->updated_id = Auth::id();
         $course->save();
@@ -95,12 +96,12 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_course_read')) {
+        if (!check_user_access(Session::get('user_access'), 'course_read')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['course'] = MCourse::find($id);
+        $data['course'] = Course::find($id);
         return view('course.show', compact('data'));
     }
 
@@ -112,16 +113,16 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_course_update')) {
+        if (!check_user_access(Session::get('user_access'), 'course_update')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
         $data['actions'] = 'update';
-        $data['course'] = MCourse::find($id);
-        $data['major'] = MMajor::all();
-        $data['level'] = MLevel::all();
+        $data['course'] = Course::find($id);
+        $data['difficulty'] = MDifficultyType::all();
         $data['tutor'] = MTutor::all();
+        $data['course_type'] = MCourseType::all();
         return view('course.course', compact('data'));
     }
 
@@ -134,7 +135,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_course_update')) {
+        if (!check_user_access(Session::get('user_access'), 'course_update')) {
             return redirect('/');
         }
 
@@ -142,14 +143,14 @@ class CourseController extends Controller
 
         $id = base64_decode($id);
 
-        $course = MCourse::find($id);
+        $course = Course::find($id);
         $course->name = $summary->name;
+        $course->slug = $summary->slug;
         $course->description = $summary->description;
-        $course->type = $summary->type;
-        $course->id_m_major = $summary->id_m_major;
-        $course->id_m_level = $summary->id_m_level;
         $course->status = $summary->status;
-        $course->updated_at = Auth::id();
+        $course->id_m_course_type = $summary->id_m_course_type;
+        $course->id_m_difficulty_type = $summary->id_m_difficulty_type;
+        $course->updated_id = Auth::id();
         $course->save();
 
         $course->tutors()->detach();
@@ -183,11 +184,13 @@ class CourseController extends Controller
             "id" => (isset($columns[1]['search']['value'])) ? $columns[1]['search']['value'] : "",
             "name" => (isset($columns[2]['search']['value'])) ? $columns[2]['search']['value'] : "",
             "description" => (isset($columns[3]['search']['value'])) ? $columns[3]['search']['value'] : "",
-            "status" => (isset($columns[4]['search']['value'])) ? $columns[4]['search']['value'] : "",
-            "created_at" => (isset($columns[5]['search']['value'])) ? $columns[5]['search']['value'] : "",
-            "user_create" => (isset($columns[6]['search']['value'])) ? $columns[6]['search']['value'] : "",
-            "updated_at" => (isset($columns[7]['search']['value'])) ? $columns[7]['search']['value'] : "",
-            "user_update" => (isset($columns[8]['search']['value'])) ? $columns[8]['search']['value'] : "",
+            "course_type" => (isset($columns[4]['search']['value'])) ? $columns[4]['search']['value'] : "",
+            "difficulty" => (isset($columns[5]['search']['value'])) ? $columns[5]['search']['value'] : "",
+            "status" => (isset($columns[6]['search']['value'])) ? $columns[6]['search']['value'] : "",
+            "created_at" => (isset($columns[7]['search']['value'])) ? $columns[7]['search']['value'] : "",
+            "user_create" => (isset($columns[8]['search']['value'])) ? $columns[8]['search']['value'] : "",
+            "updated_at" => (isset($columns[9]['search']['value'])) ? $columns[9]['search']['value'] : "",
+            "user_update" => (isset($columns[10]['search']['value'])) ? $columns[10]['search']['value'] : "",
         );
 
         $limit = $request->input('length');
@@ -200,21 +203,25 @@ class CourseController extends Controller
         else if ($order_index == 3)
             $order_field = 'description';
         else if ($order_index == 4)
-            $order_field = 'status';
+            $order_field = 'course_type';
         else if ($order_index == 5)
-            $order_field = 'created_at';
+            $order_field = 'difficulty';
         else if ($order_index == 6)
-            $order_field = 'user_create_name';
+            $order_field = 'status';
         else if ($order_index == 7)
-            $order_field = 'updated_at';
+            $order_field = 'created_at';
         else if ($order_index == 8)
+            $order_field = 'user_create_name';
+        else if ($order_index == 9)
+            $order_field = 'updated_at';
+        else if ($order_index == 10)
             $order_field = 'user_update_name';
         else
             $order_field = 'id';
 
         $order_ascdesc = $_GET['order'][0]['dir'];
 
-        $course = new MCourse();
+        $course = new Course();
 
         $sql_total = $course->count();
         $sql_filter = $course->filter(
@@ -233,21 +240,23 @@ class CourseController extends Controller
             $row = array();
 
             $action = '';
-            if (check_user_access(Session::get('user_access'), 'm_course_update')) {
+            if (check_user_access(Session::get('user_access'), 'course_update')) {
                 $action .= "<a class='btn btn-info btn-xl' href='" . route('courses.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'm_course_read')) {
+            if (check_user_access(Session::get('user_access'), 'course_read')) {
                 $action .= "<a class='btn btn-success btn-xl' href='" . route('courses.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'course_batch_manage')) {
-                $action .= "<a class='btn btn-info btn-xl' href='" . route('course_batches.index', base64_encode($value->id)) . "'><i class='fa fa-fw fa-gear'></i> Manage Batch</a>";
+            if (check_user_access(Session::get('user_access'), 'course_class_manage')) {
+                $action .= "<a class='btn btn-info btn-xl' href='" . route('course_classes.index', base64_encode($value->id)) . "'><i class='fa fa-fw fa-gear'></i> Manage Class</a>";
             }
 
             $row[] = $action;
             $row[] = $value->id;
             $row[] = $value->name;
             $row[] = $value->description;
-            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 13px;'>Tidak Aktif</a>";
+            $row[] = $value->course_type;
+            $row[] = $value->difficulty;
+            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
             $row[] = $value->user_create_name;
             $row[] = date('d-m-Y H:i:s', strtotime($value->updated_at));
@@ -272,18 +281,24 @@ class CourseController extends Controller
 
     public function getById(Request $request)
     {
-        $id_m_course = base64_decode($request->id_m_course);
+        $id_course = base64_decode($request->id_course);
+        $course = Course::find($id_course);
+        $course->class = CourseClass::where('id_course', $course->id)->where('status', 1)->orderBy('id', 'desc')->first();
 
-        $course = MCourse::find($id_m_course);
         return $course;
     }
 
     function filter($keyword)
     {
-        $course = MCourse::select('id as value', 'name as label')
+        $course_class = CourseClass::where('status', 1)->distinct('id_course')->pluck('id_course');
+
+        $course = Course::select('id', 'name as label')
             ->where('name', 'LIKE', '%' . $keyword . '%')
+            ->where('id_m_course_type', 1)
             ->where('status', 1)
+            ->whereIn('id', $course_class)
             ->get()->toArray();
         return json_encode($course);
     }
+
 }

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Session;
                                 Daftar Company
                             </header>
                             <div class="panel-body" id="toro-area">
-                                @can('access','m_company_create')
+                                @can('access','company_create')
                                 <a class="btn btn-info" href="{{ route('companies.create') }}">Tambah Company</a>
                                 @endcan
                                 <div id="btnbar" style="float: right; margin-bottom: 10px"></div>

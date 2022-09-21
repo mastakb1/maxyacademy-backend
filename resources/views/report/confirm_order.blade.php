@@ -40,11 +40,11 @@ use Illuminate\Support\Facades\Session;
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-2">
-                                        <label for="package">Package</label>
+                                        <label for="course_price">Course Price</label>
                                     </div>
                                     <div class="col-sm-10">
                                         <div>
-                                            <input type="text" class="form-control" id="package" name="package" placeholder="Package">
+                                            <input type="text" class="form-control" id="course_price" name="course_price" placeholder="Course Price">
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@ use Illuminate\Support\Facades\Session;
                                         <input type="text" class="form-control" id="confirm_order_number" name="confirm_order_number" placeholder="Enter nomor confirm order" data-bind="value: confirm_order_number">
                                     </div>
                                 </div>
-                                @if(check_user_access(Session::get('user_access'),'report_confirm_order_create'))
+                                @if(check_user_access(Session::get('user_access'),'trans_order_confirm_report_create'))
                                 <button type="button" class="btn btn-primary" id="btn-submit" data-bind="click: createReport">Create Report</button>
                                 @else
                                 <button type="button" class="btn btn-primary" id="btn-submit" disabled>You don't have permission to create report</button>
@@ -141,7 +141,7 @@ use Illuminate\Support\Facades\Session;
                                             <th>Nomor Confirm Order</th>
                                             <th>Member</th>
                                             <th>Course</th>
-                                            <th>Package</th>
+                                            <th>Course Price</th>
                                             <th>Total</th>
                                             <th>Status</th>
                                         </tr>
@@ -225,10 +225,10 @@ use Illuminate\Support\Facades\Session;
                     data: 'course'
                 },
                 {
-                    data: 'package'
+                    data: 'course_price'
                 },
                 {
-                    data: 'total_price',
+                    data: 'total',
                     render: function(value) {
                         return parseInt(value).toLocaleString();
                     }
@@ -301,7 +301,7 @@ use Illuminate\Support\Facades\Session;
         self.confirm_order_number = ko.observable('');
         self.selectedMember = ko.observableArray([]);
         self.selectedCourse = ko.observableArray([]);
-        self.selectedPackage = ko.observableArray([]);
+        self.selectedCoursePrice = ko.observableArray([]);
 
         $("#member").autocomplete({
             source: function(request, response) {
@@ -324,7 +324,7 @@ use Illuminate\Support\Facades\Session;
                 terms.push("");
                 $('#member').val(terms.join(", "));
 
-                self.selectedMember.push(ui.item.value);
+                self.selectedMember.push(ui.item.id);
                 return false;
             }
 
@@ -335,7 +335,7 @@ use Illuminate\Support\Facades\Session;
                 var searchText = extractLast(request.term);
                 if (searchText != '') {
                     $.ajax({
-                        url: "<?= url('courses/filter') ?>" + "/" + searchText,
+                        url: "<?= url('course_classes/filter') ?>" + "/" + searchText,
                         type: 'get',
                         dataType: "json",
                         success: function(data) {
@@ -351,18 +351,17 @@ use Illuminate\Support\Facades\Session;
                 terms.push("");
                 $('#course').val(terms.join(", "));
 
-                self.selectedCourse.push(ui.item.value);
+                self.selectedCourse.push(ui.item.id);
                 return false;
             }
-
         });
 
-        $("#package").autocomplete({
+        $("#course_price").autocomplete({
             source: function(request, response) {
                 var searchText = extractLast(request.term);
                 if (searchText != '') {
                     $.ajax({
-                        url: "<?= url('packages/filter') ?>" + "/" + searchText,
+                        url: "<?= url('course_prices/filter') ?>" + "/" + searchText,
                         type: 'get',
                         dataType: "json",
                         success: function(data) {
@@ -372,13 +371,13 @@ use Illuminate\Support\Facades\Session;
                 }
             },
             select: function(event, ui) {
-                var terms = split($('#package').val());
+                var terms = split($('#course_price').val());
                 terms.pop();
                 terms.push(ui.item.label);
                 terms.push("");
-                $('#package').val(terms.join(", "));
+                $('#course_price').val(terms.join(", "));
 
-                self.selectedPackage.push(ui.item.value);
+                self.selectedCoursePrice.push(ui.item.id);
                 return false;
             }
 
@@ -414,12 +413,13 @@ use Illuminate\Support\Facades\Session;
                 $('#confirm_order_number').val('');
                 $('#course').val('');
                 $('#member').val('');
+                $('#course_price').val('');
                 $('#status').val('default');
                 $('#status').selectpicker('refresh');
-                self.order_number('');
+                self.confirm_order_number('');
                 self.selectedCourse([]);
                 self.selectedMember([]);
-                self.selectedPackage([]);
+                self.selectedCoursePrice([]);
             });
         }
     }

@@ -20,7 +20,7 @@ class MTutor extends Model
 
     public function company()
     {
-        return $this->belongsTo('App\MCompany', 'id_m_company', 'id');
+        return $this->belongsTo('App\Company', 'id_company', 'id');
     }
 
     public function filter($order_field, $order_ascdesc, $search, $search_column, $limit, $startLimit)

@@ -227,7 +227,7 @@ class BankAccountController extends Controller
             $row[] = $value->account_number;
             $row[] = $value->bank;
             $row[] = $value->description;
-            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 13px;'>Tidak Aktif</a>";
+            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
             $row[] = $value->user_create_name;
             $row[] = date('d-m-Y H:i:s', strtotime($value->updated_at));

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Session;
                                 Daftar Course
                             </header>
                             <div class="panel-body" id="toro-area">
-                                @can('access','m_course_create')
+                                @can('access','course_create')
                                 <a class="btn btn-info" href="{{ route('courses.create') }}">Tambah Course</a>
                                 @endcan
                                 <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Session;
                                             <th>ID</th>
                                             <th>Nama</th>
                                             <th>Keterangan</th>
+                                            <th>Course Type</th>
+                                            <th>Difficulty</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Created By</th>
@@ -41,6 +43,8 @@ use Illuminate\Support\Facades\Session;
                                             <th>ID</th>
                                             <th>Nama</th>
                                             <th>Keterangan</th>
+                                            <th>Course Type</th>
+                                            <th>Difficulty</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Created By</th>

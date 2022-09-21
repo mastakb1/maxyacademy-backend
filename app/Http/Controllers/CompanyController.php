@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\MCompany;
+use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -14,7 +14,7 @@ class CompanyController extends Controller
 {
     public function __construct()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_company_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'company_manage')) {
             return redirect('/');
         }
     }
@@ -25,7 +25,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_company_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'company_manage')) {
             return redirect('/');
         }
 
@@ -39,7 +39,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        if (!check_user_access(Session::get('user_access'), 'm_company_create')) {
+        if (!check_user_access(Session::get('user_access'), 'company_create')) {
             return redirect('/');
         }
 
@@ -55,13 +55,13 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_company_create')) {
+        if (!check_user_access(Session::get('user_access'), 'company_create')) {
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
 
-        $company = new MCompany();
+        $company = new Company();
         $company->name = $summary->name;
         $company->description = $summary->description;
         $company->status = $summary->status;
@@ -90,12 +90,12 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_company_read')) {
+        if (!check_user_access(Session::get('user_access'), 'company_read')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['company'] = MCompany::find($id);
+        $data['company'] = Company::find($id);
         
         return view('company.show', compact('data')); 
     }
@@ -108,12 +108,12 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_company_update')) {
+        if (!check_user_access(Session::get('user_access'), 'company_update')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['company'] = MCompany::find($id);
+        $data['company'] = Company::find($id);
         $data['actions'] = 'update';
         
         return view('company.company', compact('data'));
@@ -128,7 +128,7 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!check_user_access(Session::get('user_access'), 'm_company_update')) {
+        if (!check_user_access(Session::get('user_access'), 'company_update')) {
             return redirect('/');
         }
 
@@ -136,7 +136,7 @@ class CompanyController extends Controller
 
         $id = base64_decode($id);
 
-        $company = MCompany::find($id);
+        $company = Company::find($id);
         $company->name = $summary->name;
         $company->description = $summary->description;
         $company->status = $summary->status;
@@ -211,7 +211,7 @@ class CompanyController extends Controller
 
         $order_ascdesc = $_GET['order'][0]['dir'];
 
-        $company = new MCompany();
+        $company = new Company();
 
         $sql_total = $company->count();
         $sql_filter = $company->filter(
@@ -230,10 +230,10 @@ class CompanyController extends Controller
             $row = array();
 
             $action = '';
-            if (check_user_access(Session::get('user_access'), 'm_company_update')) {
+            if (check_user_access(Session::get('user_access'), 'company_update')) {
                 $action .= "<a class='btn btn-info btn-xl' href='" . route('companies.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'm_company_read')) {
+            if (check_user_access(Session::get('user_access'), 'company_read')) {
                 $action .= "<a class='btn btn-success btn-xl' href='" . route('companies.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
 
@@ -241,7 +241,7 @@ class CompanyController extends Controller
             $row[] = $value->id;
             $row[] = $value->name;
             $row[] = $value->description;
-            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 13px;'>Tidak Aktif</a>";
+            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
             $row[] = $value->user_create_name;
             $row[] = date('d-m-Y H:i:s', strtotime($value->updated_at));

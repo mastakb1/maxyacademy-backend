@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\CourseClassMember;
 use App\Member;
 use App\Point;
 use App\Province;
@@ -98,6 +99,14 @@ class MemberController extends Controller
 
         $id = base64_decode($id);
         $data['member'] = Member::find($id);
+
+        $data['courses'] = CourseClassMember::selectRaw('course.id as id_course, course_class_member.id_course_class as id_class, CONCAT(course.name, " Bootcamp Batch ", course_class.batch) as name')
+            ->join('course_class', 'course_class.id', 'course_class_member.id_course_class')
+            ->join('course', 'course.id', 'course_class.id_course')
+            ->where('course_class_member.id_member', $id)
+            ->get();
+        
+
         return view('member.show', compact('data'));
     }
 
@@ -242,7 +251,7 @@ class MemberController extends Controller
             $row[] = $value->id;
             $row[] = $value->nama;
             $row[] = $value->email;
-            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 13px;'>Tidak Aktif</a>";
+            $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
             $row[] = date('d-m-Y H:i:s', strtotime($value->updated_at));
 
@@ -265,7 +274,7 @@ class MemberController extends Controller
 
     function filter($keyword)
     {
-        $member = Member::select('id as value', 'name as label')
+        $member = Member::select('id', 'name as label')
             ->where('name', 'LIKE', '%' . $keyword . '%')
             ->where('status', 1)
             ->get()->toArray();
