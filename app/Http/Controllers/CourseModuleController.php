@@ -61,7 +61,7 @@ class CourseModuleController extends Controller
         $summary = json_decode($request->summary);
 
         $priority = 1;
-        $course_module = CourseModule::where('id_m_course', $summary->id_course)->orderBy('priority', 'desc')->first();
+        $course_module = CourseModule::where('id_course', $summary->id_course)->orderBy('priority', 'desc')->first();
         if($course_module != NULL)
         {
             $priority = $course_module->priority + 1;
@@ -78,7 +78,7 @@ class CourseModuleController extends Controller
         $course_module->updated_id = Auth::id();
         $course_module->save();
 
-        return redirect()->route('moduls.index');
+        return redirect()->route('course_modules.index');
     }
 
     /**

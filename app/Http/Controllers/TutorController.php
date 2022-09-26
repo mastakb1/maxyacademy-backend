@@ -66,7 +66,7 @@ class TutorController extends Controller
         $tutor->description = $summary->description;
         $tutor->role = $summary->role;
         $tutor->status = $summary->status;
-        $tutor->id_m_company = $summary->id_m_company;
+        $tutor->id_company = $summary->id_company;
         $tutor->created_id = Auth::id();
         $tutor->updated_id = Auth::id();
 
@@ -141,7 +141,7 @@ class TutorController extends Controller
         $tutor->description = $summary->description;
         $tutor->role = $summary->role;
         $tutor->status = $summary->status;
-        $tutor->id_m_company = $summary->id_m_company;
+        $tutor->id_company = $summary->id_company;
         $tutor->updated_id = Auth::id();
 
         if ($request->hasFile('profile')) {

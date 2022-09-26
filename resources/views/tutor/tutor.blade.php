@@ -48,7 +48,7 @@
                                     <div class="form-group row">
                                         <label for="company" class="col-sm-2 col-form-label">Company</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="company" name="company" required data-bind="value: id_m_company,valueAllowUnset: true, options: $root.availableCompany, 
+                                            <select class="form-control" id="company" name="company" required data-bind="value: id_company,valueAllowUnset: true, options: $root.availableCompany, 
                                             optionsText: 'name', optionsValue: 'id', select2: { placeholder: 'Choose Company', 
                                                 allowClear: true, theme: 'bootstrap' }">
                                             </select>
@@ -258,7 +258,7 @@
         self.name = ko.observable('<?php if (isset($data['tutor'])) echo $data['tutor']->name ?>');
         self.description = ko.observable('<?php if (isset($data['tutor'])) echo $data['tutor']->description ?>');
         self.role = ko.observable('<?php if (isset($data['tutor'])) echo $data['tutor']->role ?>');
-        self.id_m_company = ko.observable('<?php if (isset($data['tutor'])) echo $data['tutor']->id_m_company ?>');
+        self.id_company = ko.observable('<?php if (isset($data['tutor'])) echo $data['tutor']->id_company ?>');
         self.status = ko.observable(<?= (isset($data['tutor'])) ? (($data['tutor']->status == 1) ? 'true' : 'false') : 'true' ?>);
     }
 
