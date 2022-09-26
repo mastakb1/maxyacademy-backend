@@ -76,7 +76,7 @@ class CoursePriceController extends Controller
                 $course_price_benefit = new CoursePriceBenefit();
                 $course_price_benefit->name = $benefit->name;
                 $course_price_benefit->description = $benefit->description;
-                $course_price_benefit->status = 1;
+                $course_price_benefit->status = $benefit->isChecked;
                 $course_price_benefit->created_id = Auth::id();
                 $course_price_benefit->updated_id = Auth::id();
                 $course_price_benefit->id_course_price = $course_price->id;
@@ -154,7 +154,7 @@ class CoursePriceController extends Controller
                 $course_price_benefit = new CoursePriceBenefit();
                 $course_price_benefit->name = $benefit->name;
                 $course_price_benefit->description = $benefit->description;
-                $course_price_benefit->status = 1;
+                $course_price_benefit->status = $benefit->isChecked;
                 $course_price_benefit->created_id = Auth::id();
                 $course_price_benefit->updated_id = Auth::id();
                 $course_price_benefit->id_course_price = $id;

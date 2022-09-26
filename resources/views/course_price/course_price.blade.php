@@ -44,10 +44,13 @@
                                         <label for="benefits" class="col-sm-2 col-form-label"></label>
                                         <div class="col-sm-10" data-bind="foreach: benefits">
                                             <div class="form-group row">
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="benefit" data-bind="checked: isChecked">
+                                                </div>
                                                 <div class="col-sm-5">
                                                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter benefit name" data-bind="value: name" required>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-5">
                                                     <input type="text" class="form-control" id="description" name="description" placeholder="Enter benefit description" data-bind="value: description">
                                                 </div>
                                                 <div class="col-sm-1">
@@ -224,11 +227,12 @@
         }
     };
 
-    function Benefit(name, description) {
+    function Benefit(name, description, isChecked) {
         var self = this;
 
         self.name = ko.observable(name);
         self.description = ko.observable(description);
+        self.isChecked = ko.observable(isChecked == 1 ? true : false);
     }
 
     function CoursePriceViewModel() {
@@ -240,14 +244,14 @@
         self.status = ko.observable(<?= (isset($data['course_price'])) ? (($data['course_price']->status == 1) ? 'true' : 'false') : 'true' ?>);
         self.benefits = ko.observableArray([]);
 
-        <?php if(isset($data['course_price'])): ?>
-        <?php foreach($data['course_price']->benefits as $benefit): ?>
-            self.benefits.push(new Benefit('<?=$benefit->name?>', '<?= $benefit->description ?>'))
-        <?php endforeach; ?>
+        <?php if (isset($data['course_price'])) : ?>
+            <?php foreach ($data['course_price']->benefits as $benefit) : ?>
+                self.benefits.push(new Benefit('<?= $benefit->name ?>', '<?= $benefit->description ?>', '<?= $benefit->status ?>'))
+            <?php endforeach; ?>
         <?php endif; ?>
 
         self.addBenefit = function() {
-            self.benefits.push(new Benefit('', ''));
+            self.benefits.push(new Benefit('', '', false));
         }
 
         self.removeBenefit = function(benefit) {
