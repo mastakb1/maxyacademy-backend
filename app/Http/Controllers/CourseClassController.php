@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\CourseClass;
 use App\CourseClassMember;
+use App\CourseClassModule;
+use App\CourseModule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -127,12 +129,12 @@ class CourseClassController extends Controller
             return redirect('/');
         }
 
-        $id_m_course = base64_decode($id);
+        $id_course = base64_decode($id);
         $id_course_class = base64_decode($id_course_class);
 
         $data['actions'] = 'update';
         $data['id_course'] = $id;
-        $data['course'] = Course::find($id_m_course);
+        $data['course'] = Course::find($id_course);
         $data['course_class'] = CourseClass::find($id_course_class);
         $data['batch'] =  $data['course_class']->batch;
         return view('course.class.class', compact('data'));
@@ -249,6 +251,9 @@ class CourseClassController extends Controller
             if (check_user_access(Session::get('user_access'), 'course_class_read')) {
                 $action .= "<a class='btn btn-success btn-xl' href='" . route('course_classes.show', ['id'=> base64_encode($id_course), 'id_course_class' => base64_encode($value->id)] ) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
+            if (check_user_access(Session::get('user_access'), 'course_class_module_manage')){
+                $action .= "<a class='btn btn-info btn-xl' href='" . route('course_classes.manage_module', ['id' => base64_encode($id_course), 'id_course_class' => base64_encode($value->id)] ) . "'><i class='fa fa-fw fa-gear'></i> Manage Module</a>";
+            }
 
             $row[] = $action;
             $row[] = $value->id;
@@ -287,5 +292,39 @@ class CourseClassController extends Controller
             ->where('course.id_m_course_type', 1)
             ->get()->toArray();
         return json_encode($course);
+    }
+
+    public function manage_module($id, $id_course_class)
+    {
+        $id_course = base64_decode($id);
+        $id_course_class = base64_decode($id_course_class);
+
+        $data['id_course'] = $id;
+        $data['course_class'] = CourseClass::find($id_course_class);
+        $data['course_class_module'] = CourseClassModule::where('id_course_class', $id_course_class)->get();
+        $data['course_module'] = CourseModule::where('id_course', $id_course)->whereNull('id_course_module_parent')->get();
+        return view('course.class.module.module', compact('data'));
+    }
+
+    public function store_module(Request $request,$id, $id_course_class)
+    {
+        $summary = json_decode($request->summary);
+        $id_course_class = base64_decode($id_course_class);
+
+        $delete_old_course_class_module = CourseClassModule::where('id_course_class', $id_course_class)->delete();
+
+        $priority = 1;
+        foreach ($summary->modules as $module) {
+            if ($module->isActive) {
+                $course_class_module = new CourseClassModule();
+                $course_class_module->id_course_class = $id_course_class;
+                $course_class_module->id_course_module = $module->id;
+                $course_class_module->priority = $priority;
+                $course_class_module->save();
+                $priority++;
+            }
+        }
+
+        return redirect()->route('course_classes.index', $id);
     }
 }

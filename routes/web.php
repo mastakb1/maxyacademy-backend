@@ -60,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('courses/{id}/classes/{id_course_class}/edit', 'CourseClassController@edit')->name('course_classes.edit');
 	Route::put('courses/{id}/classes/{id_course_class}', 'CourseClassController@update')->name('course_classes.update');
 	Route::get('courses/{id}/classes/{id_course_class}', 'CourseClassController@show')->name('course_classes.show');
+	Route::get('courses/{id}/classes/{id_course_class}/manage_module', 'CourseClassController@manage_module')->name('course_classes.manage_module');
+	Route::post('courses/{id}/classes/{id_course_class}/manage_module', 'CourseClassController@store_module')->name('course_classes.store_module');
 
 	Route::post('courses/getById', 'CourseController@getById')->name('courses.getById');
 	Route::get('courses/filter/{keyword}', 'CourseController@filter')->name('courses.filter');

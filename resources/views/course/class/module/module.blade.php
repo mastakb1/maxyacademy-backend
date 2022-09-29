@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'Course Module Child')
+@section('title', 'Course Class Module')
 @section('content')
 <div class="right_col" role="main">
     <div class="">
@@ -9,34 +9,31 @@
                     <div class="col-md-12">
                         <section class="panel">
                             <header class="panel-heading">
-                                <?php if ($data['actions'] == 'store') echo 'Tambah';
-                                else echo 'Ubah'; ?> Course Module Child
+                                Manage Course Class Module
                             </header>
                             <div class="panel-body" id="toro-area">
-                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('course_module_childs.store', $data['id_course_module']) : route('course_module_childs.update', ['id' => $data['id_course_module'], 'id_child' => base64_encode($data['course_module_child']->id)]) }}">
-                                    @if($data['actions']=='update') @method('PUT') @endif
+                                <form id="toro-form" method="POST" action="{{ route('course_classes.store_module', ['id' => $data['id_course'], 'id_course_class' => base64_encode($data['course_class']->id)]) }}">
                                     @csrf
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="sortable: modules">
+                                            <tr>
+                                                <th scope="row"><i class="fa fa-fw fa-list"></i></th>
+                                                <td data-bind="text: name"></td>
+                                                <td data-bind="html: description"></td>
+                                                <td><input type="checkbox" data-bind="checked: isActive"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <div class="form-group row">
-                                        <label for="name" class="col-sm-2 col-form-label">Nama</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" data-bind="value: name" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="description" class="col-sm-2 col-form-label">Keterangan</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="textarea form-control" rows="8" name="description" data-bind="wysiwyg: description"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                        <div class="col-sm-10">
-                                            <input type="checkbox" name="status" data-bind="checked: status"> Aktif
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="submit" class="col-sm-2 col-form-label"></label>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-12">
                                             <input type="hidden" name="summary" data-bind="value: ko.toJSON($root)">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -55,7 +52,9 @@
 @parent
 <link href="{{ asset ('js/select2/css/select2.min.css') }}" rel="stylesheet">
 <link href="{{ asset ('js/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 <script src="{{ asset ('js/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset ('js/knockout.js') }}"></script>
 <script src="{{ asset ('js/knockout-sortable.js') }}"></script>
@@ -196,14 +195,40 @@
         }
     };
 
-    function CourseModuleChildViewModel() {
+    function CourseModule(id, name, description, isActive, priority) {
         var self = this;
 
-        self.name = ko.observable('<?php if (isset($data['course_module_child'])) echo $data['course_module_child']->name ?>');
-        self.description = ko.observable(`<?php if (isset($data['course_module_child'])) echo $data['course_module_child']->description ?>`);
-        self.status = ko.observable(<?= (isset($data['course_module_child'])) ? (($data['course_module_child']->status == 1) ? 'true' : 'false') : 'true' ?>);
+        self.id = ko.observable(id);
+        self.name = ko.observable(name);
+        self.description = ko.observable(description);
+        self.isActive = ko.observable(isActive);
+        self.priority = ko.observable(priority);
     }
 
-    ko.applyBindings(new CourseModuleChildViewModel());
+    function CourseClassModuleViewModel() {
+        var self = this;
+
+        self.modules = ko.observableArray([]);
+
+        <?php if (isset($data['course_module'])) : ?>
+            <?php foreach ($data['course_module'] as $module) : ?>
+                self.modules.push(new CourseModule('<?= $module->id ?>', '<?= $module->name ?>', `<?= $module->description ?>`, false, Number.MAX_SAFE_INTEGER));
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if (isset($data['course_class_module'])) : ?>
+            <?php foreach ($data['course_class_module'] as $class_module) : ?>
+                var match = ko.utils.arrayFirst(self.modules(), function(item) {
+                    return item.id() == <?= $class_module->id_course_module ?>;
+                });
+                match.isActive(true);
+                match.priority('<?= $class_module->priority ?>');
+            <?php endforeach; ?>
+        <?php endif; ?>
+            
+        self.modules.sort((a, b) => (a.priority() > b.priority()) ? 1 : ((a.priority() < b.priority()) ? -1 : 0));
+    }
+
+    ko.applyBindings(new CourseClassModuleViewModel());
 </script>
 @endsection
