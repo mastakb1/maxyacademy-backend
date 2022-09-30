@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\CourseClassMember;
 use App\MBank;
 use App\MBankAccount;
 use App\MPaymentType;
@@ -13,6 +14,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -86,7 +88,20 @@ class OrderConfirmController extends Controller
         $order_confirm->status = 0;
         $order_confirm->created_id = Auth::id();
         $order_confirm->updated_id = Auth::id();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = md5($request->id_trans_order . strtotime('now')) . '.' . $file->getClientOriginalExtension();
+            $path = 'member/payment/';
+            $file->move($path, $filename);
+            $order_confirm->image = $filename;
+        }
+
         $order_confirm->save();
+
+        $order = TransOrder::find($request->id_trans_order);
+        $order->status = 2;
+        $order->save();
 
         return redirect()->route('order_confirms.index');
     }
@@ -161,6 +176,20 @@ class OrderConfirmController extends Controller
         $order_confirm->id_course = $request->id_course;
         $order_confirm->id_course_class = $request->id_course_class;
         $order_confirm->updated_id = Auth::id();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = md5($request->id_trans_order . strtotime('now')) . '.' . $file->getClientOriginalExtension();
+            $path = 'member/payment/';
+
+            if (File::exists($path . $order_confirm->image)) {
+                unlink($path . $order_confirm->image);
+            }
+
+            $file->move($path, $filename);
+            $order_confirm->image = $filename;
+        }
+
         $order_confirm->save();
 
         return redirect()->route('order_confirms.index');
@@ -289,7 +318,7 @@ class OrderConfirmController extends Controller
                     $value->status = "<a class='ui green label' style='font-size: 10px;'>Completed</a>";
                     break;
                 case 2:
-                    $value->status = "<a class='ui yellow label' style='font-size: 10px;'>Partial</a>";
+                    $value->status = "<a class='ui yellow label' style='font-size: 10px;'>Waiting Payment Confirmation</a>";
                     break;
                 case 4:
                     $value->status = "<a class='ui red label' style='font-size: 10px;'>Cancelled</a>";
@@ -309,7 +338,7 @@ class OrderConfirmController extends Controller
             $row[] = $value->amount;
             $row[] = $value->member;
             $row[] = $value->status;
-            $row[] = date('d-m-Y H:i:s', strtotime($value->verified_at));
+            $row[] = $value->verified_at == NULL ? '' : date('d-m-Y H:i:s', strtotime($value->verified_at));
             $row[] = $value->user_verified_name;
             $row[] = $value->verified_comment;
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
@@ -373,6 +402,16 @@ class OrderConfirmController extends Controller
             {
                 $order = TransOrder::find($order_confirm->id_trans_order);
                 $order->status = 1;
+                $order->save();
+
+                $course_class_member = new CourseClassMember();
+                $course_class_member->id_member = $order->id_member;
+                $course_class_member->id_course_class = $order->id_course_class;
+                $course_class_member->id_trans_order = $order->id;
+                $course_class_member->save();
+            }else{
+                $order = TransOrder::find($order_confirm->id_trans_order);
+                $order->status = 0;
                 $order->save();
             }
 

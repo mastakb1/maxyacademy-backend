@@ -125,7 +125,7 @@ use Carbon\Carbon;
                                                             $status = "Completed";
                                                             break;
                                                         case 2:
-                                                            $status = "Partial";
+                                                            $status = "Waiting Payment Confirmation";
                                                             break;
                                                         case 4:
                                                             $status = "Cancelled";

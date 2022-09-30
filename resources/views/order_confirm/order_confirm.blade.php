@@ -13,7 +13,7 @@
                                 else echo 'Ubah'; ?> Confirm Order
                             </header>
                             <div class="panel-body" id="toro-area">
-                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('order_confirms.store') : route('order_confirms.update', base64_encode($data['order_confirm']->id)) }}">
+                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('order_confirms.store') : route('order_confirms.update', base64_encode($data['order_confirm']->id)) }}" enctype="multipart/form-data">
                                     @if($data['actions']=='update') @method('PUT') @endif
                                     @csrf
                                     <div class="form-group row">
@@ -98,6 +98,12 @@
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="sender_account_number" name="sender_account_number" placeholder="Enter nomor rekening pengirim" data-bind="value: sender_account_number" required>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="image" class="col-sm-2 col-form-label">Bukti Transfer</label>
+                                        <div class="col-sm-10">
+                                            <input type="file" class="form-control" id="image" name="image">
                                         </div>
                                     </div>
                                     <div class="form-group row">
