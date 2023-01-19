@@ -6,6 +6,7 @@ use App\AccessGroup;
 use App\AccessMaster;
 use App\Company;
 use App\Course;
+use App\MContentCarousel;
 use App\CourseModule;
 use App\CoursePrice;
 use App\MDifficultyType;
@@ -28,6 +29,7 @@ class DashboardController extends Controller
         $data['course_price'] =  CoursePrice::where('status', 1)->count();
         $data['tutor'] = MTutor::where('status', 1)->count();
         $data['member'] = Member::where('status', 1)->count();
+        $data['content_carousel'] = MContentCarousel::where('status', 1)->count();
         $data['transaction'] = TransOrder::sum('total_after_discount');
         return view('content.dashboard', compact('data'));
     }

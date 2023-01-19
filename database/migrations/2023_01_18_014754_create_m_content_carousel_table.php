@@ -19,7 +19,7 @@ class CreateMContentCarouselTable extends Migration
             $table->text('content');
             $table->string('url')->nullable();
             $table->string('image');
-            $table->text('desription')->nullable();
+            $table->text('description')->nullable();
             $table->integer('status');
             $table->integer('status_button');
             $table->dateTime('created_at')->useCurrent();   
