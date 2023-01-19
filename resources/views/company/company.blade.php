@@ -17,8 +17,8 @@
                                     @if($data['actions']=='update') @method('PUT') @endif
                                     @csrf
                                     <div class="form-group row">
-                                        <label for="logo" class="col-sm-2 col-form-label" style="font-size: 13px;">Logo</label>
-                                        <div class="col-sm-10">
+                                        <label for="logo" class="col-sm-3 col-form-label" style="font-size: 13px;">Logo</label>
+                                        <div class="col-sm-9">
                                             <div class="main-img-preview">
                                                 <?php if (isset($data['company'])) : ?>
                                                     <?php if ($data['company']->logo != NULL) : ?>
@@ -34,26 +34,60 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="name" class="col-sm-2 col-form-label">Nama</label>
-                                        <div class="col-sm-10">
+                                        <label for="name" class="col-sm-3 col-form-label">Nama</label>
+                                        <div class="col-sm-9">
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" data-bind="value: name" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="description" class="col-sm-2 col-form-label">Keterangan</label>
-                                        <div class="col-sm-10">
+                                        <label for="type" class="col-sm-3 col-form-label">Jenis</label>
+                                        <div class="col-sm-9">
+                                            <select name="type" id="type" required data-bind="value: type,valueAllowUnset: true, options: $root.availableType, 
+                                            select2: { placeholder: 'Choose Type', 
+                                                allowClear: true, theme: 'bootstrap' }">
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="address" class="col-sm-3 col-form-label">Alamat</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter address" data-bind="value: address" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="phone" class="col-sm-3 col-form-label">No Telepon</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone" data-bind="value: phone" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="url" class="col-sm-3 col-form-label">Website</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="url" name="url" placeholder="Enter Url" data-bind="value: url" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="description" class="col-sm-3 col-form-label">Keterangan</label>
+                                        <div class="col-sm-9">
                                             <textarea class="textarea form-control" rows="8" name="description" data-bind="wysiwyg: description"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                        <div class="col-sm-10">
+                                        <label for="status" class="col-sm-3 col-form-label">Status</label>
+                                        <div class="col-sm-9">
                                             <input type="checkbox" name="status" data-bind="checked: status"> Aktif
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="submit" class="col-sm-2 col-form-label"></label>
-                                        <div class="col-sm-10">
+                                        <label for="status_highlight" class="col-sm-3 col-form-label">Status Highlight</label>
+                                        <div class="col-sm-9">
+                                            <input type="checkbox" name="status_highlight" data-bind="checked: status_highlight"> Aktif
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="submit" class="col-sm-3 col-form-label"></label>
+                                        <div class="col-sm-9">
                                             <input type="hidden" name="summary" data-bind="value: ko.toJSON($root)">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -236,10 +270,15 @@
 
     function CompanyViewModel() {
         var self = this;
-
+        self.availableType = ko.observableArray(['COMPANY', 'UNIVERSITY']);
         self.name = ko.observable('<?php if (isset($data['company'])) echo $data['company']->name ?>');
+        self.address = ko.observable('<?php if (isset($data['company'])) echo $data['company']->address ?>');
+        self.phone = ko.observable('<?php if (isset($data['company'])) echo $data['company']->phone ?>');
+        self.url = ko.observable('<?php if (isset($data['company'])) echo $data['company']->url ?>');
+        self.type = ko.observable('<?php if (isset($data['company'])) echo $data['company']->type ?>');
         self.description = ko.observable('<?php if (isset($data['company'])) echo $data['company']->description ?>');
         self.status = ko.observable(<?= (isset($data['company'])) ? (($data['company']->status == 1) ? 'true' : 'false') : 'true' ?>);
+        self.status_highlight = ko.observable(<?= (isset($data['company'])) ? (($data['company']->status_highlight == 1) ? 'true' : 'false') : 'true' ?>);
     }
 
     ko.applyBindings(new CompanyViewModel());

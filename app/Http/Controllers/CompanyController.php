@@ -63,8 +63,13 @@ class CompanyController extends Controller
 
         $company = new Company();
         $company->name = $summary->name;
+        $company->type = $summary->type;
+        $company->url = $summary->url;
         $company->description = $summary->description;
+        $company->address = $summary->address;
+        $company->phone = $summary->phone;
         $company->status = $summary->status;
+        $company->status_highlight = $summary->status_highlight;
         $company->created_id = Auth::id();
         $company->updated_id = Auth::id();
 
@@ -137,10 +142,16 @@ class CompanyController extends Controller
         $id = base64_decode($id);
 
         $company = Company::find($id);
+        $type = $company->type;
         $company->name = $summary->name;
+        $company->type = $summary->type;
+        $company->url = $summary->url;
         $company->description = $summary->description;
+        $company->address = $summary->address;
+        $company->phone = $summary->phone;
         $company->status = $summary->status;
         $company->updated_id = Auth::id();
+        $company->status_highlight = $summary->status_highlight;
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
@@ -179,12 +190,17 @@ class CompanyController extends Controller
         $search_column = array(
             "id" => (isset($columns[1]['search']['value'])) ? $columns[1]['search']['value'] : "",
             "name" => (isset($columns[2]['search']['value'])) ? $columns[2]['search']['value'] : "",
-            "description" => (isset($columns[3]['search']['value'])) ? $columns[3]['search']['value'] : "",
-            "status" => (isset($columns[4]['search']['value'])) ? $columns[4]['search']['value'] : "",
-            "created_at" => (isset($columns[5]['search']['value'])) ? $columns[5]['search']['value'] : "",
-            "user_create" => (isset($columns[6]['search']['value'])) ? $columns[6]['search']['value'] : "",
-            "updated_at" => (isset($columns[7]['search']['value'])) ? $columns[7]['search']['value'] : "",
-            "user_update" => (isset($columns[8]['search']['value'])) ? $columns[8]['search']['value'] : "",
+            "type" => (isset($columns[3]['search']['value'])) ? $columns[3]['search']['value'] : "",
+            "address" => (isset($columns[4]['search']['value'])) ? $columns[4]['search']['value'] : "",
+            "phone" => (isset($columns[5]['search']['value'])) ? $columns[5]['search']['value'] : "",
+            "url" => (isset($columns[6]['search']['value'])) ? $columns[6]['search']['value'] : "",
+            "description" => (isset($columns[7]['search']['value'])) ? $columns[7]['search']['value'] : "",
+            "status" => (isset($columns[8]['search']['value'])) ? $columns[8]['search']['value'] : "",
+            "status_highlight" => (isset($columns[9]['search']['value'])) ? $columns[9]['search']['value'] : "",
+            "created_at" => (isset($columns[10]['search']['value'])) ? $columns[10]['search']['value'] : "",
+            "user_create" => (isset($columns[11]['search']['value'])) ? $columns[11]['search']['value'] : "",
+            "updated_at" => (isset($columns[12]['search']['value'])) ? $columns[12]['search']['value'] : "",
+            "user_update" => (isset($columns[13]['search']['value'])) ? $columns[13]['search']['value'] : "",
         );
 
         $limit = $request->input('length');
@@ -195,16 +211,26 @@ class CompanyController extends Controller
         else if ($order_index == 2)
             $order_field = 'name';
         else if ($order_index == 3)
-            $order_field = 'description';
+            $order_field = 'type';
         else if ($order_index == 4)
-            $order_field = 'status';
+            $order_field = 'address';
         else if ($order_index == 5)
-            $order_field = 'created_at';
+            $order_field = 'phone';
         else if ($order_index == 6)
-            $order_field = 'user_create_name';
+            $order_field = 'url';
         else if ($order_index == 7)
-            $order_field = 'updated_at';
+            $order_field = 'description';
         else if ($order_index == 8)
+            $order_field = 'status';
+        else if ($order_index == 9)
+            $order_field = 'status_highlight';
+        else if ($order_index == 10)
+            $order_field = 'created_at';
+        else if ($order_index == 11)
+            $order_field = 'user_create_name';
+        else if ($order_index == 12)
+            $order_field = 'updated_at';
+        else if ($order_index == 13)
             $order_field = 'user_update_name';
         else
             $order_field = 'id';
@@ -240,8 +266,13 @@ class CompanyController extends Controller
             $row[] = $action;
             $row[] = $value->id;
             $row[] = $value->name;
+            $row[] = $value->type;
+            $row[] = $value->address;
+            $row[] = $value->phone;
+            $row[] = "<a href='$value->url'>$value->url</a>";
             $row[] = $value->description;
             $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
+            $row[] = $value->status_highlight == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
             $row[] = $value->user_create_name;
             $row[] = date('d-m-Y H:i:s', strtotime($value->updated_at));

@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'Category Detail')
+@section('title', 'Company Detail')
 @section('content')
 <?php
 
@@ -13,7 +13,7 @@ use Carbon\Carbon;
                     <div class="col-md-12">
                         <section class="panel">
                             <header class="panel-heading">
-                                Category Detail
+                                Company Detail
                             </header>
                             <div class="panel-body" id="toro-area">
                                 <div class="ui card" style="width: 100%;">
@@ -24,67 +24,107 @@ use Carbon\Carbon;
                                         <div class="description">
                                             @if($data['company']->logo != NULL)
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <b>Logo : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     <img src="{{asset('uploads/company/' . $data['company']->logo)}}" width="264px">
                                                 </div>
                                             </div>
                                             @endif
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <b>Nama : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     {{ $data['company']->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
+                                                    <b>Jenis : </b>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    {{ $data['company']->type }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 5px;">
+                                                <div class="col-sm-3">
+                                                    <b>Alamat : </b>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    {{ $data['company']->address }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 5px;">
+                                                <div class="col-sm-3">
+                                                    <b>No Telepon : </b>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    {{ $data['company']->phone }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 5px;">
+                                                <div class="col-sm-3">
+                                                    <b>Website : </b>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <a href="{{ $data['company']->url }}">{{ $data['company']->url }}</a>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 5px;">
+                                                <div class="col-sm-3">
                                                     <b>Keterangan : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     <?php echo $data['company']->description ?>
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <b>Status : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     {{ $data['company']->status == 1 ? 'Aktif' : 'Tidak Aktif' }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
+                                                    <b>Status HighLight : </b>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    {{ $data['company']->status_highlight == 1 ? 'Aktif' : 'Tidak Aktif' }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 5px;">
+                                                <div class="col-sm-3">
                                                     <b>Created At : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     {{ date('d-m-Y H:i:s', strtotime($data['company']->created_at)) }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <b>Created By : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     {{ $data['company']->user_create->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <b>Updated At : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     {{ date('d-m-Y H:i:s', strtotime($data['company']->updated_at)) }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <b>Updated By : </b>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-9">
                                                     {{ $data['company']->user_update->name }}
                                                 </div>
                                             </div>

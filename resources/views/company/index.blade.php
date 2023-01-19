@@ -27,8 +27,13 @@ use Illuminate\Support\Facades\Session;
                                             <th>Actions</th>
                                             <th>ID</th>
                                             <th>Nama</th>
+                                            <th>Jenis</th>
+                                            <th>Alamat</th>
+                                            <th>No Telepon</th>
+                                            <th>Website</th>
                                             <th>Keterangan</th>
                                             <th>Status</th>
+                                            <th>Status Highlight</th>
                                             <th>Created At</th>
                                             <th>Created By</th>
                                             <th>Updated At</th>
@@ -40,8 +45,13 @@ use Illuminate\Support\Facades\Session;
                                             <th>Actions</th>
                                             <th>ID</th>
                                             <th>Nama</th>
+                                            <th>Jenis</th>
+                                            <th>Alamat</th>
+                                            <th>No Telepon</th>
+                                            <th>Website</th>
                                             <th>Keterangan</th>
                                             <th>Status</th>
+                                            <th>Status Highlight</th>
                                             <th>Created At</th>
                                             <th>Created By</th>
                                             <th>Updated At</th>
