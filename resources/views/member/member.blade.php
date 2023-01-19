@@ -64,6 +64,34 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="transcript" class="col-sm-2 col-form-label">Transcript</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addTranscript"><i class="fa fa-plus"></i> Add Transcript</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="transcripts" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: transcripts">
+                                            <div class="form-group row">
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="transcript" data-bind="checked: isChecked">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="course_name" name="course_name" placeholder="Enter Course name" data-bind="value: course_name" required>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="number" class="form-control" id="score" name="score" placeholder="Score" data-bind="value: score" required>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="description" name="description" placeholder="Enter description" data-bind="value: description">
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeTranscript"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="status" class="col-sm-2 col-form-label">Status</label>
                                         <div class="col-sm-10">
                                             <input type="checkbox" name="status" data-bind="checked: status"> Aktif
@@ -252,6 +280,15 @@
         }
     };
 
+    function Transcript(name, score, description, isChecked) {
+        var self = this;
+
+        self.course_name = ko.observable(name);
+        self.score = ko.observable(score);
+        self.description = ko.observable(description);
+        self.isChecked = ko.observable(isChecked == 1 ? true : false);
+    }
+
     function MemberViewModel() {
         var self = this;
 
@@ -261,6 +298,21 @@
         self.phone = ko.observable('<?php if (isset($data['member'])) echo $data['member']->phone ?>');
         self.address = ko.observable('<?php if (isset($data['member'])) echo $data['member']->address ?>');
         self.status = ko.observable(<?= (isset($data['member'])) ? (($data['member']->status == 1) ? 'true' : 'false') : 'true' ?>);
+        self.transcripts = ko.observableArray([]);
+
+        <?php if (isset($data['member'])) : ?>
+            <?php foreach ($data['member']->transcripts as $transcript) : ?>
+                self.transcripts.push(new Transcript('<?= $transcript->name ?>', '<?= $transcript->score ?>', '<?= $transcript->description ?>', '<?= $transcript->status ?>'))
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        self.addTranscript = function() {
+            self.transcripts.push(new Transcript('', 0, '', false));
+        }
+
+        self.removeTranscript = function(benefit) {
+            self.transcripts.remove(benefit);
+        }
     }
 
     ko.applyBindings(new MemberViewModel());

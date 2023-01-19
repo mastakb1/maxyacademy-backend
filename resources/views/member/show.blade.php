@@ -126,6 +126,34 @@ use Carbon\Carbon;
                                         </div>
                                     </div>
                                 </div>
+                                <div class="ui card" style="width: 100%;">
+                                    <div class="content">
+                                        <div class="header">Member Transcript</div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="description">
+                                            <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
+                                            <table id="toro-data-transcript" class=" table table-hover table-bordered convert-data-table display" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Course Name</th>
+                                                        <th>Score</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Course Name</th>
+                                                        <th>Score</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -232,6 +260,16 @@ use Carbon\Carbon;
             data: 'id_class'
         }, {
             data: 'name'
+        }]);
+
+        datatable('', '#toro-data-transcript', '#toro-data-transcript tfoot th', <?= $data['transcript'] ?>, [{
+            data: 'id'
+        }, {
+            data: 'name'
+        }, {
+            data: 'score'
+        }, {
+            data: 'description'
         }]);
     });
 </script>

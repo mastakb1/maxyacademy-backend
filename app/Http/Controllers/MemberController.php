@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\City;
-use App\CourseClassMember;
-use App\Member;
 use App\Point;
+use App\Member;
 use App\Province;
+use App\MemberTranscript;
+use App\CourseClassMember;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -82,6 +84,20 @@ class MemberController extends Controller
 
         $member->save();
 
+        if(count($summary->transcripts) > 0){
+            foreach ($summary->transcripts as $transcript) {
+                $member_transcript = new MemberTranscript();
+                $member_transcript->id_member = $member->id;
+                $member_transcript->name = $transcript->course_name;
+                $member_transcript->score = $transcript->score;
+                $member_transcript->description = $transcript->description;
+                $member_transcript->status = $transcript->isChecked;
+                $member_transcript->created_id = Auth::id();
+                $member_transcript->updated_id = Auth::id();
+                $member_transcript->save();
+            }
+        }
+
         return redirect()->route('members.index');
     }
 
@@ -106,6 +122,7 @@ class MemberController extends Controller
             ->where('course_class_member.id_member', $id)
             ->get();
         
+        $data['transcript'] = MemberTranscript::where('id_member', $id)->get();
 
         return view('member.show', compact('data'));
     }
@@ -172,6 +189,22 @@ class MemberController extends Controller
         }
 
         $member->save();
+
+        $delete_old_transcript = MemberTranscript::where('id_member', $id)->delete();
+
+        if(count($summary->transcripts) > 0){
+            foreach ($summary->transcripts as $transcript) {
+                $member_transcript = new MemberTranscript();
+                $member_transcript->id_member = $id;
+                $member_transcript->name = $transcript->course_name;
+                $member_transcript->score = $transcript->score;
+                $member_transcript->description = $transcript->description;
+                $member_transcript->status = $transcript->isChecked;
+                $member_transcript->created_id = Auth::id();
+                $member_transcript->updated_id = Auth::id();
+                $member_transcript->save();
+            }
+        }
 
         return redirect()->route('members.index');
     }

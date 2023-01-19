@@ -12,6 +12,11 @@ class Member extends Model
     {
         return $this->hasMany('App\CourseClassMember', 'id_member', 'id');
     }
+    
+    public function transcripts()
+    {
+        return $this->hasMany('App\MemberTranscript', 'id_member', 'id');
+    }
 
     public function filter($order_field, $order_ascdesc, $search, $search_column, $limit, $startLimit)
     {
