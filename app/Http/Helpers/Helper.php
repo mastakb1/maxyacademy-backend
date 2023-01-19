@@ -100,8 +100,9 @@ if(!function_exists('save_log')){
 		$log = new UserLog();
 		$log->id_user = Auth::user()->id;
 		$log->ip = $ip;
-		$log->keterangan = $keterangan;
+		$log->description = $keterangan;
 		$log->created_at = date('Y-m-d H:i:s', strtotime('now'));
+		$log->updated_at = date('Y-m-d H:i:s', strtotime('now'));
 		$log->save();
 	}
 }
