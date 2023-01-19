@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('messages/datatable', 'MessageController@datatable')->name('messages.datatable');
 	Route::resource('messages', MessageController::class);
+	
+	Route::get('content_carousel/datatable', 'ContentCarouselController@datatable')->name('content_carousels.datatable');
+	Route::resource('content_carousels', ContentCarouselController::class);
 
 	Route::post('members/getById', 'MemberController@getById')->name('members.getById');
 	Route::get('members/datatable', 'MemberController@datatable')->name('members.datatable');
