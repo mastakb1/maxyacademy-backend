@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Session;
                             </div>
                         </div>
                         <div class="meta">
-                            Company
+                            Partner
                         </div>
                     </div>
                 </div>
@@ -124,6 +124,22 @@ use Illuminate\Support\Facades\Session;
                         </div>
                         <div class="meta">
                             Member
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <div class="ui fluid card">
+                    <div class="content">
+                        <div class="ui right floated header" style="color: #73879C;">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <div class="header">
+                            <div class="ui header" style="color: #73879C;">{{$data['content_carousel']}}
+                            </div>
+                        </div>
+                        <div class="meta">
+                            Content Carousel
                         </div>
                     </div>
                 </div>

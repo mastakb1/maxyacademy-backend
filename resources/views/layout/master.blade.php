@@ -128,6 +128,9 @@ use Illuminate\Support\Facades\URL;
                                         @can('access', 'member_manage')
                                         <li class="s-nav"><a href="{{ route('members.index') }}">Member</a></li>
                                         @endcan
+                                        @can('access', 'm_content_carousel_manage')
+                                        <li class="s-nav"><a href="{{ route('content_carousels.index') }}">Content Carousel</a></li>
+                                        @endcan
                                     </ul>
                                 </li>
                             </ul>
