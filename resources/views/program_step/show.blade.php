@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'Member Detail')
+@section('title', 'Program Detail')
 @section('content')
 <?php
 
@@ -13,7 +13,7 @@ use Carbon\Carbon;
                     <div class="col-md-12">
                         <section class="panel">
                             <header class="panel-heading">
-                                Member Detail
+                                Program Detail
                             </header>
                             <div class="panel-body" id="toro-area">
                                 <div class="ui card" style="width: 100%;">
@@ -27,31 +27,23 @@ use Carbon\Carbon;
                                                     <b>Nama : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['member']->name }}
+                                                    {{ $data['program_step']->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
                                                 <div class="col-sm-2">
-                                                    <b>Email : </b>
+                                                    <b>Style : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['member']->email }}
+                                                    {{ $data['program_step']->style }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
                                                 <div class="col-sm-2">
-                                                    <b>Telepon : </b>
+                                                    <b>Keterangan : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['member']->phone }}
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 5px;">
-                                                <div class="col-sm-2">
-                                                    <b>Alamat : </b>
-                                                </div>
-                                                <div class="col-sm-10">
-                                                    {{ $data['member']->address }}
+                                                    <?php echo $data['program_step']->description ?>
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
@@ -59,7 +51,7 @@ use Carbon\Carbon;
                                                     <b>Status : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ $data['member']->status == 1 ? 'Aktif' : 'Tidak Aktif' }}
+                                                    {{ $data['program_step']->status == 1 ? 'Aktif' : 'Tidak Aktif' }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
@@ -67,7 +59,15 @@ use Carbon\Carbon;
                                                     <b>Created At : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ date('d-m-Y H:i:s', strtotime($data['member']->created_at)) }}
+                                                    {{ date('d-m-Y H:i:s', strtotime($data['program_step']->created_at)) }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 5px;">
+                                                <div class="col-sm-2">
+                                                    <b>Created By : </b>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    {{ $data['program_step']->user_create->name }}
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 5px;">
@@ -75,7 +75,15 @@ use Carbon\Carbon;
                                                     <b>Updated At : </b>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    {{ date('d-m-Y H:i:s', strtotime($data['member']->updated_at)) }}
+                                                    {{ date('d-m-Y H:i:s', strtotime($data['program_step']->updated_at)) }}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 5px;">
+                                                <div class="col-sm-2">
+                                                    <b>Updated By : </b>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    {{ $data['program_step']->user_update->name }}
                                                 </div>
                                             </div>
                                         </div>
@@ -83,66 +91,19 @@ use Carbon\Carbon;
                                 </div>
                                 <div class="ui card" style="width: 100%;">
                                     <div class="content">
-                                        <div class="header">Statistics</div>
-                                    </div>
-                                    <div class="content">
-                                        <div class="description">
-                                            <div class="ui one statistics">
-                                                <div class="statistic">
-                                                    <div class="value">
-                                                        {{ $data['member']->classes->count() }}
-                                                    </div>
-                                                    <div class="label">
-                                                        Total Course
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ui card" style="width: 100%;">
-                                    <div class="content">
-                                        <div class="header">Member Courses</div>
+                                        <div class="header">Button</div>
                                     </div>
                                     <div class="content">
                                         <div class="description">
                                             <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
-                                            <table id="toro-data" class=" table table-hover table-bordered convert-data-table display" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Actions</th>
-                                                        <th>ID</th>
-                                                        <th>Name</th>
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Actions</th>
-                                                        <th>ID</th>
-                                                        <th>Name</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ui card" style="width: 100%;">
-                                    <div class="content">
-                                        <div class="header">Member Education</div>
-                                    </div>
-                                    <div class="content">
-                                        <div class="description">
-                                            <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
-                                            <table id="toro-data-education" class=" table table-hover table-bordered convert-data-table display" width="100%">
+                                            <table id="toro-data-button" class=" table table-hover table-bordered convert-data-table display" width="100%">
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Name</th>
-                                                        <th>Degree</th>
-                                                        <th>Field of Study</th>
-                                                        <th>Score</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
+                                                        <th>Icon</th>
+                                                        <th>Style</th>
+                                                        <th>Url</th>
                                                         <th>Description</th>
                                                     </tr>
                                                 </thead>
@@ -150,65 +111,9 @@ use Carbon\Carbon;
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Name</th>
-                                                        <th>Degree</th>
-                                                        <th>Field of Study</th>
-                                                        <th>Score</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
-                                                        <th>Description</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ui card" style="width: 100%;">
-                                    <div class="content">
-                                        <div class="header">Member Transcripts</div>
-                                    </div>
-                                    <div class="content">
-                                        <div class="description">
-                                            <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
-                                            <table id="toro-data-transcript" class=" table table-hover table-bordered convert-data-table display" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Course Name</th>
-                                                        <th>Score</th>
-                                                        <th>Description</th>
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Course Name</th>
-                                                        <th>Score</th>
-                                                        <th>Description</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ui card" style="width: 100%;">
-                                    <div class="content">
-                                        <div class="header">Member Skills</div>
-                                    </div>
-                                    <div class="content">
-                                        <div class="description">
-                                            <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
-                                            <table id="toro-data-skill" class=" table table-hover table-bordered convert-data-table display" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Name</th>
-                                                        <th>Description</th>
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Name</th>
+                                                        <th>Icon</th>
+                                                        <th>Style</th>
+                                                        <th>Url</th>
                                                         <th>Description</th>
                                                     </tr>
                                                 </tfoot>
@@ -313,49 +218,17 @@ use Carbon\Carbon;
     }
 
     $(document).ready(function() {
-        datatable('#btnbar', '#toro-data', '#toro-data tfoot th', <?= $data['courses'] ?>, [{
-            data: {id_course: 'id_course', id_class: 'id_class'},
-            render: function(value) {
-                return "<a class='btn btn-success btn-xl' href='<?= url('courses') . '/' ?>" + btoa(value.id_course) + "/classes/" + btoa(value.id_class)  + "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
-            }
-        }, {
-            data: 'id_class'
-        }, {
-            data: 'name'
-        }]);
 
-        datatable('', '#toro-data-transcript', '#toro-data-transcript tfoot th', <?= $data['transcript'] ?>, [{
+        datatable('', '#toro-data-button', '#toro-data-button tfoot th', <?= $data['button'] ?>, [{
             data: 'id'
         }, {
             data: 'name'
         }, {
-            data: 'score'
+            data: 'icon'
         }, {
-            data: 'description'
-        }]);
-
-        datatable('', '#toro-data-skill', '#toro-data-skill tfoot th', <?= $data['skill'] ?>, [{
-            data: 'id'
+            data: 'style'
         }, {
-            data: 'name'
-        }, {
-            data: 'description'
-        }]);
-
-        datatable('', '#toro-data-education', '#toro-data-education tfoot th', <?= $data['education'] ?>, [{
-            data: 'id'
-        }, {
-            data: 'name'
-        }, {
-            data: 'degree'
-        }, {
-            data: 'field_of_study'
-        }, {
-            data: 'score'
-        }, {
-            data: 'start_date'
-        }, {
-            data: 'end_date'
+            data: 'url'
         }, {
             data: 'description'
         }]);

@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MemberTranscript extends Model
+class MemberParent extends Model
 {
-    protected $table = 'member_transcript';
+    protected $table = 'member_parent';
 
     public function member()
     {

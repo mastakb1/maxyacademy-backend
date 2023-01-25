@@ -48,6 +48,15 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('content_carousel/datatable', 'ContentCarouselController@datatable')->name('content_carousels.datatable');
 	Route::resource('content_carousels', ContentCarouselController::class);
 
+	Route::get('section/datatable', 'MSectionController@datatable')->name('sections.datatable');
+	Route::resource('sections', MSectionController::class);
+	
+	Route::get('section/datatable', 'MSectionController@datatable')->name('sections.datatable');
+	Route::resource('sections', MSectionController::class);
+
+	Route::get('program_step/datatable', 'MProgramStepController@datatable')->name('program_steps.datatable');
+	Route::resource('program_steps', MProgramStepController::class);
+
 	Route::post('members/getById', 'MemberController@getById')->name('members.getById');
 	Route::get('members/datatable', 'MemberController@datatable')->name('members.datatable');
 	Route::get('members/filter/{keyword}', 'MemberController@filter')->name('members.filter');

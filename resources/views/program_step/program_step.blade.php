@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'Company')
+@section('title', 'Program Step')
 @section('content')
 <div class="right_col" role="main">
     <div class="">
@@ -10,96 +10,81 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <?php if ($data['actions'] == 'store') echo 'Tambah';
-                                else echo 'Ubah'; ?> Company
+                                else echo 'Ubah'; ?> Program Step
                             </header>
                             <div class="panel-body" id="toro-area">
-                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('companies.store') : route('companies.update', base64_encode($data['company']->id)) }}" enctype="multipart/form-data">
+                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('program_steps.store') : route('program_steps.update', base64_encode($data['program_step']->id)) }}">
                                     @if($data['actions']=='update') @method('PUT') @endif
                                     @csrf
                                     <div class="form-group row">
-                                        <label for="logo" class="col-sm-3 col-form-label" style="font-size: 13px;">Logo</label>
-                                        <div class="col-sm-9">
-                                            <div class="main-img-preview">
-                                                <?php if (isset($data['company'])) : ?>
-                                                    <?php if ($data['company']->logo != NULL) : ?>
-                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/company/' . $data['company']->logo)}}" title="Preview Logo">
-                                                    <?php else : ?>
-                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
-                                                    <?php endif; ?>
-                                                <?php else : ?>
-                                                    <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
-                                                <?php endif; ?>
-                                            </div>
-                                            <input type="file" name="logo" id="logo" class="form-control" onchange="img_preview(this, 'preview')">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="name" class="col-sm-3 col-form-label">Nama</label>
-                                        <div class="col-sm-9">
+                                        <label for="name" class="col-sm-2 col-form-label">Nama</label>
+                                        <div class="col-sm-10">
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" data-bind="value: name" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="type" class="col-sm-3 col-form-label">Jenis</label>
-                                        <div class="col-sm-9">
-                                            <select name="type" id="type" required data-bind="value: type,valueAllowUnset: true, options: $root.availableType, 
-                                            select2: { placeholder: 'Choose Type', 
-                                                allowClear: true, theme: 'bootstrap' }">
-                                            </select>
-                                            
+                                        <label for="style" class="col-sm-2 col-form-label">Style</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="style" name="style" placeholder="Enter style" data-bind="value: style" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="address" class="col-sm-3 col-form-label">Alamat</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter address" data-bind="value: address" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="phone" class="col-sm-3 col-form-label">No Telepon</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone" data-bind="value: phone" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="email" class="col-sm-3 col-form-label">Email</label>
-                                        <div class="col-sm-9">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" data-bind="value: email" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="contact_person" class="col-sm-3 col-form-label">Narahubung</label>
-                                        <div class="col-sm-9">
-                                            <textarea class="textarea form-control" rows="8" name="contact_person" data-bind="wysiwyg: contact_person"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="url" class="col-sm-3 col-form-label">Website</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="url" name="url" placeholder="Enter Url" data-bind="value: url" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="contact_person" class="col-sm-3 col-form-label">Keterangan</label>
-                                        <div class="col-sm-9">
+                                        <label for="description" class="col-sm-2 col-form-label">Keterangan</label>
+                                        <div class="col-sm-10">
                                             <textarea class="textarea form-control" rows="8" name="description" data-bind="wysiwyg: description"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="status" class="col-sm-3 col-form-label">Status</label>
-                                        <div class="col-sm-9">
+                                        <label for="button" class="col-sm-2 col-form-label">Button</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addButton"><i class="fa fa-plus"></i> Add Button</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="buttons" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: buttons">
+                                            <div class="form-group row">
+                                                <div class="col-sm-11">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-1">
+                                                            <input type="checkbox" name="button" data-bind="checked: buttonIsChecked">
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" class="form-control" name="button_name" placeholder="Enter Button name" data-bind="value: button_name" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="button_icon" placeholder="Enter Button icon" data-bind="value: button_icon">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="button_style" placeholder="Enter Button style" data-bind="value: button_style" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="button_url" placeholder="Enter Button url" data-bind="value: button_url">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <textarea class="form-control" name="button_description" placeholder="Enter description" data-bind="value: button_description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeButton"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="status" class="col-sm-2 col-form-label">Status</label>
+                                        <div class="col-sm-10">
                                             <input type="checkbox" name="status" data-bind="checked: status"> Aktif
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="status_highlight" class="col-sm-3 col-form-label">Status Highlight</label>
-                                        <div class="col-sm-9">
-                                            <input type="checkbox" name="status_highlight" data-bind="checked: status_highlight"> Aktif
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="submit" class="col-sm-3 col-form-label"></label>
-                                        <div class="col-sm-9">
+                                        <label for="submit" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
                                             <input type="hidden" name="summary" data-bind="value: ko.toJSON($root)">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -259,42 +244,41 @@
         }
     };
 
-    function img_preview(_file, _element) {
-        var gb = _file.files;
-        for (var i = 0; i < gb.length; i++) {
-            var gbPreview = gb[i];
-            var imageType = /image.*/;
-            var preview = document.getElementById(_element);
-            var reader = new FileReader();
-            if (gbPreview.type.match(imageType)) {
-                preview.file = gbPreview;
-                reader.onload = (function(element) {
-                    return function(e) {
-                        element.src = e.target.result;
-                    };
-                })(preview);
-                reader.readAsDataURL(gbPreview);
-            } else {
-                alert("Tipe file tidak sesuai. Gambar harus bertipe .png, .gif atau .jpg.");
-            }
-        }
-    };
-
-    function CompanyViewModel() {
+    function Button(name, icon, style, url, description, isChecked) {
         var self = this;
-        self.availableType = ko.observableArray(['COMPANY', 'UNIVERSITY']);
-        self.name = ko.observable('<?php if (isset($data['company'])) echo $data['company']->name ?>');
-        self.type = ko.observable('<?php if (isset($data['company'])) echo $data['company']->type ?>');
-        self.url = ko.observable('<?php if (isset($data['company'])) echo $data['company']->url ?>');
-        self.description = ko.observable('<?php if (isset($data['company'])) echo $data['company']->description ?>');
-        self.address = ko.observable('<?php if (isset($data['company'])) echo $data['company']->address ?>');
-        self.phone = ko.observable('<?php if (isset($data['company'])) echo $data['company']->phone ?>');
-        self.email = ko.observable('<?php if (isset($data['company'])) echo $data['company']->email ?>');
-        self.contact_person = ko.observable('<?php if (isset($data['company'])) echo $data['company']->contact_person ?>');
-        self.status = ko.observable(<?= (isset($data['company'])) ? (($data['company']->status == 1) ? 'true' : 'false') : 'true' ?>);
-        self.status_highlight = ko.observable(<?= (isset($data['company'])) ? (($data['company']->status_highlight == 1) ? 'true' : 'false') : 'true' ?>);
+
+        self.button_name = ko.observable(name);
+        self.button_icon = ko.observable(icon);
+        self.button_style = ko.observable(style);
+        self.button_url = ko.observable(url);
+        self.button_description = ko.observable(description);
+        self.buttonIsChecked = ko.observable(isChecked == 1 ? true : false);
     }
 
-    ko.applyBindings(new CompanyViewModel());
+    function ProgramStepViewModel() {
+        var self = this;
+
+        self.name = ko.observable('<?php if (isset($data['program_step'])) echo $data['program_step']->name ?>');
+        self.style = ko.observable('<?php if (isset($data['program_step'])) echo $data['program_step']->style ?>');
+        self.description = ko.observable('<?php if (isset($data['program_step'])) echo $data['program_step']->description ?>');
+        self.status = ko.observable(<?= (isset($data['program_step'])) ? (($data['program_step']->status == 1) ? 'true' : 'false') : 'true' ?>);
+        self.buttons = ko.observableArray([]);
+
+        <?php if (isset($data['program_step'])) : ?>
+            <?php foreach ($data['program_step']->button_steps as $button) : ?>
+                self.buttons.push(new Button('<?= $button->name ?>', '<?= $button->icon ?>', '<?= $button->style ?>', '<?= $button->url ?>', '<?= $button->description ?>', '<?= $button->status ?>'))
+            <?php endforeach; ?>    
+        <?php endif; ?>
+
+        self.addButton = function() {
+            self.buttons.push(new Button('', '', '', '', '', false));
+        }
+
+        self.removeButton = function(button) {
+            self.buttons.remove(button);
+        }
+    }
+
+    ko.applyBindings(new ProgramStepViewModel());
 </script>
 @endsection

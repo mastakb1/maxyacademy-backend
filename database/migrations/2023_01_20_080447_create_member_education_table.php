@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMSectionTable extends Migration
+class CreateMemberEducationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreateMSectionTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_section', function (Blueprint $table) {
+        Schema::create('member_education', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('section');
+            $table->integer('id_member');
             $table->string('name');
-            $table->string('url')->nullable();
+            $table->string('degree')->nullable();
+            $table->string('fields_of_study')->nullable();
+            $table->string('score')->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
             $table->text('description')->nullable();
             $table->integer('status');
             $table->dateTime('created_at')->useCurrent();
@@ -34,7 +38,7 @@ class CreateMSectionTable extends Migration
      */
     public function down()
     {
-        Schema::table('m_section', function (Blueprint $table) {
+        Schema::table('member_education', function (Blueprint $table) {
             //
         });
     }

@@ -34,6 +34,8 @@ class Company extends Model
             ->orWhere('company.description', 'LIKE', "%{$search}%")
             ->orWhere('company.address', 'LIKE', "%{$search}%")
             ->orWhere('company.phone', 'LIKE', "%{$search}%")
+            ->orWhere('company.email', 'LIKE', "%{$search}%")
+            ->orWhere('company.contact_person', 'LIKE', "%{$search}%")
             ->orWhere('company.status', 'LIKE', "%{$search}%")
             ->orWhere('company.status_highlight', 'LIKE', "%{$search}%")
             ->orWhere('company.created_at', 'LIKE', "%{$search}%")

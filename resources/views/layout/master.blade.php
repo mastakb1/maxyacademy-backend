@@ -131,6 +131,12 @@ use Illuminate\Support\Facades\URL;
                                         @can('access', 'm_content_carousel_manage')
                                         <li class="s-nav"><a href="{{ route('content_carousels.index') }}">Content Carousel</a></li>
                                         @endcan
+                                        {{-- @can('access', 'm_content_carousel_manage') --}}
+                                        <li class="s-nav"><a href="{{ route('sections.index') }}">Section</a></li>
+                                        {{-- @endcan --}}
+                                        {{-- @can('access', 'm_content_carousel_manage') --}}
+                                        <li class="s-nav"><a href="{{ route('program_steps.index') }}">Program Step</a></li>
+                                        {{-- @endcan --}}
                                     </ul>
                                 </li>
                             </ul>

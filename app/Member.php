@@ -18,6 +18,26 @@ class Member extends Model
         return $this->hasMany('App\MemberTranscript', 'id_member', 'id');
     }
 
+    public function parents()
+    {
+        return $this->hasMany('App\MemberParent', 'id_member', 'id');
+    }
+
+    public function educations()
+    {
+        return $this->hasMany('App\MemberEducation', 'id_member', 'id');
+    }
+
+    public function skills()
+    {
+        return $this->hasMany('App\MemberSkill', 'id_member', 'id');
+    }
+
+    public function experiences()
+    {
+        return $this->hasMany('App\MemberExperience', 'id_member', 'id');
+    }   
+
     public function filter($order_field, $order_ascdesc, $search, $search_column, $limit, $startLimit)
     {
         $sql = Member::select('member.*')->orderBy($order_field, $order_ascdesc);

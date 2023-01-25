@@ -6,6 +6,9 @@ use App\City;
 use App\Point;
 use App\Member;
 use App\Province;
+use App\MemberSkill;
+use App\MemberParent;
+use App\MemberEducation;
 use App\MemberTranscript;
 use App\CourseClassMember;
 use Illuminate\Http\Request;
@@ -98,6 +101,69 @@ class MemberController extends Controller
             }
         }
 
+        foreach ($summary->parents as $parent) {
+            $member_parent = new MemberParent();
+            $member_parent->id_member = $member->id;
+            $member_parent->name = $parent->parent_name;
+            $member_parent->phone = $parent->parent_phone;
+            $member_parent->job = $parent->parent_job;
+            $member_parent->address = $parent->parent_address;
+            $member_parent->status = 1;
+            $member_parent->created_id = Auth::id();
+            $member_parent->updated_id = Auth::id();
+            $member_parent->save();
+        }
+
+        if(count($summary->skills) > 0){
+            foreach ($summary->skills as $skill) {
+                $member_skill = new MemberSkill();
+                $member_skill->id_member = $member->id;
+                $member_skill->name = $skill->skill_name;
+                $member_skill->description = $skill->skill_description;
+                $member_skill->status = $skill->skillIsChecked;
+                $member_skill->created_id = Auth::id();
+                $member_skill->updated_id = Auth::id();
+                $member_skill->save();
+            }
+        }
+
+        if(count($summary->educations) > 0){
+            foreach ($summary->educations as $education) {
+                $member_education = new MemberEducation();
+                $member_education->id_member = $member->id;
+                $member_education->name = $education->education_name;
+                $member_education->degree = $education->education_degree;
+                $member_education->fields_of_study = $education->education_field_of_study;
+                $member_education->score = $education->education_score;
+                $member_education->start_date = '2023-01-25';
+                $member_education->end_date = '2023-01-25';
+                $member_education->description = $education->education_description;
+                $member_education->status = 1;
+                $member_education->created_id = Auth::id();
+                $member_education->updated_id = Auth::id();
+                $member_education->save();
+            }
+        }
+
+        if(count($summary->experiences) > 0){
+            foreach ($summary->experiences as $experience) {
+                $member_experience = new MemberExperience();
+                $member_experience->id_member = $member->id;
+                $member_experience->name = $experience->experience_name;
+                $member_experience->job_type = $experience->experience_job_type;
+                $member_experience->company = $experience->experience_company;
+                $member_experience->industry = $experience->experience_industry;
+                $member_experience->location = $experience->experience_location;
+                $member_experience->start_date = '2023-01-25';
+                $member_experience->end_date = '2023-01-25';
+                $member_experience->description = $experience->experience_description;
+                $member_experience->status = 1;
+                $member_experience->created_id = Auth::id();
+                $member_experience->updated_id = Auth::id();
+                $member_experience->save();
+            }
+        }
+
         return redirect()->route('members.index');
     }
 
@@ -123,6 +189,8 @@ class MemberController extends Controller
             ->get();
         
         $data['transcript'] = MemberTranscript::where('id_member', $id)->get();
+        $data['skill'] = MemberSkill::where('id_member', $id)->get();
+        $data['education'] = MemberEducation::where('id_member', $id)->get();
 
         return view('member.show', compact('data'));
     }
@@ -191,7 +259,7 @@ class MemberController extends Controller
         $member->save();
 
         $delete_old_transcript = MemberTranscript::where('id_member', $id)->delete();
-
+        
         if(count($summary->transcripts) > 0){
             foreach ($summary->transcripts as $transcript) {
                 $member_transcript = new MemberTranscript();
@@ -205,6 +273,79 @@ class MemberController extends Controller
                 $member_transcript->save();
             }
         }
+        
+        $delete_old_parent = MemberParent::where('id_member', $id)->delete();
+        
+        foreach ($summary->parents as $parent) {
+            $member_parent = new MemberParent();
+            $member_parent->id_member = $member->id;
+            $member_parent->name = $parent->parent_name;
+            $member_parent->phone = $parent->parent_phone;
+            $member_parent->job = $parent->parent_job;
+            $member_parent->address = $parent->parent_address;
+            $member_parent->status = 1;
+            $member_parent->created_id = Auth::id();
+            $member_parent->updated_id = Auth::id();
+            $member_parent->save();
+        }
+
+        $delete_old_skill = MemberSkill::where('id_member', $id)->delete();
+        
+        if(count($summary->skills) > 0){
+            foreach ($summary->skills as $skill) {
+                $member_skill = new MemberSkill();
+                $member_skill->id_member = $member->id;
+                $member_skill->name = $skill->skill_name;
+                $member_skill->description = $skill->skill_description;
+                $member_skill->status = $skill->skillIsChecked;
+                $member_skill->created_id = Auth::id();
+                $member_skill->updated_id = Auth::id();
+                $member_skill->save();
+            }
+        }
+        
+        $delete_old_education = MemberEducation::where('id_member', $id)->delete();
+        
+        if(count($summary->educations) > 0){
+            foreach ($summary->educations as $education) {
+                $member_education = new MemberEducation();
+                $member_education->id_member = $member->id;
+                $member_education->name = $education->education_name;
+                $member_education->degree = $education->education_degree;
+                $member_education->fields_of_study = $education->education_field_of_study;
+                $member_education->score = $education->education_score;
+                $member_education->start_date = '2023-01-25';
+                $member_education->end_date = '2023-01-25';
+                // $member_education->end_date = $education->education_end_date;
+                $member_education->description = $education->education_description;
+                $member_education->status = 1;
+                $member_education->created_id = Auth::id();
+                $member_education->updated_id = Auth::id();
+                $member_education->save();
+            }
+        }
+        
+        $delete_old_experience = MemberExperience::where('id_member', $id)->delete();
+        
+        if(count($summary->experiences) > 0){
+            foreach ($summary->experiences as $experience) {
+                $member_experience = new MemberExperience();
+                $member_experience->id_member = $member->id;
+                $member_experience->name = $experience->experience_name;
+                $member_experience->job_type = $experience->experience_job_type;
+                $member_experience->company = $experience->experience_company;
+                $member_experience->industry = $experience->experience_industry;
+                $member_experience->location = $experience->experience_location;
+                $member_experience->start_date = '2023-01-25';
+                $member_experience->end_date = '2023-01-25';
+                $member_experience->description = $experience->experience_description;
+                $member_experience->status = 1;
+                $member_experience->created_id = Auth::id();
+                $member_experience->updated_id = Auth::id();
+                $member_experience->save();
+            }
+        }
+
 
         return redirect()->route('members.index');
     }

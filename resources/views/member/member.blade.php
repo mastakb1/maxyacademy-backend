@@ -64,7 +64,75 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="transcript" class="col-sm-2 col-form-label">Transcript</label>
+                                        <label for="parents" class="col-sm-2 col-form-label">Orang Tua</label>
+                                        <div class="col-sm-10" data-bind="foreach: parents">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" name="parent_name" data-bind="value: parent_name, attr:{ placeholder: ph_name}" required>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" name="parent_phone" data-bind="value: parent_phone, attr:{ placeholder: ph_phone}">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" name="parent_job" data-bind="value: parent_job, attr:{ placeholder: ph_job}" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" name="parent_address" data-bind="value: parent_address, attr:{ placeholder: ph_address}" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="education" class="col-sm-2 col-form-label">Pendidikan</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addEducation"><i class="fa fa-plus"></i> Add Education</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="educations" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: educations">
+                                            <div class="form-group row">
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="education" data-bind="checked: EducationIsChecked">
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="education_name" placeholder="Enter School/university" data-bind="value: education_name" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="education_degree" placeholder="Enter School/university" data-bind="value: education_degree">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control" name="education_field_of_study" placeholder="Enter Field of Study" data-bind="value: education_field_of_study">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4">
+                                                            <input type="number" class="form-control" name="education_score" placeholder="Score" data-bind="value: education_score">
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control edu_date" name="education_date" data-bind="value: education_date" autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control" id="description" name="education_description" placeholder="Enter description" data-bind="value: education_description">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeEducation"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="transcript" class="col-sm-2 col-form-label">Transkrip</label>
                                         <div class="col-sm-10">
                                             <button type="button" class="btn btn-success" data-bind="click: addTranscript"><i class="fa fa-plus"></i> Add Transcript</button>
                                         </div>
@@ -74,7 +142,7 @@
                                         <div class="col-sm-10" data-bind="foreach: transcripts">
                                             <div class="form-group row">
                                                 <div class="col-sm-1">
-                                                    <input type="checkbox" name="transcript" data-bind="checked: isChecked">
+                                                    <input type="checkbox" name="transcript" data-bind="checked: transcriptIsChecked">
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input type="text" class="form-control" id="course_name" name="course_name" placeholder="Enter Course name" data-bind="value: course_name" required>
@@ -87,6 +155,81 @@
                                                 </div>
                                                 <div class="col-sm-1">
                                                     <button type="button" class="btn btn-danger" data-bind="click: $parent.removeTranscript"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="skill" class="col-sm-2 col-form-label">Keahlian</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addSkill"><i class="fa fa-plus"></i> Add Skill</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="skills" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: skills">
+                                            <div class="form-group row">
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="skill" data-bind="checked: skillIsChecked">
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <input type="text" class="form-control" name="skill_name" placeholder="Enter Skill name" data-bind="value: skill_name" required>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <input type="text" class="form-control" name="skill_description" placeholder="Enter description" data-bind="value: skill_description">
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeSkill"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="experience" class="col-sm-2 col-form-label">Pengalaman</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addExperience"><i class="fa fa-plus"></i> Add Education</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="experiences" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: experiences">
+                                            <div class="form-group row">
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="experience" data-bind="checked: experienceIsChecked">
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="experience_name" placeholder="Enter Position" data-bind="value: experience_name" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="experience_job_type" placeholder="Enter Job Type" data-bind="value: experience_job_type" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" name="experience_company" placeholder="Enter Company" data-bind="value: experience_company" required>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" name="experience_industry" placeholder="Enter Industry" data-bind="value: experience_industry" required>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <input type="text" class="form-control" name="experience_location" placeholder="Enter Location" data-bind="value: experience_location" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control exp_date" name="experience_date" data-bind="value: experience_date" autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control" id="description" name="experience_description" placeholder="Enter description" data-bind="value: experience_description">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeExperience"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,7 +261,13 @@
 @parent
 <link href="{{ asset ('js/select2/css/select2.min.css') }}" rel="stylesheet">
 <link href="{{ asset ('js/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset ('js/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<link href="{{ asset ('css/daterangepicker/daterangepicker.css') }}" rel="stylesheet">
 
+<script src="{{ asset ('js/moment/moment.min.js') }}"></script>
+<script src="{{ asset ('js/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset ('js/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset ('js/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset ('js/knockout.js') }}"></script>
 <script src="{{ asset ('js/knockout-sortable.js') }}"></script>
@@ -289,6 +438,112 @@
         self.isChecked = ko.observable(isChecked == 1 ? true : false);
     }
 
+    function Skill(name, description, isChecked) {
+        var self = this;
+
+        self.skill_name = ko.observable(name);
+        self.skill_description = ko.observable(description);
+        self.skillIsChecked = ko.observable(isChecked == 1 ? true : false);
+    }
+
+    function Education(name, degree, field_of_study, score, start_date, end_date, description) {
+        var self = this;
+
+        self.education_name = ko.observable(name);
+        self.education_degree = ko.observable(degree);
+        self.education_field_of_study = ko.observable(field_of_study);
+        self.education_score = ko.observable(score);
+        self.education_date = ko.observable('');
+        self.education_description = ko.observable(description);
+        
+        function dateRange(element, ko, _start, _end) {
+            var start = _start != '' ? moment(_start) : moment();
+            var end = _end != '' ? moment(_end) : moment();
+
+            if (_start != '' && _end != '') {
+                ko(moment(_start).format('DD MMMM YYYY') + ' - ' + moment(_end).format('DD MMMM YYYY'));
+            }
+
+            $('.' + element).daterangepicker({
+                minDate: moment(),
+                autoUpdateInput: false,
+                timePicker: true,
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD MMMM YYYY',
+                },
+            }).on("apply.daterangepicker", function(e, picker) {
+                ko(picker.startDate.format(picker.locale.format) + ' - ' + picker.endDate.format(picker.locale.format));
+            }).on("cancel.daterangepicker", function(e, picker) {
+                ko('');
+            });
+        }
+
+        dateRange('edu_date', self.education_date, start_date, end_date);
+    }
+
+    function Experience(name, job_type, company, industry, location, start_date, end_date, description) {
+        var self = this;
+
+        self.experience_name = ko.observable(name);
+        self.experience_job_type = ko.observable(job_type);
+        self.experience_company = ko.observable(company);
+        self.experience_industry = ko.observable(industry);
+        self.experience_location = ko.observable(location);
+        self.experience_date = ko.observable('');
+        self.experience_description = ko.observable(description);
+        
+        function dateRange(element, ko, _start, _end) {
+            var start = _start != '' ? moment(_start) : moment();
+            var end = _end != '' ? moment(_end) : moment();
+
+            if (_start != '' && _end != '') {
+                ko(moment(_start).format('DD MMMM YYYY') + ' - ' + moment(_end).format('DD MMMM YYYY'));
+            }
+
+            $('.' + element).daterangepicker({
+                minDate: moment(),
+                autoUpdateInput: false,
+                timePicker: true,
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD MMMM YYYY',
+                },
+            }).on("apply.daterangepicker", function(e, picker) {
+                ko(picker.startDate.format(picker.locale.format) + ' - ' + picker.endDate.format(picker.locale.format));
+            }).on("cancel.daterangepicker", function(e, picker) {
+                ko('');
+            });
+        }
+
+        dateRange('exp_date', self.education_date, start_date, end_date);
+    }
+
+    function Parent(name, phone, job, address, index) {
+        var self = this;
+
+        var gender_parent = "Father";
+
+        if(index == 1){
+            gender_parent = "Mother";
+        }
+
+        self.parent_name = ko.observable(name);
+        self.parent_phone = ko.observable(phone);
+        self.parent_job = ko.observable(job);
+        self.parent_address = ko.observable(address);
+        
+        // Placeholder parent
+        self.ph_name = ko.observable("Enter "+gender_parent+" Name");
+        self.ph_phone = ko.observable("Enter "+gender_parent+" Phone");
+        self.ph_job = ko.observable("Enter "+gender_parent+" Job");
+        self.ph_address = ko.observable("Enter "+gender_parent+" Address");
+
+        
+    }
+
     function MemberViewModel() {
         var self = this;
 
@@ -299,19 +554,69 @@
         self.address = ko.observable('<?php if (isset($data['member'])) echo $data['member']->address ?>');
         self.status = ko.observable(<?= (isset($data['member'])) ? (($data['member']->status == 1) ? 'true' : 'false') : 'true' ?>);
         self.transcripts = ko.observableArray([]);
+        self.parents = ko.observableArray([]);
+        self.skills = ko.observableArray([]);
+        self.educations = ko.observableArray([]);
+        self.experiences = ko.observableArray([]);
 
         <?php if (isset($data['member'])) : ?>
             <?php foreach ($data['member']->transcripts as $transcript) : ?>
                 self.transcripts.push(new Transcript('<?= $transcript->name ?>', '<?= $transcript->score ?>', '<?= $transcript->description ?>', '<?= $transcript->status ?>'))
+            <?php endforeach; ?>    
+
+            <?php foreach ($data['member']->skills as $skill) : ?>
+                self.skills.push(new Skill('<?= $skill->name ?>', '<?= $skill->description ?>', '<?= $skill->status ?>'))
+            <?php endforeach; ?>   
+
+            <?php foreach ($data['member']->educations as $education) : ?>
+                self.educations.push(new Education('<?= $education->name ?>', '<?= $education->degree ?>', '<?= $education->fields_of_study ?>', '<?= $education->score ?>', '<?= $education->start_date ?>', '<?= $education->end_date ?>', '<?= $education->description ?>', '<?= $education->status ?>'))
+            <?php endforeach; ?>    
+
+            <?php foreach ($data['member']->experiences as $experience) : ?>
+                self.experiences.push(new Experience('<?= $experience->name ?>', '<?= $experience->job_type ?>', '<?= $experience->company ?>', '<?= $experience->industry ?>', '<?= $experience->location ?>', '<?= $experience->start_date ?>', '<?= $experience->end_date ?>', '<?= $experience->description ?>', '<?= $experience->status ?>'))
+            <?php endforeach; ?>    
+        <?php endif; ?>
+
+        <?php if (isset($data['member']->parents) && $data['member']->parents->count() > 0) : ?>
+            <?php foreach ($data['member']->parents as $index => $parent) : ?>
+                self.parents.push(new Parent('<?= $parent->name ?>', '<?= $parent->phone ?>', '<?= $parent->job ?>', '<?= $parent->address ?>', '<?= $index ?>'))
             <?php endforeach; ?>
+        <?php else : ?>
+            for (let index = 0; index < 2; index++) {
+                self.parents.push(new Parent('', '', '', '', index))
+            }
         <?php endif; ?>
 
         self.addTranscript = function() {
             self.transcripts.push(new Transcript('', 0, '', false));
         }
 
-        self.removeTranscript = function(benefit) {
-            self.transcripts.remove(benefit);
+        self.removeTranscript = function(transcript) {
+            self.transcripts.remove(transcript);
+        }
+
+        self.addSkill = function() {
+            self.skills.push(new Skill('', '', false));
+        }
+
+        self.removeSkill = function(skill) {
+            self.skills.remove(skill);
+        }
+
+        self.addEducation = function() {
+            self.educations.push(new Education('', '', '', '', '', '', ''));
+        }
+
+        self.removeEducation = function(education) {
+            self.educations.remove(education);
+        }
+
+        self.addExperience = function() {
+            self.experiences.push(new Experience('', '', '', '', '', '', '', '',));
+        }
+
+        self.removeExperience = function(experience) {
+            self.experiences.remove(experience);
         }
     }
 

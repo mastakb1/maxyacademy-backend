@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMSectionTable extends Migration
+class CreateMemberParentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateMSectionTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_section', function (Blueprint $table) {
+        Schema::create('member_parent', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('section');
+            $table->integer('id_member');
             $table->string('name');
-            $table->string('url')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('job');
+            $table->string('address');
             $table->text('description')->nullable();
             $table->integer('status');
             $table->dateTime('created_at')->useCurrent();
@@ -34,7 +36,7 @@ class CreateMSectionTable extends Migration
      */
     public function down()
     {
-        Schema::table('m_section', function (Blueprint $table) {
+        Schema::table('member_parent', function (Blueprint $table) {
             //
         });
     }

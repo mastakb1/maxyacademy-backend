@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'Company')
+@section('title', 'Section')
 @section('content')
 <div class="right_col" role="main">
     <div class="">
@@ -10,96 +10,45 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <?php if ($data['actions'] == 'store') echo 'Tambah';
-                                else echo 'Ubah'; ?> Company
+                                else echo 'Ubah'; ?> Section
                             </header>
                             <div class="panel-body" id="toro-area">
-                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('companies.store') : route('companies.update', base64_encode($data['company']->id)) }}" enctype="multipart/form-data">
+                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('sections.store') : route('sections.update', base64_encode($data['section']->id)) }}">
                                     @if($data['actions']=='update') @method('PUT') @endif
                                     @csrf
                                     <div class="form-group row">
-                                        <label for="logo" class="col-sm-3 col-form-label" style="font-size: 13px;">Logo</label>
-                                        <div class="col-sm-9">
-                                            <div class="main-img-preview">
-                                                <?php if (isset($data['company'])) : ?>
-                                                    <?php if ($data['company']->logo != NULL) : ?>
-                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/company/' . $data['company']->logo)}}" title="Preview Logo">
-                                                    <?php else : ?>
-                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
-                                                    <?php endif; ?>
-                                                <?php else : ?>
-                                                    <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
-                                                <?php endif; ?>
-                                            </div>
-                                            <input type="file" name="logo" id="logo" class="form-control" onchange="img_preview(this, 'preview')">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="name" class="col-sm-3 col-form-label">Nama</label>
-                                        <div class="col-sm-9">
+                                        <label for="name" class="col-sm-2 col-form-label">Nama</label>
+                                        <div class="col-sm-10">
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" data-bind="value: name" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="type" class="col-sm-3 col-form-label">Jenis</label>
-                                        <div class="col-sm-9">
-                                            <select name="type" id="type" required data-bind="value: type,valueAllowUnset: true, options: $root.availableType, 
-                                            select2: { placeholder: 'Choose Type', 
-                                                allowClear: true, theme: 'bootstrap' }">
-                                            </select>
-                                            
+                                        <label for="section" class="col-sm-2 col-form-label">Section</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="section" name="section" placeholder="Enter section" data-bind="value: section" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="address" class="col-sm-3 col-form-label">Alamat</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter address" data-bind="value: address" required>
+                                        <label for="url" class="col-sm-2 col-form-label">Url</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="url" name="url" placeholder="Enter url" data-bind="value: url">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="phone" class="col-sm-3 col-form-label">No Telepon</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone" data-bind="value: phone" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="email" class="col-sm-3 col-form-label">Email</label>
-                                        <div class="col-sm-9">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" data-bind="value: email" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="contact_person" class="col-sm-3 col-form-label">Narahubung</label>
-                                        <div class="col-sm-9">
-                                            <textarea class="textarea form-control" rows="8" name="contact_person" data-bind="wysiwyg: contact_person"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="url" class="col-sm-3 col-form-label">Website</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="url" name="url" placeholder="Enter Url" data-bind="value: url" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="contact_person" class="col-sm-3 col-form-label">Keterangan</label>
-                                        <div class="col-sm-9">
+                                        <label for="description" class="col-sm-2 col-form-label">Keterangan</label>
+                                        <div class="col-sm-10">
                                             <textarea class="textarea form-control" rows="8" name="description" data-bind="wysiwyg: description"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="status" class="col-sm-3 col-form-label">Status</label>
-                                        <div class="col-sm-9">
+                                        <label for="status" class="col-sm-2 col-form-label">Status</label>
+                                        <div class="col-sm-10">
                                             <input type="checkbox" name="status" data-bind="checked: status"> Aktif
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="status_highlight" class="col-sm-3 col-form-label">Status Highlight</label>
-                                        <div class="col-sm-9">
-                                            <input type="checkbox" name="status_highlight" data-bind="checked: status_highlight"> Aktif
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="submit" class="col-sm-3 col-form-label"></label>
-                                        <div class="col-sm-9">
+                                        <label for="submit" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
                                             <input type="hidden" name="summary" data-bind="value: ko.toJSON($root)">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -259,42 +208,16 @@
         }
     };
 
-    function img_preview(_file, _element) {
-        var gb = _file.files;
-        for (var i = 0; i < gb.length; i++) {
-            var gbPreview = gb[i];
-            var imageType = /image.*/;
-            var preview = document.getElementById(_element);
-            var reader = new FileReader();
-            if (gbPreview.type.match(imageType)) {
-                preview.file = gbPreview;
-                reader.onload = (function(element) {
-                    return function(e) {
-                        element.src = e.target.result;
-                    };
-                })(preview);
-                reader.readAsDataURL(gbPreview);
-            } else {
-                alert("Tipe file tidak sesuai. Gambar harus bertipe .png, .gif atau .jpg.");
-            }
-        }
-    };
-
-    function CompanyViewModel() {
+    function SectionViewModel() {
         var self = this;
-        self.availableType = ko.observableArray(['COMPANY', 'UNIVERSITY']);
-        self.name = ko.observable('<?php if (isset($data['company'])) echo $data['company']->name ?>');
-        self.type = ko.observable('<?php if (isset($data['company'])) echo $data['company']->type ?>');
-        self.url = ko.observable('<?php if (isset($data['company'])) echo $data['company']->url ?>');
-        self.description = ko.observable('<?php if (isset($data['company'])) echo $data['company']->description ?>');
-        self.address = ko.observable('<?php if (isset($data['company'])) echo $data['company']->address ?>');
-        self.phone = ko.observable('<?php if (isset($data['company'])) echo $data['company']->phone ?>');
-        self.email = ko.observable('<?php if (isset($data['company'])) echo $data['company']->email ?>');
-        self.contact_person = ko.observable('<?php if (isset($data['company'])) echo $data['company']->contact_person ?>');
-        self.status = ko.observable(<?= (isset($data['company'])) ? (($data['company']->status == 1) ? 'true' : 'false') : 'true' ?>);
-        self.status_highlight = ko.observable(<?= (isset($data['company'])) ? (($data['company']->status_highlight == 1) ? 'true' : 'false') : 'true' ?>);
+
+        self.name = ko.observable('<?php if (isset($data['section'])) echo $data['section']->name ?>');
+        self.section = ko.observable('<?php if (isset($data['section'])) echo $data['section']->section ?>');
+        self.url = ko.observable('<?php if (isset($data['section'])) echo $data['section']->url ?>');
+        self.description = ko.observable('<?php if (isset($data['section'])) echo $data['section']->description ?>');
+        self.status = ko.observable(<?= (isset($data['section'])) ? (($data['section']->status == 1) ? 'true' : 'false') : 'true' ?>);
     }
 
-    ko.applyBindings(new CompanyViewModel());
+    ko.applyBindings(new SectionViewModel());
 </script>
 @endsection
