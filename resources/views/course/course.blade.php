@@ -13,9 +13,26 @@
                                 else echo 'Ubah'; ?> Course
                             </header>
                             <div class="panel-body" id="toro-area">
-                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('courses.store') : route('courses.update', base64_encode($data['course']->id)) }}">
+                                <form id="toro-form" method="POST" action="{{ ($data['actions'] == 'store') ? route('courses.store') : route('courses.update', base64_encode($data['course']->id)) }}" enctype="multipart/form-data">
                                     @if($data['actions']=='update') @method('PUT') @endif
                                     @csrf
+                                    <div class="form-group row">
+                                        <label for="logo" class="col-sm-2 col-form-label" style="font-size: 13px;">Logo</label>
+                                        <div class="col-sm-10">
+                                            <div class="main-img-preview">
+                                                <?php if (isset($data['course'])) : ?>
+                                                    <?php if ($data['course']->image != NULL) : ?>
+                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/course/'.$data['course']->image)}}" title="Preview Foto">
+                                                    <?php else : ?>
+                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
+                                                    <?php endif; ?>
+                                                <?php else : ?>
+                                                    <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
+                                                <?php endif; ?>
+                                            </div>
+                                            <input type="file" name="image" id="image" class="form-control" onchange="img_preview(this, 'preview')">
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label for="name" class="col-sm-2 col-form-label">Nama</label>
                                         <div class="col-sm-10">
@@ -225,6 +242,27 @@
                 } else {
                     select2.val([newValue]);
                 }
+            }
+        }
+    };
+
+    function img_preview(_file, _element) {
+        var gb = _file.files;
+        for (var i = 0; i < gb.length; i++) {
+            var gbPreview = gb[i];
+            var imageType = /image.*/;
+            var preview = document.getElementById(_element);
+            var reader = new FileReader();
+            if (gbPreview.type.match(imageType)) {
+                preview.file = gbPreview;
+                reader.onload = (function(element) {
+                    return function(e) {
+                        element.src = e.target.result;
+                    };
+                })(preview);
+                reader.readAsDataURL(gbPreview);
+            } else {
+                alert("Tipe file tidak sesuai. Gambar harus bertipe .png, .gif atau .jpg.");
             }
         }
     };
