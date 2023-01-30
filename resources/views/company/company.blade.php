@@ -282,7 +282,7 @@
 
     function CompanyViewModel() {
         var self = this;
-        self.availableType = ko.observableArray(['COMPANY', 'UNIVERSITY']);
+        self.availableType = ko.observableArray(['COMPANY', 'UNIVERSITY', 'GOVERNMENT']);
         self.name = ko.observable('<?php if (isset($data['company'])) echo $data['company']->name ?>');
         self.type = ko.observable('<?php if (isset($data['company'])) echo $data['company']->type ?>');
         self.url = ko.observable('<?php if (isset($data['company'])) echo $data['company']->url ?>');
