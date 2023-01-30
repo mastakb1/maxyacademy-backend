@@ -9,8 +9,12 @@ use App\Province;
 use App\MemberSkill;
 use App\MemberParent;
 use App\MemberEducation;
+use App\MemberPortfolio;
+use App\MemberExperience;
 use App\MemberTranscript;
 use App\CourseClassMember;
+use App\MemberOrganization;
+use App\MemberCertification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -94,7 +98,7 @@ class MemberController extends Controller
                 $member_transcript->name = $transcript->course_name;
                 $member_transcript->score = $transcript->score;
                 $member_transcript->description = $transcript->description;
-                $member_transcript->status = $transcript->isChecked;
+                $member_transcript->status = $transcript->transcriptIsChecked;
                 $member_transcript->created_id = Auth::id();
                 $member_transcript->updated_id = Auth::id();
                 $member_transcript->save();
@@ -161,6 +165,56 @@ class MemberController extends Controller
                 $member_experience->created_id = Auth::id();
                 $member_experience->updated_id = Auth::id();
                 $member_experience->save();
+            }
+        }
+
+        if(count($summary->organizations) > 0){
+            foreach ($summary->organizations as $organization) {
+                $member_organization = new MemberOrganization();
+                $member_organization->id_member = $member->id;
+                $member_organization->name = $organization->organization_name;
+                $member_organization->position = $organization->organization_position;
+                $member_organization->start_date = '2023-01-25';
+                $member_organization->end_date = '2023-01-25';
+                $member_organization->description = $organization->organization_description;
+                $member_organization->status = 1;
+                $member_organization->created_id = Auth::id();
+                $member_organization->updated_id = Auth::id();
+                $member_organization->save();
+            }
+        }
+        
+        if(count($summary->certifications) > 0){
+            foreach ($summary->certifications as $certification) {
+                $member_certification = new MemberCertification();
+                $member_certification->id_member = $member->id;
+                $member_certification->name = $certification->certification_name;
+                $member_certification->company = $certification->certification_company;
+                $member_certification->id_credential = $certification->certification_id_credential;
+                $member_certification->url_credential = $certification->certification_url_credential;
+                $member_certification->start_date = '2023-01-25';
+                $member_certification->end_date = '2023-01-25';
+                $member_certification->description = $certification->certification_description;
+                $member_certification->status = 1;
+                $member_certification->created_id = Auth::id();
+                $member_certification->updated_id = Auth::id();
+                $member_certification->save();
+            }
+        }
+
+        if(count($summary->portfolios) > 0){
+            foreach ($summary->portfolios as $portfolio) {
+                $member_portfolio = new MemberPortfolio();
+                $member_portfolio->id_member = $member->id;
+                $member_portfolio->name = $portfolio->portfolio_name;
+                $member_portfolio->url_portfolio = $portfolio->portfolio_url_portfolio;
+                $member_portfolio->start_date = '2023-01-25';
+                $member_portfolio->end_date = '2023-01-25';
+                $member_portfolio->description = $portfolio->portfolio_description;
+                $member_portfolio->status = 1;
+                $member_portfolio->created_id = Auth::id();
+                $member_portfolio->updated_id = Auth::id();
+                $member_portfolio->save();
             }
         }
 
@@ -267,7 +321,7 @@ class MemberController extends Controller
                 $member_transcript->name = $transcript->course_name;
                 $member_transcript->score = $transcript->score;
                 $member_transcript->description = $transcript->description;
-                $member_transcript->status = $transcript->isChecked;
+                $member_transcript->status = $transcript->transcriptIsChecked;
                 $member_transcript->created_id = Auth::id();
                 $member_transcript->updated_id = Auth::id();
                 $member_transcript->save();
@@ -343,6 +397,62 @@ class MemberController extends Controller
                 $member_experience->created_id = Auth::id();
                 $member_experience->updated_id = Auth::id();
                 $member_experience->save();
+            }
+        }
+
+        $delete_old_organization = MemberOrganization::where('id_member', $id)->delete();
+
+        if(count($summary->organizations) > 0){
+            foreach ($summary->organizations as $organization) {
+                $member_organization = new MemberOrganization();
+                $member_organization->id_member = $member->id;
+                $member_organization->name = $organization->organization_name;
+                $member_organization->position = $organization->organization_position;
+                $member_organization->start_date = '2023-01-25';
+                $member_organization->end_date = '2023-01-25';
+                $member_organization->description = $organization->organization_description;
+                $member_organization->status = 1;
+                $member_organization->created_id = Auth::id();
+                $member_organization->updated_id = Auth::id();
+                $member_organization->save();
+            }
+        }
+        
+        $delete_old_certification = MemberCertification::where('id_member', $id)->delete();
+        
+        if(count($summary->certifications) > 0){
+            foreach ($summary->certifications as $certification) {
+                $member_certification = new MemberCertification();
+                $member_certification->id_member = $member->id;
+                $member_certification->name = $certification->certification_name;
+                $member_certification->company = $certification->certification_company;
+                $member_certification->id_credential = $certification->certification_id_credential;
+                $member_certification->url_credential = $certification->certification_url_credential;
+                $member_certification->start_date = '2023-01-25';
+                $member_certification->end_date = '2023-01-25';
+                $member_certification->description = $certification->certification_description;
+                $member_certification->status = 1;
+                $member_certification->created_id = Auth::id();
+                $member_certification->updated_id = Auth::id();
+                $member_certification->save();
+            }
+        }
+
+        $delete_old_portfolio = MemberPortfolio::where('id_member', $id)->delete();
+
+        if(count($summary->portfolios) > 0){
+            foreach ($summary->portfolios as $portfolio) {
+                $member_portfolio = new MemberPortfolio();
+                $member_portfolio->id_member = $member->id;
+                $member_portfolio->name = $portfolio->portfolio_name;
+                $member_portfolio->url_portfolio = $portfolio->portfolio_url_portfolio;
+                $member_portfolio->start_date = '2023-01-25';
+                $member_portfolio->end_date = '2023-01-25';
+                $member_portfolio->description = $portfolio->portfolio_description;
+                $member_portfolio->status = 1;
+                $member_portfolio->created_id = Auth::id();
+                $member_portfolio->updated_id = Auth::id();
+                $member_portfolio->save();
             }
         }
 

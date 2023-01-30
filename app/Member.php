@@ -38,6 +38,21 @@ class Member extends Model
         return $this->hasMany('App\MemberExperience', 'id_member', 'id');
     }   
 
+    public function organizations()
+    {
+        return $this->hasMany('App\MemberOrganization', 'id_member', 'id');
+    }   
+
+    public function certifications()
+    {
+        return $this->hasMany('App\MemberCertification', 'id_member', 'id');
+    }   
+
+    public function portfolios()
+    {
+        return $this->hasMany('App\MemberPortfolio', 'id_member', 'id');
+    }   
+
     public function filter($order_field, $order_ascdesc, $search, $search_column, $limit, $startLimit)
     {
         $sql = Member::select('member.*')->orderBy($order_field, $order_ascdesc);

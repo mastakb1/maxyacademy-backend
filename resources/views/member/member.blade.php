@@ -95,7 +95,7 @@
                                         <div class="col-sm-10" data-bind="foreach: educations">
                                             <div class="form-group row">
                                                 <div class="col-sm-1">
-                                                    <input type="checkbox" name="education" data-bind="checked: EducationIsChecked">
+                                                    <input type="checkbox" name="education" data-bind="checked: educationIsChecked">
                                                 </div>
                                                 <div class="col-sm-10">
                                                     <div class="form-group row">
@@ -187,7 +187,7 @@
                                     <div class="form-group row">
                                         <label for="experience" class="col-sm-2 col-form-label">Pengalaman</label>
                                         <div class="col-sm-10">
-                                            <button type="button" class="btn btn-success" data-bind="click: addExperience"><i class="fa fa-plus"></i> Add Education</button>
+                                            <button type="button" class="btn btn-success" data-bind="click: addExperience"><i class="fa fa-plus"></i> Add Experience</button>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -230,6 +230,131 @@
                                                 </div>
                                                 <div class="col-sm-1">
                                                     <button type="button" class="btn btn-danger" data-bind="click: $parent.removeExperience"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="organization" class="col-sm-2 col-form-label">Organisasi</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addOrganization"><i class="fa fa-plus"></i> Add Organization</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="organizations" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: organizations">
+                                            <div class="form-group row">                                                
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="organization" data-bind="checked: organizationIsChecked">
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="organization_name" placeholder="Enter Organization" data-bind="value: organization_name" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="organization_position" placeholder="Enter position" data-bind="value: organization_position" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control org_date" name="organization_date" data-bind="value: organization_date" autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <textarea type="text" class="form-control" name="organization_description" placeholder="Enter description" data-bind="value: organization_description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeOrganization"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="certification" class="col-sm-2 col-form-label">Sertifikasi</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addCertification"><i class="fa fa-plus"></i> Add Certification</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="certifications" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: certifications">
+                                            <div class="form-group row">                                                
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="certification" data-bind="checked: certificationIsChecked">
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="certification_name" placeholder="Enter certification name" data-bind="value: certification_name" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="certification_company" placeholder="Enter company" data-bind="value: certification_company" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="certification_id_credential" placeholder="Enter credential id" data-bind="value: certification_id_credential">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="certification_url_credential" placeholder="Enter credential url" data-bind="value: certification_url_credential">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control ctf_date" name="certification_date" data-bind="value: certification_date" autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <textarea type="text" class="form-control" name="certification_description" placeholder="Enter description" data-bind="value: certification_description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeCertification"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="portfolio" class="col-sm-2 col-form-label">Portofolio</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addPortfolio"><i class="fa fa-plus"></i> Add Portfolio</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="portfolios" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: portfolios">
+                                            <div class="form-group row">                                                
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" name="portfolio" data-bind="checked: portfolioIsChecked">
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="portfolio_name" placeholder="Enter name" data-bind="value: portfolio_name" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="portfolio_url_portfolio" placeholder="Enter url portfolio" data-bind="value: portfolio_url_portfolio" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control org_date" name="portfolio_date" data-bind="value: portfolio_date" autocomplete="off" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <textarea type="text" class="form-control" name="portfolio_description" placeholder="Enter description" data-bind="value: portfolio_description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removePortfolio"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -435,7 +560,7 @@
         self.course_name = ko.observable(name);
         self.score = ko.observable(score);
         self.description = ko.observable(description);
-        self.isChecked = ko.observable(isChecked == 1 ? true : false);
+        self.transcriptIsChecked = ko.observable(isChecked == 1 ? true : false);
     }
 
     function Skill(name, description, isChecked) {
@@ -446,7 +571,7 @@
         self.skillIsChecked = ko.observable(isChecked == 1 ? true : false);
     }
 
-    function Education(name, degree, field_of_study, score, start_date, end_date, description) {
+    function Education(name, degree, field_of_study, score, start_date, end_date, description, isChecked) {
         var self = this;
 
         self.education_name = ko.observable(name);
@@ -455,7 +580,8 @@
         self.education_score = ko.observable(score);
         self.education_date = ko.observable('');
         self.education_description = ko.observable(description);
-        
+        self.educationIsChecked = ko.observable(isChecked == 1 ? true : false);
+
         function dateRange(element, ko, _start, _end) {
             var start = _start != '' ? moment(_start) : moment();
             var end = _end != '' ? moment(_end) : moment();
@@ -483,7 +609,7 @@
         dateRange('edu_date', self.education_date, start_date, end_date);
     }
 
-    function Experience(name, job_type, company, industry, location, start_date, end_date, description) {
+    function Experience(name, job_type, company, industry, location, start_date, end_date, description, isChecked) {
         var self = this;
 
         self.experience_name = ko.observable(name);
@@ -493,6 +619,7 @@
         self.experience_location = ko.observable(location);
         self.experience_date = ko.observable('');
         self.experience_description = ko.observable(description);
+        self.experienceIsChecked = ko.observable(isChecked == 1 ? true : false);
         
         function dateRange(element, ko, _start, _end) {
             var start = _start != '' ? moment(_start) : moment();
@@ -518,7 +645,117 @@
             });
         }
 
-        dateRange('exp_date', self.education_date, start_date, end_date);
+        dateRange('exp_date', self.experience_date, start_date, end_date);
+    }
+
+    function Organization(name, position, start_date, end_date, description, isChecked) {
+        var self = this;
+
+        self.organization_name = ko.observable(name);
+        self.organization_position = ko.observable(position);
+        self.organization_date = ko.observable('');
+        self.organization_description = ko.observable(description);
+        self.organizationIsChecked = ko.observable(isChecked == 1 ? true : false);
+
+        function dateRange(element, ko, _start, _end) {
+            var start = _start != '' ? moment(_start) : moment();
+            var end = _end != '' ? moment(_end) : moment();
+
+            if (_start != '' && _end != '') {
+                ko(moment(_start).format('DD MMMM YYYY') + ' - ' + moment(_end).format('DD MMMM YYYY'));
+            }
+
+            $('.' + element).daterangepicker({
+                minDate: moment(),
+                autoUpdateInput: false,
+                timePicker: true,
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD MMMM YYYY',
+                },
+            }).on("apply.daterangepicker", function(e, picker) {
+                ko(picker.startDate.format(picker.locale.format) + ' - ' + picker.endDate.format(picker.locale.format));
+            }).on("cancel.daterangepicker", function(e, picker) {
+                ko('');
+            });
+        }
+
+        dateRange('org_date', self.organization_date, start_date, end_date);
+    }
+
+    function Certification(name, company, id_credential, url_credential, start_date, end_date, description, isChecked) {
+        var self = this;
+
+        self.certification_name = ko.observable(name);
+        self.certification_company = ko.observable(company);
+        self.certification_id_credential = ko.observable(id_credential);
+        self.certification_url_credential = ko.observable(url_credential);
+        self.certification_date = ko.observable('');
+        self.certification_description = ko.observable(description);
+        self.certificationIsChecked = ko.observable(isChecked == 1 ? true : false);
+
+        function dateRange(element, ko, _start, _end) {
+            var start = _start != '' ? moment(_start) : moment();
+            var end = _end != '' ? moment(_end) : moment();
+
+            if (_start != '' && _end != '') {
+                ko(moment(_start).format('DD MMMM YYYY') + ' - ' + moment(_end).format('DD MMMM YYYY'));
+            }
+
+            $('.' + element).daterangepicker({
+                minDate: moment(),
+                autoUpdateInput: false,
+                timePicker: true,
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD MMMM YYYY',
+                },
+            }).on("apply.daterangepicker", function(e, picker) {
+                ko(picker.startDate.format(picker.locale.format) + ' - ' + picker.endDate.format(picker.locale.format));
+            }).on("cancel.daterangepicker", function(e, picker) {
+                ko('');
+            });
+        }
+
+        dateRange('ctf_date', self.certification_date, start_date, end_date);
+    }
+
+    function Portfolio(name, url_portfolio, start_date, end_date, description, isChecked) {
+        var self = this;
+
+        self.portfolio_name = ko.observable(name);
+        self.portfolio_url_portfolio = ko.observable(url_portfolio);
+        self.portfolio_date = ko.observable('');
+        self.portfolio_description = ko.observable(description);
+        self.portfolioIsChecked = ko.observable(isChecked == 1 ? true : false);
+
+        function dateRange(element, ko, _start, _end) {
+            var start = _start != '' ? moment(_start) : moment();
+            var end = _end != '' ? moment(_end) : moment();
+
+            if (_start != '' && _end != '') {
+                ko(moment(_start).format('DD MMMM YYYY') + ' - ' + moment(_end).format('DD MMMM YYYY'));
+            }
+
+            $('.' + element).daterangepicker({
+                minDate: moment(),
+                autoUpdateInput: false,
+                timePicker: true,
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD MMMM YYYY',
+                },
+            }).on("apply.daterangepicker", function(e, picker) {
+                ko(picker.startDate.format(picker.locale.format) + ' - ' + picker.endDate.format(picker.locale.format));
+            }).on("cancel.daterangepicker", function(e, picker) {
+                ko('');
+            });
+        }
+
+        dateRange('prt_date', self.portfolio_date, start_date, end_date);
     }
 
     function Parent(name, phone, job, address, index) {
@@ -558,6 +795,9 @@
         self.skills = ko.observableArray([]);
         self.educations = ko.observableArray([]);
         self.experiences = ko.observableArray([]);
+        self.organizations = ko.observableArray([]);
+        self.certifications = ko.observableArray([]);
+        self.portfolios = ko.observableArray([]);
 
         <?php if (isset($data['member'])) : ?>
             <?php foreach ($data['member']->transcripts as $transcript) : ?>
@@ -575,6 +815,18 @@
             <?php foreach ($data['member']->experiences as $experience) : ?>
                 self.experiences.push(new Experience('<?= $experience->name ?>', '<?= $experience->job_type ?>', '<?= $experience->company ?>', '<?= $experience->industry ?>', '<?= $experience->location ?>', '<?= $experience->start_date ?>', '<?= $experience->end_date ?>', '<?= $experience->description ?>', '<?= $experience->status ?>'))
             <?php endforeach; ?>    
+
+            <?php foreach ($data['member']->organizations as $organization) : ?>
+                self.organizations.push(new Organization('<?= $organization->name ?>', '<?= $organization->position ?>', '<?= $organization->start_date ?>', '<?= $organization->end_date ?>', '<?= $organization->description ?>', '<?= $organization->status ?>'))
+            <?php endforeach; ?>    
+
+            <?php foreach ($data['member']->certifications as $certification) : ?>
+                self.certifications.push(new Certification('<?= $certification->name ?>', '<?= $certification->company ?>', '<?= $certification->id_credential ?>', '<?= $certification->url_credential ?>', '<?= $certification->start_date ?>', '<?= $certification->end_date ?>', '<?= $certification->description ?>', '<?= $certification->status ?>'))
+            <?php endforeach; ?>    
+
+            <?php foreach ($data['member']->portfolios as $portfolio) : ?>
+                self.portfolios.push(new Portfolio('<?= $portfolio->name ?>', '<?= $portfolio->url_portfolio ?>', '<?= $portfolio->start_date ?>', '<?= $portfolio->end_date ?>', '<?= $portfolio->description ?>', '<?= $portfolio->status ?>'))
+            <?php endforeach; ?>
         <?php endif; ?>
 
         <?php if (isset($data['member']->parents) && $data['member']->parents->count() > 0) : ?>
@@ -618,6 +870,31 @@
         self.removeExperience = function(experience) {
             self.experiences.remove(experience);
         }
+
+        self.addOrganization = function() {
+            self.organizations.push(new Organization('', '', '', '', '',));
+        }
+
+        self.removeOrganization = function(organization) {
+            self.organizations.remove(organization);
+        }
+        
+        self.addCertification = function() {
+            self.certifications.push(new Certification('', '', '', '', '', '', '',));
+        }
+
+        self.removeCertification = function(certification) {
+            self.certifications.remove(certification);
+        }
+
+        self.addPortfolio = function() {
+            self.portfolios.push(new Portfolio('', '', '', '', '',));
+        }
+
+        self.removePortfolio = function(portfolio) {
+            self.portfolios.remove(portfolio);
+        }
+
     }
 
     ko.applyBindings(new MemberViewModel());
