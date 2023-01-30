@@ -32,6 +32,23 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="logo" class="col-sm-2 col-form-label" style="font-size: 13px;">Icon</label>
+                                        <div class="col-sm-10">
+                                            <div class="main-img-preview">
+                                                <?php if (isset($data['icon'])) : ?>
+                                                    <?php if ($data['icon']->value != '') : ?>
+                                                        <img id="preview_icon" name="preview_icon" class="thumbnail img-preview" src="{{asset($data['icon']->value)}}" title="Preview Foto">
+                                                    <?php else : ?>
+                                                        <img id="preview_icon" name="preview_icon" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
+                                                    <?php endif; ?>
+                                                <?php else : ?>
+                                                    <img id="preview_icon" name="preview_icon" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
+                                                <?php endif; ?>
+                                            </div>
+                                            <input type="file" name="icon" id="icon" class="form-control" onchange="img_preview(this, 'preview_icon')">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Nama Lengkap / Singkat</label>
                                         <div class="col-sm-10">
                                             <div class="col-sm-6" style="padding-left: 0px;">
