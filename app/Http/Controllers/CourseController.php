@@ -10,6 +10,8 @@ use App\MDifficultyType;
 use App\MTutor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
 class CourseController extends Controller
@@ -68,6 +70,15 @@ class CourseController extends Controller
 
         $course = new Course();
         $course->name = $summary->name;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = md5($summary->name . strtotime('now')) . '.' . $file->getClientOriginalExtension();
+            $path = 'uploads/course/';
+            $file->move($path, $filename);
+            $course->image = $filename;
+        }
+        
         $course->slug = $summary->slug;
         $course->description = $summary->description;
         $course->status = $summary->status;
@@ -75,6 +86,8 @@ class CourseController extends Controller
         $course->id_m_difficulty_type = $summary->id_m_difficulty_type;
         $course->created_id = Auth::id();
         $course->updated_id = Auth::id();
+
+
         $course->save();
 
 
@@ -145,6 +158,20 @@ class CourseController extends Controller
 
         $course = Course::find($id);
         $course->name = $summary->name;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = md5($summary->name . strtotime('now')) . '.' . $file->getClientOriginalExtension();
+            $path = 'uploads/course/';
+
+            if (File::exists($path . $course->image) && $course->image != '') {
+                unlink($path . $course->image);
+            }
+
+            $file->move($path, $filename);
+            $course->image = $filename;
+        }
+
         $course->slug = $summary->slug;
         $course->description = $summary->description;
         $course->status = $summary->status;

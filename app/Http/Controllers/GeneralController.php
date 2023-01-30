@@ -39,6 +39,8 @@ class GeneralController extends Controller
         $data['facebook'] = General::where('name', 'facebook')->first();
         $data['instagram'] = General::where('name', 'instagram')->first();
         $data['twitter'] = General::where('name', 'twitter')->first();
+        // $data['pesan_wa'] = General::where('name', 'pesan_wa')->first();
+        $data['icon'] = General::where('name', 'icon')->first();
 
         return view('general.index', compact('data'));
     }
@@ -100,11 +102,39 @@ class GeneralController extends Controller
             } else {
                 $file = $request->file('logo');
                 $filename = strtotime('now') . '.' . $file->getClientOriginalExtension();
-                $path = 'uploads/logo/';
+                $path = 'uploads/general/';
                 $file->move($path, $filename);
 
                 $general = new General();
                 $general->name = 'logo';
+                $general->value = $path . $filename;
+                $general->save();
+            }
+        }
+
+        if ($request->hasFile('icon')) {
+            $general = General::where('name', 'icon')->first();
+            if ($general != null) {
+                $file = $request->file('icon');
+                $filename = md5(strtotime('now')) . '.' . $file->getClientOriginalExtension();
+                $path = 'uploads/general/';
+
+                if (File::exists($path . $general->value)) {
+                    unlink($path . $general->value);
+                }
+
+                $file->move($path, $filename);
+
+                $general->value = $path . $filename;
+                $general->save();
+            } else {
+                $file = $request->file('icon');
+                $filename = strtotime('now') . '.' . $file->getClientOriginalExtension();
+                $path = 'uploads/general/';
+                $file->move($path, $filename);
+
+                $general = new General();
+                $general->name = 'icon';
                 $general->value = $path . $filename;
                 $general->save();
             }
