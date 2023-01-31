@@ -45,17 +45,17 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('messages/datatable', 'MessageController@datatable')->name('messages.datatable');
 	Route::resource('messages', MessageController::class);
 	
-	Route::get('content_carousel/datatable', 'ContentCarouselController@datatable')->name('content_carousels.datatable');
+	Route::get('content_carousels/datatable', 'ContentCarouselController@datatable')->name('content_carousels.datatable');
 	Route::resource('content_carousels', ContentCarouselController::class);
 
-	Route::get('section/datatable', 'MSectionController@datatable')->name('sections.datatable');
-	Route::resource('sections', MSectionController::class);
-	
-	Route::get('section/datatable', 'MSectionController@datatable')->name('sections.datatable');
+	Route::get('sections/datatable', 'MSectionController@datatable')->name('sections.datatable');
 	Route::resource('sections', MSectionController::class);
 
-	Route::get('program_step/datatable', 'MProgramStepController@datatable')->name('program_steps.datatable');
+	Route::get('program_steps/datatable', 'MProgramStepController@datatable')->name('program_steps.datatable');
 	Route::resource('program_steps', MProgramStepController::class);
+	
+	Route::get('faqs/datatable', 'MFaqController@datatable')->name('faqs.datatable');
+	Route::resource('faqs', MFaqController::class);
 
 	Route::post('members/getById', 'MemberController@getById')->name('members.getById');
 	Route::get('members/datatable', 'MemberController@datatable')->name('members.datatable');
