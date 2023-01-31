@@ -52,21 +52,51 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="button" class="col-sm-2 col-form-label">Button</label>
+                                        <div class="col-sm-10">
+                                            <button type="button" class="btn btn-success" data-bind="click: addButton"><i class="fa fa-plus"></i> Add Button</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="buttons" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10" data-bind="foreach: buttons">
+                                            <div class="form-group row">
+                                                <div class="col-sm-11">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-1">
+                                                            <input type="checkbox" name="button" data-bind="checked: buttonIsChecked">
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" class="form-control" name="button_name" placeholder="Enter Button name" data-bind="value: button_name" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="button_icon" placeholder="Enter Button icon" data-bind="value: button_icon">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="button_style" placeholder="Enter Button style" data-bind="value: button_style">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control" name="button_url" placeholder="Enter Button url" data-bind="value: button_url">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <textarea class="form-control" name="button_description" placeholder="Enter description" data-bind="value: button_description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-danger" data-bind="click: $parent.removeButton"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="status" class="col-sm-3 col-form-label">Status</label>
                                         <div class="col-sm-9">
                                             <input type="checkbox" name="status" data-bind="checked: status"> Aktif
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="status_button" class="col-sm-3 col-form-label">Status Button</label>
-                                        <div class="col-sm-9">
-                                            <input type="checkbox" name="status_button" data-bind="checked: status_button"> Aktif
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="url_button" class="col-sm-3 col-form-label">Url Button</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="url_button" name="url_button" placeholder="Enter url button" data-bind="value: url_button" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -252,14 +282,38 @@
         }
     };
 
+    function Button(name, icon, style, url, description, isChecked) {
+        var self = this;
+
+        self.button_name = ko.observable(name);
+        self.button_icon = ko.observable(icon);
+        self.button_style = ko.observable(style);
+        self.button_url = ko.observable(url);
+        self.button_description = ko.observable(description);
+        self.buttonIsChecked = ko.observable(isChecked == 1 ? true : false);
+    }
+
     function ContentCarouselViewModel() {
         var self = this;
         self.name = ko.observable('<?php if (isset($data['content_carousel'])) echo $data['content_carousel']->name ?>');
         self.description = ko.observable('<?php if (isset($data['content_carousel'])) echo $data['content_carousel']->description ?>');
         self.content = ko.observable('<?php if (isset($data['content_carousel'])) echo $data['content_carousel']->content ?>');
-        self.status = ko.observable(<?= (isset($data['content_carousel'])) ? (($data['content_carousel']->status == 1) ? 'true' : 'false') : 'true' ?>);
-        self.status_button = ko.observable(<?= (isset($data['content_carousel'])) ? (($data['content_carousel']->status_button == 1) ? 'true' : 'false') : 'true' ?>);
-        self.url_button = ko.observable('<?php if (isset($data['content_carousel'])) echo $data['content_carousel']->url ?>');
+        self.status = ko.observable(<?= (isset($data['content_carousel'])) ? (($data['content_carousel']->status == 1) ? 'true' : 'false') : 'true' ?>);        
+        self.buttons = ko.observableArray([]);
+
+        <?php if (isset($data['content_carousel'])) : ?>
+            <?php foreach ($data['content_carousel']->buttons as $button) : ?>
+                self.buttons.push(new Button('<?= $button->name ?>', '<?= $button->icon ?>', '<?= $button->style ?>', '<?= $button->url ?>', '<?= $button->description ?>', '<?= $button->status ?>'))
+            <?php endforeach; ?>    
+        <?php endif; ?>
+
+        self.addButton = function() {
+            self.buttons.push(new Button('', '', '', '', '', false));
+        }
+
+        self.removeButton = function(button) {
+            self.buttons.remove(button);
+        }
     }
 
     ko.applyBindings(new ContentCarouselViewModel());

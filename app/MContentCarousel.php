@@ -18,6 +18,11 @@ class MContentCarousel extends Model
         return $this->belongsTo('App\User', 'updated_id', 'id');
     }
 
+    public function buttons()
+    {
+        return $this->hasMany('App\MContentCarouselButton', 'id_content_carousel', 'id');
+    }
+
     public function filter($order_field, $order_ascdesc, $search, $search_column, $limit, $startLimit)
     {
         $sql = McontentCarousel::select('m_content_carousel.*', 'user_create.name as user_create_name', 'user_update.name as user_update_name')

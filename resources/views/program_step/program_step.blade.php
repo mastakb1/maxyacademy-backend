@@ -58,7 +58,7 @@
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-sm-6">
-                                                            <input type="text" class="form-control" name="button_style" placeholder="Enter Button style" data-bind="value: button_style" required>
+                                                            <input type="text" class="form-control" name="button_style" placeholder="Enter Button style" data-bind="value: button_style">
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <input type="text" class="form-control" name="button_url" placeholder="Enter Button url" data-bind="value: button_url">

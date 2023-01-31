@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMButtonStepTable extends Migration
+class CreateMContentCarouselButton extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateMButtonStepTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_button_step', function (Blueprint $table) {
+        Schema::create('m_content_carousel_button', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_program_step');
+            $table->integer('id_content_carousel');
             $table->string('name');
             $table->text('icon')->nullable();
             $table->text('style')->nullable();
@@ -36,7 +36,7 @@ class CreateMButtonStepTable extends Migration
      */
     public function down()
     {
-        Schema::table('m_button_step', function (Blueprint $table) {
+        Schema::table('m_content_carousel_button', function (Blueprint $table) {
             //
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\MContentCarousel;
 use Illuminate\Http\Request;
+use App\MContentCarouselButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -66,8 +67,6 @@ class ContentCarouselController extends Controller
         $content_carousel->content = $summary->content; 
         $content_carousel->description = $summary->description; 
         $content_carousel->status = $summary->status; 
-        $content_carousel->status_button = $summary->status_button; 
-        $content_carousel->url = $summary->url_button; 
         $content_carousel->created_id = Auth::id(); 
         $content_carousel->updated_id = Auth::id(); 
 
@@ -81,6 +80,22 @@ class ContentCarouselController extends Controller
         }
 
         $content_carousel->save();
+
+        if(count($summary->buttons) > 0){
+            foreach ($summary->buttons as $button) {
+                $carousel_button = new MContentCarouselButton();
+                $carousel_button->id_content_carousel = $content_carousel->id;
+                $carousel_button->name = $button->button_name;
+                $carousel_button->icon = $button->button_icon;
+                $carousel_button->style = $button->button_style;
+                $carousel_button->url = $button->button_url;
+                $carousel_button->description = $button->button_description;
+                $carousel_button->status = $button->buttonIsChecked;
+                $carousel_button->created_id = Auth::id();
+                $carousel_button->updated_id = Auth::id();
+                $carousel_button->save();
+            }
+        }
 
         return redirect()->route('content_carousels.index');
 
@@ -144,7 +159,6 @@ class ContentCarouselController extends Controller
         $content_carousel->content = $summary->content;
         $content_carousel->description = $summary->description;
         $content_carousel->status = $summary->status;
-        $content_carousel->status_button = $summary->status_button;
         $content_carousel->updated_id = Auth::id();
         
         if ($request->hasFile('image')) {
@@ -160,6 +174,24 @@ class ContentCarouselController extends Controller
             $content_carousel->image = $filename;
         }
         $content_carousel->save();
+
+        $delete_old_button = MContentCarouselButton::where('id_content_carousel', $id)->delete();
+
+        if(count($summary->buttons) > 0){
+            foreach ($summary->buttons as $button) {
+                $carousel_button = new MContentCarouselButton();
+                $carousel_button->id_content_carousel = $id;
+                $carousel_button->name = $button->button_name;
+                $carousel_button->icon = $button->button_icon;
+                $carousel_button->style = $button->button_style;
+                $carousel_button->url = $button->button_url;
+                $carousel_button->description = $button->button_description;
+                $carousel_button->status = $button->buttonIsChecked;
+                $carousel_button->created_id = Auth::id();
+                $carousel_button->updated_id = Auth::id();
+                $carousel_button->save();
+            }
+        }
 
         return redirect()->route('content_carousels.index');
     }
