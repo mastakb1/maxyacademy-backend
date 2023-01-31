@@ -152,7 +152,7 @@ class ContentCarouselController extends Controller
             $filename = md5($summary->name . strtotime('now')) . '.' . $file->getClientOriginalExtension();
             $path = 'uploads/carousel/';
 
-            if(File::exists($path . $content_carousel->image)){
+            if(File::exists($path . $content_carousel->image) && $content_carousel->image != ''){
                 unlink($path . $content_carousel->image);
             }
            
