@@ -31,9 +31,9 @@
                                     <div class="form-group row">
                                         <label for="access_master" class="col-sm-2 col-form-label">Access Master</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="access_masters" name="access_masters[]" required data-bind="selectedOptions: access_masters,valueAllowUnset: true, options: $root.availableAccessMaster, 
+                                            <select class="form-control" id="access_masters" name="access_masters" required data-bind="selectedOptions: access_masters,valueAllowUnset: true, options: $root.availableAccessMaster, 
                                             optionsText: 'name', optionsValue: 'id', select2: { placeholder: 'Choose Access Master', 
-                                                allowClear: true, theme: 'bootstrap' }" multiple="multiple">
+                                                allowClear: true, theme: 'bootstrap' }" multiple>
                                             </select>
                                         </div>
                                     </div>
@@ -206,7 +206,7 @@
 
         self.name = ko.observable('<?php if (isset($data['access_group'])) echo $data['access_group']->name ?>');
         self.description = ko.observable('<?php if (isset($data['access_group'])) echo $data['access_group']->description ?>');
-        self.access_masters = ko.observableArray(<?php if(isset($data['access_group'])) echo $data['access_group']->access_masters ?>);
+        self.access_masters = ko.observableArray(<?php if(isset($data['access_group'])) echo $data['access_group']->access_masters->pluck('id') ?>);
     }
 
     ko.applyBindings(new SubjectViewModel());
