@@ -59,7 +59,7 @@ class Member extends Model
 
         if ($search != '' && $search != NULL) {
             $sql->where('member.id', 'LIKE', "%{$search}%")
-            ->orWhere('member.nama', 'LIKE', "%{$search}%")
+            ->orWhere('member.name', 'LIKE', "%{$search}%")
             ->orWhere('member.email', 'LIKE', "%{$search}%")
             ->orWhere('member.status', 'LIKE', "%{$search}%")
             ->orWhere('member.created_at', 'LIKE', "%{$search}%")
@@ -69,8 +69,8 @@ class Member extends Model
         if ($search_column['id'] != '' && $search_column['id'] != NULL) {
             $sql->where('member.id', 'LIKE', "%{$search_column['id']}%");
         }
-        if ($search_column['nama'] != '' && $search_column['nama'] != NULL) {
-            $sql->where('member.nama', 'LIKE', "%{$search_column['nama']}%");
+        if ($search_column['name'] != '' && $search_column['name'] != NULL) {
+            $sql->where('member.name', 'LIKE', "%{$search_column['name']}%");
         }
         if ($search_column['email'] != '' && $search_column['email'] != NULL) {
             $sql->where('member.email', 'LIKE', "%{$search_column['email']}%");
