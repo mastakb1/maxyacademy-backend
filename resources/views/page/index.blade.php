@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'Section')
+@section('title', 'Page')
 @section('content')
 <?php
 
@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Session;
                     <div class="col-md-12">
                         <section class="panel">
                             <header class="panel-heading">
-                                Daftar Section
+                                Daftar Page 
                             </header>
                             <div class="panel-body" id="toro-area">
-                                @can('access','m_section_create')
-                                <a class="btn btn-info" href="{{ route('sections.create') }}">Tambah Section</a>
+                                @can('access','m_page_create')
+                                <a class="btn btn-info" href="{{ route('pages.create') }}">Tambah Page</a>
                                 @endcan
                                 <div id="btnbar" style="float: right; margin-bottom: 10px"></div>
                                 <table id="toro-data" class=" table table-hover table-bordered convert-data-table display" width="100%">
@@ -26,10 +26,13 @@ use Illuminate\Support\Facades\Session;
                                         <tr>
                                             <th>Actions</th>
                                             <th>ID</th>
-                                            <th>Section</th>
                                             <th>Nama</th>
-                                            <th>Url</th>
-                                            <th>Keterangan</th>
+                                            <th>Jenis</th>
+                                            <th>Heading</th>
+                                            <th>Judul</th>
+                                            <th>Slug</th>
+                                            <th>Meta Keyword</th>
+                                            <th>Meta Description</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Created By</th>
@@ -41,10 +44,13 @@ use Illuminate\Support\Facades\Session;
                                         <tr>
                                             <th>Actions</th>
                                             <th>ID</th>
-                                            <th>Section</th>
                                             <th>Nama</th>
-                                            <th>Url</th>
-                                            <th>Keterangan</th>
+                                            <th>Jenis</th>
+                                            <th>Heading</th>
+                                            <th>Judul</th>
+                                            <th>Slug</th>
+                                            <th>Meta Keyword</th>
+                                            <th>Meta Description</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Created By</th>
@@ -115,7 +121,7 @@ use Illuminate\Support\Facades\Session;
                 [0, 'asc']
             ],
             "ajax": {
-                "url": "{{ route('sections.datatable') }}",
+                "url": "{{ route('pages.datatable') }}",
                 "type": "GET",
             },
             "deferRender": true,

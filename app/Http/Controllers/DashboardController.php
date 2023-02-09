@@ -7,7 +7,7 @@ use App\AccessMaster;
 use App\Company;
 use App\Course;
 use App\MContentCarousel;
-use App\MSection;
+use App\MPage;
 use App\MProgramStep;
 use App\CourseModule;
 use App\CoursePrice;
@@ -25,7 +25,7 @@ class DashboardController extends Controller
     public function index()
     {
         $data['company'] = Company::where('status', 1)->count();
-        $data['section'] = MSection::where('status', 1)->count();
+        $data['section'] = MPage::where('status', 1)->count();
         $data['program_step'] = MProgramStep::where('status', 1)->count();
         $data['course'] = Course::where('status', 1)->count();
         $data['difficulty'] = MDifficultyType::where('status', 1)->count();
