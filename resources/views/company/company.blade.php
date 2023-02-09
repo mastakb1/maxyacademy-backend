@@ -42,7 +42,7 @@
                                     <div class="form-group row">
                                         <label for="type" class="col-sm-3 col-form-label">Jenis</label>
                                         <div class="col-sm-9">
-                                            <select name="type" id="type" required data-bind="value: type,valueAllowUnset: true, options: $root.availableType, 
+                                            <select class="form-control" name="type" id="type" required data-bind="value: type,valueAllowUnset: true, options: $root.availableType, 
                                             select2: { placeholder: 'Choose Type', 
                                                 allowClear: true, theme: 'bootstrap' }">
                                             </select>
