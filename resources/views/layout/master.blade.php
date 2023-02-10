@@ -97,46 +97,46 @@ use Illuminate\Support\Facades\URL;
                                     <a href="{{ url('dashboard') }}"><i class="fa fa-home"></i> Dashboard</span></a>
                                 </li>
                             </ul>
-                            @if(strpos(Session::get('user_access'), 'm_bank_manage') !== false || strpos(Session::get('user_access'), 'm_bank_account_manage') !== false || strpos(Session::get('user_access'), 'm_course_type_manage') !== false || strpos(Session::get('user_access'), 'm_difficulty_type_manage') !== false || strpos(Session::get('user_access'), 'm_major_manage') !== false || strpos(Session::get('user_access'), 'm_payment_type_manage') !== false || strpos(Session::get('user_access'), 'company_manage') !== false || strpos(Session::get('user_access'), 'message_manage') !== false || strpos(Session::get('user_access'), 'member_manage') !== false || strpos(Session::get('user_access'), 'm_tutor_manage') !== false)
+                            @if(strpos(Session::get('user_access'), 'm_bank_manage') !== false || strpos(Session::get('user_access'), 'm_bank_account_manage') !== false || strpos(Session::get('user_access'), 'm_course_type_manage') !== false || strpos(Session::get('user_access'), 'm_difficulty_type_manage') !== false || strpos(Session::get('user_access'), 'm_major_manage') !== false || strpos(Session::get('user_access'), 'm_payment_type_manage') !== false || strpos(Session::get('user_access'), 'company_manage') !== false || strpos(Session::get('user_access'), 'message_manage') !== false || strpos(Session::get('user_access'), 'member_manage') !== false || strpos(Session::get('user_access'), 'm_tutor_manage') !== false || strpos(Session::get('user_access'), 'm_page_manage') !== false)
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-asterisk"></i> Master <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
+                                <li class="{{ request()->is('banks*') || request()->is('bank_accounts*') || request()->is('payment_types*') || request()->is('course_types*') || request()->is('difficulty_types*') || request()->is('tutors*') || request()->is('companies*') || request()->is('messages*') || request()->is('members*') || request()->is('pages*') ? 'active' : '' }}"><a><i class="fa fa-asterisk"></i> Master <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="{{ request()->is('banks*') || request()->is('bank_accounts*') || request()->is('payment_types*') || request()->is('course_types*') || request()->is('difficulty_types*') || request()->is('tutors*') || request()->is('companies*') || request()->is('messages*') || request()->is('members*') || request()->is('pages*') ? 'display:block;' : '' }}">
                                         @can('access', 'm_bank_manage')
-                                        <li class="s-nav"><a href="{{ route('banks.index') }}">Bank</a></li>
+                                        <li class="s-nav {{ request()->is('banks*') ? 'active' : '' }}"><a href="{{ route('banks.index') }}">Bank</a></li>
                                         @endcan
                                         @can('access', 'm_bank_account_manage')
-                                        <li class="s-nav"><a href="{{ route('bank_accounts.index') }}">Bank Account</a></li>
+                                        <li class="s-nav {{ request()->is('bank_accounts*') ? 'active' : '' }}"><a href="{{ route('bank_accounts.index') }}">Bank Account</a></li>
                                         @endcan
                                         @can('access', 'm_payment_type_manage')
-                                        <li class="s-nav"><a href="{{ route('payment_types.index') }}">Payment Type</a></li>
+                                        <li class="s-nav {{ request()->is('payment_types*') ? 'active' : '' }}"><a href="{{ route('payment_types.index') }}">Payment Type</a></li>
                                         @endcan
                                         @can('access', 'm_course_type_manage')
-                                        <li class="s-nav"><a href="{{ route('course_types.index') }}">Course Type</a></li>
+                                        <li class="s-nav {{ request()->is('course_types*') ? 'active' : '' }}"><a href="{{ route('course_types.index') }}">Course Type</a></li>
                                         @endcan
                                         @can('access', 'm_difficulty_type_manage')
-                                        <li class="s-nav"><a href="{{ route('difficulty_types.index') }}">Difficulty</a></li>
+                                        <li class="s-nav {{ request()->is('difficulty_types*') ? 'active' : '' }}"><a href="{{ route('difficulty_types.index') }}">Difficulty</a></li>
                                         @endcan
                                         @can('access', 'm_tutor_manage')
-                                        <li class="s-nav"><a href="{{ route('tutors.index') }}">Tutor</a></li>
+                                        <li class="s-nav {{ request()->is('tutors*') ? 'active' : '' }}"><a href="{{ route('tutors.index') }}">Tutor</a></li>
                                         @endcan
                                         @can('access', 'company_manage')
-                                        <li class="s-nav"><a href="{{ route('companies.index') }}">Company</a></li>
+                                        <li class="s-nav {{ request()->is('companies*') ? 'active' : '' }}"><a href="{{ route('companies.index') }}">Company</a></li>
                                         @endcan
                                         @can('access', 'message_manage')
-                                        <li class="s-nav"><a href="{{ route('messages.index') }}">Message</a></li>
+                                        <li class="s-nav {{ request()->is('messages*') ? 'active' : '' }}"><a href="{{ route('messages.index') }}">Message</a></li>
                                         @endcan
                                         @can('access', 'member_manage')
-                                        <li class="s-nav"><a href="{{ route('members.index') }}">Member</a></li>
+                                        <li class="s-nav {{ request()->is('members*') ? 'active' : '' }}"><a href="{{ route('members.index') }}">Member</a></li>
                                         @endcan
                                         @can('access', 'm_content_carousel_manage')
                                         <li class="s-nav"><a href="{{ route('content_carousels.index') }}">Content Carousel</a></li>
                                         @endcan
-                                        {{-- @can('access', 'm_content_carousel_manage') --}}
-                                        <li class="s-nav"><a href="{{ route('sections.index') }}">Section</a></li>
-                                        {{-- @endcan --}}
-                                        {{-- @can('access', 'm_content_carousel_manage') --}}
+                                        @can('access', 'm_page_manage')
+                                        <li class="s-nav {{ request()->is('pages*') ? 'active' : '' }}"><a href="{{ route('pages.index') }}">Page</a></li>
+                                        @endcan
+                                        @can('access', 'm_program_step_manage')
                                         <li class="s-nav"><a href="{{ route('program_steps.index') }}">Program Step</a></li>
-                                        {{-- @endcan --}}
+                                        @endcan
                                         @can('access', 'm_faq_manage')
                                         <li class="s-nav"><a href="{{ route('faqs.index') }}">FaQ</a></li>
                                         @endcan
@@ -146,16 +146,16 @@ use Illuminate\Support\Facades\URL;
                             @endif
                             @if(strpos(Session::get('user_access'), 'course_manage') !== false || strpos(Session::get('user_access'), 'course_module_manage') !== false || strpos(Session::get('user_access'), 'course_price_manage') !== false)
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-book"></i> Courses <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
+                                <li class="{{ request()->is('courses*') || request()->is('course_modules*') || request()->is('course_prices*') ? 'active' : ''}}"><a><i class="fa fa-book"></i> Courses <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="{{ request()->is('courses*') || request()->is('course_modules*') || request()->is('course_prices*') ? 'display:block;' : ''}}">
                                         @can('access', 'course_manage')
-                                        <li class="s-nav"><a href="{{ route('courses.index') }}">Course</a></li>
+                                        <li class="s-nav {{ request()->is('courses*') ? 'active' : '' }}"><a href="{{ route('courses.index') }}">Course</a></li>
                                         @endcan
                                         @can('access', 'course_module_manage')
-                                        <li class="s-nav"><a href="{{ route('course_modules.index') }}">Course Module</a></li>
+                                        <li class="s-nav {{ request()->is('course_modules*') ? 'active' : '' }}"><a href="{{ route('course_modules.index') }}">Course Module</a></li>
                                         @endcan
                                         @can('access', 'course_price_manage')
-                                        <li class="s-nav"><a href="{{ route('course_prices.index') }}">Course Price</a></li>
+                                        <li class="s-nav {{ request()->is('course_prices*') ? 'active' : '' }}"><a href="{{ route('course_prices.index') }}">Course Price</a></li>
                                         @endcan
                                     </ul>
                                 </li>
@@ -163,16 +163,16 @@ use Illuminate\Support\Facades\URL;
                             @endif
                             @if(strpos(Session::get('user_access'), 'promotion_manage') !== false ||strpos(Session::get('user_access'), 'order_course_manage') !== false || strpos(Session::get('user_access'), 'order_confirm_manage') !== false)
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-credit-card"></i> Transaction <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
+                                <li class="{{ request()->is('promotions*') || request()->is('orders*') || request()->is('order_confirms*') ? 'active' : ''}}"><a><i class="fa fa-credit-card"></i> Transaction <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="{{ request()->is('promotions*') || request()->is('orders*') || request()->is('order_confirms*') ? 'display:block;' : ''}}">
                                         @can('access', 'promotion_manage')
-                                        <li class="s-nav"><a href="{{ route('promotions.index') }}"> Promotion</a></li>
+                                        <li class="s-nav {{ request()->is('promotions*') ? 'active' : '' }}"><a href="{{ route('promotions.index') }}"> Promotion</a></li>
                                         @endcan
                                         @can('access', 'trans_order_manage')
-                                        <li class="s-nav"><a href="{{ route('orders.index') }}"> Order</a></li>
+                                        <li class="s-nav {{ request()->is('orders*') ? 'active' : '' }}"><a href="{{ route('orders.index') }}"> Order</a></li>
                                         @endcan
                                         @can('access', 'trans_order_confirm_manage')
-                                        <li class="s-nav"><a href="{{ route('order_confirms.index') }}"> Order Confirm</a></li>
+                                        <li class="s-nav {{ request()->is('order_confirms*') ? 'active' : '' }}"><a href="{{ route('order_confirms.index') }}"> Order Confirm</a></li>
                                         @endcan
                                     </ul>
                                 </li>
@@ -180,13 +180,13 @@ use Illuminate\Support\Facades\URL;
                             @endif
                             @if(strpos(Session::get('user_access'), 'trans_order_report_manage') !== false || strpos(Session::get('user_access'), 'trans_order_confirm_manage') !== false)
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-file-text-o"></i> Report <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
+                                <li class="{{ request()->is('reports/order_report*') || request()->is('reports/confirm_order_report*') ? 'active' : ''}}"><a><i class="fa fa-file-text-o"></i> Report <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="{{ request()->is('reports/order_report*') || request()->is('reports/confirm_order_report*') ? 'display:block;' : ''}}">
                                         @can('access', 'trans_order_report_manage')
-                                        <li class="s-nav"><a href="{{ route('reports.orderReport') }}"> Order</a></li>
+                                        <li class="s-nav {{ request()->is('reports/order_report*') ? 'active' : '' }}"><a href="{{ route('reports.orderReport') }}"> Order</a></li>
                                         @endcan
                                         @can('access', 'trans_order_confirm_report_manage')
-                                        <li class="s-nav"><a href="{{ route('reports.confirmOrderReport') }}"> Confirm Order</a></li>
+                                        <li class="s-nav {{ request()->is('reports/confirm_order_report*') ? 'active' : '' }}"><a href="{{ route('reports.confirmOrderReport') }}"> Confirm Order</a></li>
                                         @endcan
                                     </ul>
                                 </li>
@@ -194,22 +194,22 @@ use Illuminate\Support\Facades\URL;
                             @endif
                             @if(strpos(Session::get('user_access'), 'access_group_manage') !== false || strpos(Session::get('user_access'), 'access_master_manage') !== false || strpos(Session::get('user_access'), 'users_manage') !== false || strpos(Session::get('user_access'), 'users_failed_attempts_manage') !== false || strpos(Session::get('user_access'), 'users_logs_manage') !== false)
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-users"></i> Managemen User <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
+                                <li class="{{ request()->is('access_masters*') || request()->is('access_groups*') || request()->is('users*') || request()->is('user_failed_attemps*') || request()->is('user_logs*') ? 'active' : ''}}"><a><i class="fa fa-users"></i> Managemen User <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="{{ request()->is('access_masters*') || request()->is('access_groups*') || request()->is('users*') || request()->is('user_failed_attemps*') || request()->is('user_logs*') ? 'display:block;' : ''}}">
                                         @can('access', 'access_master_manage')
-                                        <li class="s-nav"><a href="{{ route('access_masters.index') }}">Access Master</a></li>
+                                        <li class="s-nav {{ request()->is('access_masters*') ? 'active' : '' }}"><a href="{{ route('access_masters.index') }}">Access Master</a></li>
                                         @endcan
                                         @can('access', 'access_group_manage')
-                                        <li class="s-nav"><a href="{{ route('access_groups.index') }}">Access Group</a></li>
+                                        <li class="s-nav {{ request()->is('access_groups*') ? 'active' : '' }}"><a href="{{ route('access_groups.index') }}">Access Group</a></li>
                                         @endcan
                                         @can('access', 'users_manage')
-                                        <li class="s-nav"><a href="{{ route('users.index') }}">User</a></li>
+                                        <li class="s-nav {{ request()->is('users*') ? 'active' : '' }}"><a href="{{ route('users.index') }}">User</a></li>
                                         @endcan
                                         @can('access', 'users_failed_attempts_manage')
-                                        <li class="s-nav"><a href="{{ route('user_failed_attempts.index') }}">User Failed Attempts</a></li>
+                                        <li class="s-nav {{ request()->is('user_failed_attemps*') ? 'active' : '' }}"><a href="{{ route('user_failed_attempts.index') }}">User Failed Attempts</a></li>
                                         @endcan
                                         @can('access', 'users_logs_manage')
-                                        <li class="s-nav"><a href="{{ route('user_logs.index') }}">User Logs</a></li>
+                                        <li class="s-nav {{ request()->is('user_logs*') ? 'active' : '' }}"><a href="{{ route('user_logs.index') }}">User Logs</a></li>
                                         @endcan
                                     </ul>
                                 </li>
@@ -217,10 +217,10 @@ use Illuminate\Support\Facades\URL;
                             @endif
                             @if(strpos(Session::get('user_access'), 'general_manage') !== false)
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-gear"></i> Setting <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
+                                <li class="{{ request()->is('generals*') ? 'active' : ''}}"><a><i class="fa fa-gear"></i> Setting <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="{{ request()->is('generals*') ? 'display:block;' : ''}}">
                                         @can('access', 'general_manage')
-                                        <li class="s-nav"><a href="{{ route('generals.index') }}"> General</a></li>
+                                        <li class="s-nav {{ request()->is('generals*') ? 'active' : '' }}"><a href="{{ route('generals.index') }}"> General</a></li>
                                         @endcan
                                     </ul>
                                 </li>
