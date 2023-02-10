@@ -15,7 +15,24 @@
                                 <form id="toro-form" method="POST" action="{{route('generals.store')}}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group row">
-                                        <label for="logo" class="col-sm-2 col-form-label" style="font-size: 13px;">Logo</label>
+                                        <label for="logo" class="col-sm-2 col-form-label" style="font-size: 13px;">Logo Header</label>
+                                        <div class="col-sm-10">
+                                            <div class="main-img-preview">
+                                                <?php if (isset($data['logo'])) : ?>
+                                                    <?php if ($data['logo']->value != NULL) : ?>
+                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset($data['logo']->value)}}" title="Preview Foto">
+                                                    <?php else : ?>
+                                                        <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
+                                                    <?php endif; ?>
+                                                <?php else : ?>
+                                                    <img id="preview" name="preview" class="thumbnail img-preview" src="{{asset('uploads/default.png')}}" title="Preview Logo">
+                                                <?php endif; ?>
+                                            </div>
+                                            <input type="file" name="logo" id="logo" class="form-control" onchange="img_preview(this, 'preview')">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="logo" class="col-sm-2 col-form-label" style="font-size: 13px;">Logo Footer</label>
                                         <div class="col-sm-10">
                                             <div class="main-img-preview">
                                                 <?php if (isset($data['logo'])) : ?>
@@ -60,6 +77,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="nama_badan_usaha" class="col-sm-2 col-form-label">Badan Usaha</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="nama_badan_usaha" name="nama_badan_usaha" placeholder="Enter nama badan usaha" data-bind="value: nama_badan_usaha" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="alamat_lengkap" class="col-sm-2 col-form-label">Alamat Lengkap</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="alamat_lengkap" name="alamat_lengkap" placeholder="Enter alamat lengkap" data-bind="value: alamat_lengkap" required>
@@ -83,6 +106,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="alamat_footer" class="col-sm-2 col-form-label">Alamat Footer</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="textarea form-control" rows="8" name="alamat_footer" data-bind="wysiwyg: alamat_footer"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Nama / Nomor Contact</label>
                                         <div class="col-sm-10">
                                             <div class="col-sm-6" style="padding-left: 0px;">
@@ -91,6 +120,12 @@
                                             <div class="col-sm-6" style="padding: 0px;">
                                                 <input type="text" class="form-control" id="telepon" name="telepon" placeholder="Enter nomor contact" data-bind="value: telepon" required>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" data-bind="value: email" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -109,6 +144,18 @@
                                         <label for="twitter" class="col-sm-2 col-form-label">Twitter</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="twitter" name="twitter" placeholder="Enter twitter" data-bind="value: twitter" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="linkedin" class="col-sm-2 col-form-label">Linkedin</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="linkedin" name="linkedin" placeholder="Enter linkedin" data-bind="value: linkedin" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="tiktok" class="col-sm-2 col-form-label">Tiktok</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="tiktok" name="tiktok" placeholder="Enter tiktok" data-bind="value: tiktok" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -299,15 +346,20 @@
 
         self.nama_lengkap = ko.observable('<?php if (isset($data['nama_lengkap'])) echo $data['nama_lengkap']->value ?>');
         self.nama_singkat = ko.observable('<?php if (isset($data['nama_singkat'])) echo $data['nama_singkat']->value ?>');
+        self.nama_badan_usaha = ko.observable('<?php if (isset($data['nama_badan_usaha'])) echo $data['nama_badan_usaha']->value ?>');
         self.alamat_lengkap = ko.observable('<?php if (isset($data['alamat_lengkap'])) echo $data['alamat_lengkap']->value ?>');
         self.alamat = ko.observable('<?php if (isset($data['alamat'])) echo $data['alamat']->value ?>');
         self.alamat2 = ko.observable('<?php if (isset($data['alamat2'])) echo $data['alamat2']->value ?>');
         self.alamat3 = ko.observable('<?php if (isset($data['alamat3'])) echo $data['alamat3']->value ?>');
         self.nama_contact = ko.observable('<?php if (isset($data['nama_contact'])) echo $data['nama_contact']->value ?>');
+        self.email = ko.observable('<?php if (isset($data['email'])) echo $data['email']->value ?>');
         self.telepon = ko.observable('<?php if (isset($data['telepon'])) echo $data['telepon']->value ?>');
         self.facebook = ko.observable('<?php if (isset($data['facebook'])) echo $data['facebook']->value ?>');
         self.instagram = ko.observable('<?php if (isset($data['instagram'])) echo $data['instagram']->value ?>');
         self.twitter = ko.observable('<?php if (isset($data['twitter'])) echo $data['twitter']->value ?>');
+        self.linkedin = ko.observable('<?php if (isset($data['linkedin'])) echo $data['linkedin']->value ?>');
+        self.tiktok = ko.observable('<?php if (isset($data['tiktok'])) echo $data['tiktok']->value ?>');
+        self.alamat_footer = ko.observable(`<?php if (isset($data['alamat_footer'])) echo $data['alamat_footer']->value ?>`);
 
     }
 

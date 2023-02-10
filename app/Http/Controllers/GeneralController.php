@@ -30,15 +30,20 @@ class GeneralController extends Controller
         $data['logo'] = General::where('name', 'logo')->first();
         $data['nama_lengkap'] = General::where('name', 'nama_lengkap')->first();
         $data['nama_singkat'] = General::where('name', 'nama_singkat')->first();
+        $data['nama_badan_usaha'] = General::where('name', 'nama_badan_usaha')->first();
         $data['alamat_lengkap'] = General::where('name', 'alamat_lengkap')->first();
         $data['alamat'] = General::where('name', 'alamat')->first();
         $data['alamat2'] = General::where('name', 'alamat2')->first();
         $data['alamat3'] = General::where('name', 'alamat3')->first();
         $data['nama_contact'] = General::where('name', 'nama_contact')->first();
+        $data['email'] = General::where('name', 'email')->first();
         $data['telepon'] = General::where('name', 'telepon')->first();
         $data['facebook'] = General::where('name', 'facebook')->first();
         $data['instagram'] = General::where('name', 'instagram')->first();
         $data['twitter'] = General::where('name', 'twitter')->first();
+        $data['linkedin'] = General::where('name', 'linkedin')->first();
+        $data['tiktok'] = General::where('name', 'tiktok')->first();
+        $data['alamat_footer'] = General::where('name', 'alamat_footer')->first();
         // $data['pesan_wa'] = General::where('name', 'pesan_wa')->first();
         $data['icon'] = General::where('name', 'icon')->first();
 
