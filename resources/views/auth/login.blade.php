@@ -34,22 +34,20 @@
                     <form action="{{ route('login') }}" method="post">
                         @csrf
                         <h1>Login</h1>
-                        @if(\Session::has('alert'))
-                        <div class="alert alert-danger">
-                            <div>{{Session::get('alert')}}</div>
+                        <div class="form-group">
+                            <input class="form-control @error('email') is-invalid @enderror" type="email" placeholder="Email" name="email" required autofocus>
+                            <input class="form-control @error('password') is-invalid @enderror" type="password" placeholder="Password" name="password" required>
+
+                            {{-- Check error --}}
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
+                            </div>
+                            @endif
                         </div>
-                        @endif
-                        @if(\Session::has('alert-success'))
-                        <div class="alert alert-success">
-                            <div>{{Session::get('alert-success')}}</div>
-                        </div>
-                        @endif
-                        <div>
-                            <input type="email" name="email" class="form-control" placeholder="Email" required />
-                        </div>
-                        <div>
-                            <input type="password" name="password" class="form-control" placeholder="Password" required />
-                        </div>
+
                         <div>
                             <button type="submit" class="btn btn-default submit">Login</button>
                         </div>
