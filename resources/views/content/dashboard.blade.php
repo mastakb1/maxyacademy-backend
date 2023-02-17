@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Session;
     </div>
     @endif
 
+    {{-- cek user access -> di LoginController -> dia pas login, cek user access, trs di put ke Session('user_access') --}}
     <?php if (strpos(Session::get('user_access'), 'dashboard_manage') !== false) : ?>
+        {{-- card grid buat data partner, course, tutor, dsb --}}
         <div class="ui grid">
+            {{-- Partner --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -32,6 +35,8 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Course --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -48,6 +53,8 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Difficulty --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -64,6 +71,8 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Course Module --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -80,6 +89,8 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Course Price --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -96,6 +107,8 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Tutor --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -112,6 +125,8 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Member --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -128,6 +143,8 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Content Carousel --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -144,11 +161,13 @@ use Illuminate\Support\Facades\Session;
                     </div>
                 </div>
             </div>
+
+            {{-- Transaction --}}
             <div class="four wide column">
                 <div class="ui fluid card">
                     <div class="content">
                         <div class="ui right floated header" style="color: #73879C;">
-                            <i class="fa fa-usd"></i>
+                            <strong>Rp</strong>
                         </div>
                         <div class="header">
                             <div class="ui header" style="color: #73879C;">{{$data['transaction']}}
@@ -161,6 +180,8 @@ use Illuminate\Support\Facades\Session;
                 </div>
             </div>
         </div>
+
+        {{-- New Member Chart --}}
         <div class="ui equal width grid">
             <div class="sixteen wide column">
                 <div class="ui fluid card">
@@ -186,6 +207,7 @@ use Illuminate\Support\Facades\Session;
     <?php endif; ?>
 </div>
 @endsection
+
 @section('footerScripts')
 <link href="{{ asset ('semantic/components/grid.css') }}" rel="stylesheet">
 <link href="{{ asset ('semantic/components/card.css') }}" rel="stylesheet">
@@ -241,6 +263,7 @@ use Illuminate\Support\Facades\Session;
         });
     }
 
+    // function untuk update saat ada perubahan di selectbox utk chart new_member -> ganti format daily/monthly/yearly
     $(document).ready(function() {
         $('#new_member_report').on('change', function() {
             var filter = $('#new_member_report').val();

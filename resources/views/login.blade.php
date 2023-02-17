@@ -33,8 +33,10 @@
         <section class="login_content">
           <form action="{{ url('auth/login') }}" method="post">
             @csrf
-            <h1>Login</h1>
-            @if(\Session::has('alert'))
+            {{-- <h1>Login</h1> --}}
+
+            {{-- get alert message klo attempt sblmnya gagal, salah pasword/email --}}
+            {{-- @if(\Session::has('alert'))
             <div class="alert alert-danger">
               <div>{{Session::get('alert')}}</div>
             </div>
@@ -43,7 +45,9 @@
             <div class="alert alert-success">
               <div>{{Session::get('alert-success')}}</div>
             </div>
-            @endif
+            @endif --}}
+            <p>halo</p>
+            
             <div>
               <input type="email" name="email" class="form-control" placeholder="Email" required />
             </div>

@@ -66,14 +66,18 @@ use Illuminate\Support\Facades\URL;
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
-
+            
+            {{-- Side Navbar --}}
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
 
-                    <div class="navbar nav_title" style="border: 0;">
-                        <a href="<?= URL::to('/'); ?>" class="site_title"><span>
-                                <center>Linkmagangku</center>
-                            </span></a>
+                    <div class="navbar nav_title" style="border: 0;background-color: purple">
+                        <a href="<?= URL::to('/'); ?>" class="site_title">
+                            <span>
+                            {{-- pke logo maxy aja nti? --}}
+                                <strong>Linkmagangku</strong>
+                            </span>
+                        </a>
                     </div>
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
@@ -86,8 +90,9 @@ use Illuminate\Support\Facades\URL;
                             <h2>{{ Auth::user()->name }}</h2>
                         </div>
                     </div>
-                    <!-- /menu profile quick info -->
                     <br />
+                    <!-- /menu profile quick info -->
+                    
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
@@ -97,6 +102,8 @@ use Illuminate\Support\Facades\URL;
                                     <a href="{{ url('dashboard') }}"><i class="fa fa-home"></i> Dashboard</span></a>
                                 </li>
                             </ul>
+
+                            {{-- Master --}}
                             @if(strpos(Session::get('user_access'), 'm_bank_manage') !== false || strpos(Session::get('user_access'), 'm_bank_account_manage') !== false || strpos(Session::get('user_access'), 'm_course_type_manage') !== false || strpos(Session::get('user_access'), 'm_difficulty_type_manage') !== false || strpos(Session::get('user_access'), 'm_major_manage') !== false || strpos(Session::get('user_access'), 'm_payment_type_manage') !== false || strpos(Session::get('user_access'), 'company_manage') !== false || strpos(Session::get('user_access'), 'message_manage') !== false || strpos(Session::get('user_access'), 'member_manage') !== false || strpos(Session::get('user_access'), 'm_tutor_manage') !== false || strpos(Session::get('user_access'), 'm_page_manage') !== false)
                             <ul class="nav side-menu">
                                 <li class="{{ request()->is('banks*') || request()->is('bank_accounts*') || request()->is('payment_types*') || request()->is('course_types*') || request()->is('difficulty_types*') || request()->is('tutors*') || request()->is('companies*') || request()->is('messages*') || request()->is('members*') || request()->is('pages*') ? 'active' : '' }}"><a><i class="fa fa-asterisk"></i> Master <span class="fa fa-chevron-down"></span></a>
@@ -144,6 +151,8 @@ use Illuminate\Support\Facades\URL;
                                 </li>
                             </ul>
                             @endif
+
+                            {{-- Course --}}
                             @if(strpos(Session::get('user_access'), 'course_manage') !== false || strpos(Session::get('user_access'), 'course_module_manage') !== false || strpos(Session::get('user_access'), 'course_price_manage') !== false)
                             <ul class="nav side-menu">
                                 <li class="{{ request()->is('courses*') || request()->is('course_modules*') || request()->is('course_prices*') ? 'active' : ''}}"><a><i class="fa fa-book"></i> Courses <span class="fa fa-chevron-down"></span></a>
@@ -161,6 +170,7 @@ use Illuminate\Support\Facades\URL;
                                 </li>
                             </ul>
                             @endif
+                            {{-- Transaction --}}
                             @if(strpos(Session::get('user_access'), 'promotion_manage') !== false ||strpos(Session::get('user_access'), 'order_course_manage') !== false || strpos(Session::get('user_access'), 'order_confirm_manage') !== false)
                             <ul class="nav side-menu">
                                 <li class="{{ request()->is('promotions*') || request()->is('orders*') || request()->is('order_confirms*') ? 'active' : ''}}"><a><i class="fa fa-credit-card"></i> Transaction <span class="fa fa-chevron-down"></span></a>
@@ -178,6 +188,8 @@ use Illuminate\Support\Facades\URL;
                                 </li>
                             </ul>
                             @endif
+
+                            {{-- Report --}}
                             @if(strpos(Session::get('user_access'), 'trans_order_report_manage') !== false || strpos(Session::get('user_access'), 'trans_order_confirm_manage') !== false)
                             <ul class="nav side-menu">
                                 <li class="{{ request()->is('reports/order_report*') || request()->is('reports/confirm_order_report*') ? 'active' : ''}}"><a><i class="fa fa-file-text-o"></i> Report <span class="fa fa-chevron-down"></span></a>
@@ -192,6 +204,8 @@ use Illuminate\Support\Facades\URL;
                                 </li>
                             </ul>
                             @endif
+
+                            {{-- Manage User --}}
                             @if(strpos(Session::get('user_access'), 'access_group_manage') !== false || strpos(Session::get('user_access'), 'access_master_manage') !== false || strpos(Session::get('user_access'), 'users_manage') !== false || strpos(Session::get('user_access'), 'users_failed_attempts_manage') !== false || strpos(Session::get('user_access'), 'users_logs_manage') !== false)
                             <ul class="nav side-menu">
                                 <li class="{{ request()->is('access_masters*') || request()->is('access_groups*') || request()->is('users*') || request()->is('user_failed_attemps*') || request()->is('user_logs*') ? 'active' : ''}}"><a><i class="fa fa-users"></i> Managemen User <span class="fa fa-chevron-down"></span></a>
@@ -215,6 +229,8 @@ use Illuminate\Support\Facades\URL;
                                 </li>
                             </ul>
                             @endif
+
+                            {{-- Setting --}}
                             @if(strpos(Session::get('user_access'), 'general_manage') !== false)
                             <ul class="nav side-menu">
                                 <li class="{{ request()->is('generals*') ? 'active' : ''}}"><a><i class="fa fa-gear"></i> Setting <span class="fa fa-chevron-down"></span></a>
@@ -228,11 +244,11 @@ use Illuminate\Support\Facades\URL;
                             @endif
                         </div>
                     </div>
-                    <!-- /sidebar menu -->
                 </div>
             </div>
+            <!-- /sidebar menu -->
 
-            <!-- top navigation -->
+            <!-- top navigation? -->
             <div class="top_nav">
                 <div class="nav_menu">
                     <nav>
@@ -250,8 +266,9 @@ use Illuminate\Support\Facades\URL;
                                     <li><a href="<?= URL::to('/auth/logout') ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                 </ul>
                             </li>
+                            
                             <li role="presentation" class="dropdown">
-                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                <ul id="menu1" class="dropdown-menu ist-unstyled msg_list" role="menu">
                                     <li>
                                         <a>
                                             <span class="image"><img src="<?= URL::to('/'); ?>/images/user.png" alt="Profile Image" /></span>

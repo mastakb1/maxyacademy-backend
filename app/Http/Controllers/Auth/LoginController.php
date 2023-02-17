@@ -45,6 +45,7 @@ class LoginController extends Controller
 
     public function authenticated()
     {
+        // mbacanya gimana ini?
         $user_access = Auth::user()->access_group->access_masters;
         $access = '';
         if (!$user_access->isEmpty()) {
