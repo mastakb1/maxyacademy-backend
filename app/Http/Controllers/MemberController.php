@@ -478,7 +478,7 @@ class MemberController extends Controller
 
         $search_column = array(
             "id" => (isset($columns[1]['search']['value'])) ? $columns[1]['search']['value'] : "",
-            "nama" => (isset($columns[2]['search']['value'])) ? $columns[2]['search']['value'] : "",
+            "name" => (isset($columns[2]['search']['value'])) ? $columns[2]['search']['value'] : "",
             "email" => (isset($columns[3]['search']['value'])) ? $columns[3]['search']['value'] : "",
             "status" => (isset($columns[4]['search']['value'])) ? $columns[4]['search']['value'] : "",
             "created_at" => (isset($columns[5]['search']['value'])) ? $columns[5]['search']['value'] : "",
@@ -491,7 +491,7 @@ class MemberController extends Controller
         if ($order_index == 1)
             $order_field = 'id';
         else if ($order_index == 2)
-            $order_field = 'nama';
+            $order_field = 'name';
         else if ($order_index == 3)
             $order_field = 'email';
         else if ($order_index == 4)
@@ -533,7 +533,7 @@ class MemberController extends Controller
 
             $row[] = $action;
             $row[] = $value->id;
-            $row[] = $value->nama;
+            $row[] = $value->name;
             $row[] = $value->email;
             $row[] = $value->status == 1 ? "<a class='ui green label' style='font-size: 10px;'>Aktif</a>" : "<a class='ui red label' style='font-size: 10px;'>Tidak Aktif</a>";
             $row[] = date('d-m-Y H:i:s', strtotime($value->created_at));
