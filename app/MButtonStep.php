@@ -10,7 +10,7 @@ class MButtonStep extends Model
 
     public function program_step()
     {
-        return $this->belongsTo('App\MProgramStep', 'id_program_step', 'id');
+        return $this->belongsTo('App\MContentProgramStep', 'id_program_step', 'id');
     }
 
     public function user_create()

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\MPage;
+use App\MContentPage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class MPageController extends Controller
+class MContentPageController extends Controller
 {
     public function __construct()
     {
-        if(!check_user_access(Session::get('user_access'), 'm_page_manage')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_page_manage')){
             return redirect('/');
         }
     }
@@ -23,7 +23,7 @@ class MPageController extends Controller
      */
     public function index()
     {
-        if(!check_user_access(Session::get('user_access'), 'm_page_manage')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_page_manage')){
             return redirect('/');
         }
 
@@ -37,7 +37,7 @@ class MPageController extends Controller
      */
     public function create()
     {
-        if(!check_user_access(Session::get('user_access'), 'm_page_create')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_page_create')){
             return redirect('/');
         }
 
@@ -53,13 +53,13 @@ class MPageController extends Controller
      */
     public function store(Request $request)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_page_create')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_page_create')){
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
 
-        $page = new MPage();
+        $page = new MContentPage();
 
         $page->name = $summary->name; 
         $page->type = $summary->type;
@@ -93,12 +93,12 @@ class MPageController extends Controller
      */
     public function show($id)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_page_read')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_page_read')){
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['page'] = MPage::find($id);
+        $data['page'] = MContentPage::find($id);
         
         return view('page.show', compact('data'));
     }
@@ -111,13 +111,13 @@ class MPageController extends Controller
      */
     public function edit($id)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_page_update')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_page_update')){
             return redirect('/');
         }
 
         $id = base64_decode($id);
         $data['actions'] = 'update';
-        $data['page'] = MPage::find($id);
+        $data['page'] = MContentPage::find($id);
 
         return view('page.page', compact('data'));
     }
@@ -131,14 +131,14 @@ class MPageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_page_update')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_page_update')){
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
         $id = base64_decode($id);
 
-        $page = MPage::find($id);
+        $page = MContentPage::find($id);
         $page->name = $summary->name; 
         $page->type = $summary->type;
 
@@ -226,7 +226,7 @@ class MPageController extends Controller
 
         $order_ascdesc = $_GET['order'][0]['dir'];
 
-        $page = new MPage();
+        $page = new MContentPage();
 
         $sql_total = $page->count();
         $sql_filter = $page->filter(
@@ -245,10 +245,10 @@ class MPageController extends Controller
             $row = array();
 
             $action = '';
-            if (check_user_access(Session::get('user_access'), 'm_page_update')) {
+            if (check_user_access(Session::get('user_access'), 'm_content_page_update')) {
                 $action .= "<a class='btn btn-info btn-xl' href='" . route('pages.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'm_page_read')) {
+            if (check_user_access(Session::get('user_access'), 'm_content_page_read')) {
                 $action .= "<a class='btn btn-success btn-xl' href='" . route('pages.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
 

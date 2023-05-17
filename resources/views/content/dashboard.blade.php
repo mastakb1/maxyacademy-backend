@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Session;
                             <i class="fa fa-building"></i>
                         </div>
                         <div class="header">
-                            <div class="ui header" style="color: #73879C;">{{$data['company']}}
+                            <div class="ui header" style="color: #73879C;">{{$data['partner']}}
                             </div>
                         </div>
                         <div class="meta">

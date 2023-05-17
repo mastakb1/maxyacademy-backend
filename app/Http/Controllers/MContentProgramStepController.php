@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\MButtonStep;
-use App\MProgramStep;
+use App\MContentProgramStep;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class MProgramStepController extends Controller
+class MContentProgramStepController extends Controller
 {
     public function __construct()
     {
-        if(!check_user_access(Session::get('user_access'), 'm_program_step_manage')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_program_step_manage')){
             return redirect('/');
         }
     }
@@ -24,7 +24,7 @@ class MProgramStepController extends Controller
      */
     public function index()
     {
-        if(!check_user_access(Session::get('user_access'), 'm_program_step_manage')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_program_step_manage')){
             return redirect('/');
         }
 
@@ -38,7 +38,7 @@ class MProgramStepController extends Controller
      */
     public function create()
     {
-        if(!check_user_access(Session::get('user_access'), 'm_program_step_create')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_program_step_create')){
             return redirect('/');
         }
 
@@ -54,13 +54,13 @@ class MProgramStepController extends Controller
      */
     public function store(Request $request)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_program_step_create')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_program_step_create')){
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
 
-        $program_step = new MProgramStep();
+        $program_step = new MContentProgramStep();
 
         $program_step->name = $summary->name; 
         $program_step->style = $summary->style;  
@@ -98,12 +98,12 @@ class MProgramStepController extends Controller
      */
     public function show($id)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_program_step_read')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_program_step_read')){
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['program_step'] = MProgramStep::find($id);
+        $data['program_step'] = MContentProgramStep::find($id);
         $data['button'] = MButtonStep::where('id_program_step',$id)->get();
         
         return view('program_step.show', compact('data'));
@@ -117,13 +117,13 @@ class MProgramStepController extends Controller
      */
     public function edit($id)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_program_step_update')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_program_step_update')){
             return redirect('/');
         }
 
         $id = base64_decode($id);
         $data['actions'] = 'update';
-        $data['program_step'] = MProgramStep::find($id);
+        $data['program_step'] = MContentProgramStep::find($id);
 
         return view('program_step.program_step', compact('data'));
     }
@@ -137,14 +137,14 @@ class MProgramStepController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!check_user_access(Session::get('user_access'), 'm_program_step_update')){
+        if(!check_user_access(Session::get('user_access'), 'm_content_program_step_update')){
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
         $id = base64_decode($id);
 
-        $program_step = MProgramStep::find($id);
+        $program_step = MContentProgramStep::find($id);
         $program_step->name = $summary->name; 
         $program_step->style = $summary->style; 
         $program_step->description = $summary->description; 
@@ -224,7 +224,7 @@ class MProgramStepController extends Controller
 
         $order_ascdesc = $_GET['order'][0]['dir'];
 
-        $program_step = new MProgramStep();
+        $program_step = new MContentProgramStep();
 
         $sql_total = $program_step->count();
         $sql_filter = $program_step->filter(
@@ -243,10 +243,10 @@ class MProgramStepController extends Controller
             $row = array();
 
             $action = '';
-            if (check_user_access(Session::get('user_access'), 'm_program_step_update')) {
+            if (check_user_access(Session::get('user_access'), 'm_content_program_step_update')) {
                 $action .= "<a class='btn btn-info btn-xl' href='" . route('program_steps.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'm_program_step_read')) {
+            if (check_user_access(Session::get('user_access'), 'm_content_program_step_read')) {
                 $action .= "<a class='btn btn-success btn-xl' href='" . route('program_steps.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
+use App\Partner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 use function Complex\ln;
 
-class CompanyController extends Controller
+class PartnerController extends Controller
 {
     public function __construct()
     {
-        if (!check_user_access(Session::get('user_access'), 'company_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'partner_manage')) {
             return redirect('/');
         }
     }
@@ -25,11 +25,11 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        if (!check_user_access(Session::get('user_access'), 'company_manage')) {
+        if (!check_user_access(Session::get('user_access'), 'partner_manage')) {
             return redirect('/');
         }
 
-        return view('company.index');
+        return view('partner.index');
     }
 
     /**
@@ -39,12 +39,12 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        if (!check_user_access(Session::get('user_access'), 'company_create')) {
+        if (!check_user_access(Session::get('user_access'), 'partner_create')) {
             return redirect('/');
         }
 
         $data['actions'] = 'store';
-        return view('company.company', compact('data'));
+        return view('partner.partner', compact('data'));
     }
 
     /**
@@ -55,36 +55,36 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        if (!check_user_access(Session::get('user_access'), 'company_create')) {
+        if (!check_user_access(Session::get('user_access'), 'partner_create')) {
             return redirect('/');
         }
 
         $summary = json_decode($request->summary);
 
-        $company = new Company();
-        $company->name = $summary->name;
-        $company->type = $summary->type;
-        $company->url = $summary->url;
-        $company->description = $summary->description;
-        $company->address = $summary->address;
-        $company->phone = $summary->phone;
-        $company->email = $summary->email;
-        $company->contact_person = $summary->contact_person;
-        $company->status = $summary->status;
-        $company->status_highlight = $summary->status_highlight;
-        $company->created_id = Auth::id();
-        $company->updated_id = Auth::id();
+        $partner = new Partner();
+        $partner->name = $summary->name;
+        $partner->type = $summary->type;
+        $partner->url = $summary->url;
+        $partner->description = $summary->description;
+        $partner->address = $summary->address;
+        $partner->phone = $summary->phone;
+        $partner->email = $summary->email;
+        $partner->contact_person = $summary->contact_person;
+        $partner->status = $summary->status;
+        $partner->status_highlight = $summary->status_highlight;
+        $partner->created_id = Auth::id();
+        $partner->updated_id = Auth::id();
 
         if($request->hasFile('logo'))
         {
             $file = $request->file('logo');
             $filename = md5($summary->name . strtotime('now')) . '.' . $file->getClientOriginalExtension();
-            $path = 'uploads/company/';
+            $path = 'uploads/partner/';
             $file->move($path, $filename);
-            $company->logo = $filename;
+            $partner->logo = $filename;
         }
 
-        $company->save();
+        $partner->save();
 
         return redirect()->route('companies.index');
     }
@@ -97,14 +97,14 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'company_read')) {
+        if (!check_user_access(Session::get('user_access'), 'partner_read')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['company'] = Company::find($id);
+        $data['partner'] = Partner::find($id);
         
-        return view('company.show', compact('data')); 
+        return view('partner.show', compact('data')); 
     }
 
     /**
@@ -115,15 +115,15 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        if (!check_user_access(Session::get('user_access'), 'company_update')) {
+        if (!check_user_access(Session::get('user_access'), 'partner_update')) {
             return redirect('/');
         }
 
         $id = base64_decode($id);
-        $data['company'] = Company::find($id);
+        $data['partner'] = Partner::find($id);
         $data['actions'] = 'update';
         
-        return view('company.company', compact('data'));
+        return view('partner.partner', compact('data'));
     }
 
     /**
@@ -135,7 +135,7 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!check_user_access(Session::get('user_access'), 'company_update')) {
+        if (!check_user_access(Session::get('user_access'), 'partner_update')) {
             return redirect('/');
         }
 
@@ -143,34 +143,34 @@ class CompanyController extends Controller
 
         $id = base64_decode($id);
 
-        $company = Company::find($id);
-        $type = $company->type;
-        $company->name = $summary->name;
-        $company->type = $summary->type;
-        $company->url = $summary->url;
-        $company->description = $summary->description;
-        $company->address = $summary->address;
-        $company->phone = $summary->phone;
-        $company->email = $summary->email;
-        $company->contact_person = $summary->contact_person;
-        $company->status = $summary->status;
-        $company->updated_id = Auth::id();
-        $company->status_highlight = $summary->status_highlight;
+        $partner = Partner::find($id);
+        $type = $partner->type;
+        $partner->name = $summary->name;
+        $partner->type = $summary->type;
+        $partner->url = $summary->url;
+        $partner->description = $summary->description;
+        $partner->address = $summary->address;
+        $partner->phone = $summary->phone;
+        $partner->email = $summary->email;
+        $partner->contact_person = $summary->contact_person;
+        $partner->status = $summary->status;
+        $partner->updated_id = Auth::id();
+        $partner->status_highlight = $summary->status_highlight;
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $filename = md5($summary->name . strtotime('now')) . '.' . $file->getClientOriginalExtension();
-            $path = 'uploads/company/';
+            $path = 'uploads/partner/';
 
-            if(File::exists($path . $company->logo)){
-                unlink($path . $company->logo);
+            if(File::exists($path . $partner->logo)){
+                unlink($path . $partner->logo);
             }
            
             $file->move($path, $filename);
-            $company->logo = $filename;
+            $partner->logo = $filename;
         }
 
-        $company->save();
+        $partner->save();
 
         return redirect()->route('companies.index');
     }
@@ -247,10 +247,10 @@ class CompanyController extends Controller
 
         $order_ascdesc = $_GET['order'][0]['dir'];
 
-        $company = new Company();
+        $partner = new Partner();
 
-        $sql_total = $company->count();
-        $sql_filter = $company->filter(
+        $sql_total = $partner->count();
+        $sql_filter = $partner->filter(
             $order_field,
             $order_ascdesc,
             $search,
@@ -266,10 +266,10 @@ class CompanyController extends Controller
             $row = array();
 
             $action = '';
-            if (check_user_access(Session::get('user_access'), 'company_update')) {
+            if (check_user_access(Session::get('user_access'), 'partner_update')) {
                 $action .= "<a class='btn btn-info btn-xl' href='" . route('companies.edit', base64_encode($value->id)) . "'><i class='fa fa-fw fa-pencil'></i> Edit</a>";
             }
-            if (check_user_access(Session::get('user_access'), 'company_read')) {
+            if (check_user_access(Session::get('user_access'), 'partner_read')) {
                 $action .= "<a class='btn btn-success btn-xl' href='" . route('companies.show', base64_encode($value->id)) . "'><i class='fa fa-fw fa-eye'></i> Detail</a>";
             }
 

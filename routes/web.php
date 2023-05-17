@@ -48,11 +48,11 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('content_carousels/datatable', 'ContentCarouselController@datatable')->name('content_carousels.datatable');
 	Route::resource('content_carousels', ContentCarouselController::class);
 
-	Route::get('pages/datatable', 'MPageController@datatable')->name('pages.datatable');
-	Route::resource('pages', MPageController::class);
+	Route::get('pages/datatable', 'MContentPageController@datatable')->name('pages.datatable');
+	Route::resource('pages', MContentPageController::class);
 
-	Route::get('program_steps/datatable', 'MProgramStepController@datatable')->name('program_steps.datatable');
-	Route::resource('program_steps', MProgramStepController::class);
+	Route::get('program_steps/datatable', 'MContentProgramStepController@datatable')->name('program_steps.datatable');
+	Route::resource('program_steps', MContentProgramStepController::class);
 	
 	Route::get('faqs/datatable', 'MFaqController@datatable')->name('faqs.datatable');
 	Route::resource('faqs', MFaqController::class);

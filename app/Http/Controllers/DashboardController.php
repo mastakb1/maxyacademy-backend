@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\AccessGroup;
 use App\AccessMaster;
-use App\Company;
+use App\Partner;
 use App\Course;
 use App\MContentCarousel;
-use App\MPage;
-use App\MProgramStep;
+use App\MContentPage;
+use App\MContentProgramStep;
 use App\CourseModule;
 use App\CoursePrice;
 use App\MDifficultyType;
@@ -24,9 +24,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $data['company'] = Company::where('status', 1)->count();
-        $data['section'] = MPage::where('status', 1)->count();
-        $data['program_step'] = MProgramStep::where('status', 1)->count();
+        $data['partner'] = Partner::where('status', 1)->count();
+        $data['section'] = MContentPage::where('status', 1)->count();
+        $data['program_step'] = MContentProgramStep::where('status', 1)->count();
         $data['course'] = Course::where('status', 1)->count();
         $data['difficulty'] = MDifficultyType::where('status', 1)->count();
         $data['course_module'] = CourseModule::where('status', 1)->whereNull('id_course_module_parent')->count();
